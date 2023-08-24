@@ -11,5 +11,6 @@ namespace Balance_api.Contexts
         }
 
         public DbSet<CatalogoCuenta> CatalogoCuenta { get; set; }
+        public DbSet<GruposCuentas> GruposCuentas { get; set; }
     }
 }

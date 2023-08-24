@@ -16,14 +16,14 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/Get")]
+        [Route("api/Contabilidad/CatalogoCuenta/Datos")]
         [HttpGet]
-        public string Get()
+        public string Datos()
         {
-            return v_Get();
+            return v_Datos();
         }
 
-        private string v_Get()
+        private string v_Datos()
         {
             string json = string.Empty;
             try
@@ -54,9 +54,13 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-              
+                    var qGrupos = Conexion.GruposCuentas.ToList();
 
-                    
+                    datos = new Cls_Datos();
+                    datos.Nombre = "GRUPOS";
+                    datos.d = qGrupos;
+                    lstDatos.Add(datos);
+
 
 
 
