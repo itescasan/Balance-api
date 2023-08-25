@@ -9,7 +9,7 @@ namespace Balance_api.Class
 
     public class Cls_Mensaje
     {
-        public static string Tojson(object o, int Length, string CodError, string Mensaje, int esError)
+        public static string Tojson(object? o, int Length, string CodError, string Mensaje, int esError)
         {
             string json = string.Empty;
 

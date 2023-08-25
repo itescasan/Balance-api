@@ -6,11 +6,13 @@ namespace Balance_api.Models.Contabilidad
     [Table("CatalogoCuenta", Schema = "CNT")]
     public class CatalogoCuenta
     {
+
+
         [Key]
         public required string CuentaContable { get; set; }
         public required string NombreCuenta { get; set; }
         public int Nivel { get; set; }
-        public int? GrupoCuentas { get; set; }
+        public int IdGrupo { get; set; }
         public string? ClaseCuenta { get; set; }
         public string? CuentaPadre { get; set; }
         public required string Naturaleza { get; set; }
@@ -19,6 +21,9 @@ namespace Balance_api.Models.Contabilidad
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaUpdate { get; set; }
         public int? IdUsuarioModifica { get; set; }
+
+        [ForeignKey("IdGrupo")]
+        public required  GruposCuentas GruposCuentas { get; set; }
 
     }
 }
