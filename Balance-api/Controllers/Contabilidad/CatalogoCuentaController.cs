@@ -44,7 +44,7 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.CuentaPadre,
                                         _q.Naturaleza,
                                         _q.Bloqueada,
-                                        Filtro = string.Concat(_q.CuentaContable, _q.NombreCuenta)
+                                        Filtro = string.Concat(_q.CuentaContable, " ", _q.NombreCuenta)
                                     }).ToList();
 
 
