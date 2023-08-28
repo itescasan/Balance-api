@@ -2,9 +2,30 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
+<<<<<<< HEAD
 /.vs/Balance-api/config/applicationhost.config
 /.vs/Balance-api/DesignTimeBuild/.dtbcache.v2
 /.vs/Balance-api/FileContentIndex
 /Balance-api/bin/Debug/net7.0/Balance-api.dll
 /Balance-api/bin/Debug/net7.0/Balance-api.exe
 /.vs/Balance-api/v17/.futdcache.v2
+=======
+/Balance-api/bin/Debug/net7.0/Balance-api.pdb
+*.vsidx
+*.v2
+/Balance-api/obj/Debug/net7.0/Balance-api.pdb
+/Balance-api/obj/Debug/net7.0/Balance-api.dll
+/Balance-api/bin/Debug/net7.0/Balance-api.pdb
+/.vs/ProjectEvaluation/balance-api.projects.v7.bin
+/Balance-api/obj/Debug/net7.0/Balance-api.csproj.CoreCompileInputs.cache
+/Balance-api/obj/Debug/net7.0/refint/Balance-api.dll
+/Balance-api/obj/Debug/net7.0/ref/Balance-api.dll
+/Balance-api/bin/Debug/net7.0/Balance-api.dll
+/.vs/ProjectEvaluation/balance-api.metadata.v7.bin
+*.config
+/.vs/Balance-api/FileContentIndex/e60c5c64-3eac-4d6b-90d4-a69949f4f666.vsidx
+/.vs/Balance-api/v17/.suo
+>>>>>>> 855ed7b0d9173a09c92cc5e45eee385fc233ecb9
+/.vs/Balance-api/FileContentIndex/e60c5c64-3eac-4d6b-90d4-a69949f4f666.vsidx
+/.vs/ProjectEvaluation/balance-api.metadata.v7.bin
+/.vs/ProjectEvaluation/balance-api.projects.v7.bin
