@@ -1,0 +1,10 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Balance-api/config/applicationhost.config
+/.vs/Balance-api/DesignTimeBuild/.dtbcache.v2
+/.vs/Balance-api/FileContentIndex
+/Balance-api/bin/Debug/net7.0/Balance-api.dll
+/Balance-api/bin/Debug/net7.0/Balance-api.exe
+/.vs/Balance-api/v17/.futdcache.v2
