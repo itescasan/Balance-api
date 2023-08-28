@@ -29,3 +29,6 @@
 /.vs/Balance-api/FileContentIndex/e60c5c64-3eac-4d6b-90d4-a69949f4f666.vsidx
 /.vs/ProjectEvaluation/balance-api.metadata.v7.bin
 /.vs/ProjectEvaluation/balance-api.projects.v7.bin
+/Balance-api/obj/Debug/net7.0/Balance-api.assets.cache
+/Balance-api/obj/Debug/net7.0/Balance-api.csproj.AssemblyReference.cache
+/Balance-api/obj/Debug/net7.0/Balance-api.GeneratedMSBuildEditorConfig.editorconfig
