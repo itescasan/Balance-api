@@ -1,5 +1,6 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
+using Balance_api.Models.Contabilidad;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -75,6 +76,9 @@ namespace Balance_api.Controllers.Contabilidad
 
             return datos;
         }
+
+
+   
 
 
         [Route("api/Contabilidad/CatalogoCuenta/Datos")]
