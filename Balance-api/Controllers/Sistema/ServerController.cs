@@ -35,7 +35,7 @@ namespace Balance_api.Controllers.Sistema
 
 
                     var qUsuario = (from _q in Conexion.Usuarios
-                                    where _q.Activo == true && _q.Usuario.Equals(user) //&& Conexion.Database.SqlQuery<string>($"SELECT [SIS].[Desencriptar](CAST({"0x" + BitConverter.ToString(qUsuario.Pass).Replace("-", "")} AS VARBINARY(MAX))) AS Pass").ToList().First().Equals(pass)
+                                    where _q.Activo == true && _q.Usuario.Equals(user)
                                     select new
                                     {
                                         User = _q.Usuario,
