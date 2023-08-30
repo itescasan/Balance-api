@@ -1,4 +1,5 @@
 ﻿using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
@@ -26,11 +27,24 @@ namespace Balance_api.Contexts
          }*/
 
 
+
+        //██████████████████████████████████████████CONTABILIDAD██████████████████████████████████████████████████████
+
+
         public DbSet<CatalogoCuenta> CatalogoCuenta { get; set; }
         public DbSet<GruposCuentas> GruposCuentas { get; set; }
 
 
-     
+
+
+       
+        //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
+
+
+        public DbSet<Usuarios> Usuarios { get; set; }
+
+
+
 
     }
 
