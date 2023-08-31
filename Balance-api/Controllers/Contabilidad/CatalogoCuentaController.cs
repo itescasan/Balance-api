@@ -63,7 +63,7 @@ namespace Balance_api.Controllers.Contabilidad
                                 _q.NombreCuenta,
                                 _q.Nivel,
                                 _q.IdGrupo,
-                                Grupo = _q.GruposCuentas.Nombre,
+                                Grupo = _q.GruposCuentas!.Nombre,
                                 _q.ClaseCuenta,
                                 _q.CuentaPadre,
                                 _q.Naturaleza,
