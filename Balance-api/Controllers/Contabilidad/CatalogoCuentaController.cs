@@ -201,11 +201,11 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-
+                    scope.Complete();
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
 
-                    scope.Complete();
+                    
 
                 }
 
