@@ -134,7 +134,7 @@ namespace Balance_api.Controllers.Sistema
 
             Cls_Datos datos2 = new Cls_Datos();
             datos2.Nombre = "DESCONECCION";
-            datos2.d = Desconectar ? "-1" : "120";
+            datos2.d = Desconectar ? "-1" : "3600";
 
            
             return new Cls_Datos[] { datos, datos2 };

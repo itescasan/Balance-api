@@ -171,6 +171,33 @@ namespace Balance_api.Controllers.Contabilidad
                         esNuevo = true;
                     }
 
+                    if(d.ClaseCuenta == "D")
+                    {
+                        CatalogoCuenta? _Padre = Conexion.CatalogoCuenta.Find(d.CuentaPadre);
+                        CatalogoCuenta? _Hija = Conexion.CatalogoCuenta.FirstOrDefault(f => f.CuentaPadre == d.CuentaContable && f.ClaseCuenta == "G");
+
+                        if (_Padre == null)
+                        {
+                            json = Cls_Mensaje.Tojson(null, 0, "1", "No se ha definido una cuenta padre.", 1);
+                            return json;
+                        }
+
+                        if (_Padre.ClaseCuenta == "D")
+                        {
+                            json = Cls_Mensaje.Tojson(null, 0, "1", "La cuenta padre esta definida como Detalle.", 1);
+                            return json;
+                        }
+
+
+                        if (_Hija != null)
+                        {
+                            json = Cls_Mensaje.Tojson(null, 0, "1", "No se puede cambiar la clase de la cuenta, por favor modifique las cuentas hijas.", 1);
+                            return json;
+
+                        }
+
+                    }
+
 
 
                     _Maestro.CuentaContable = d.CuentaContable;
