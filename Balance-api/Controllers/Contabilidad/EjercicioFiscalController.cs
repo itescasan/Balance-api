@@ -1,6 +1,7 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
@@ -57,7 +58,21 @@ namespace Balance_api.Controllers.Contabilidad
             var qEjercicioFiscal = (from _q in Conexion.EjercicioFiscal
                                     select new
                             {
-                                _q.IdEjercicio                             
+                                _q.IdEjercicio,
+                                _q.Nombre,
+                                _q.FechaInicio,
+                                _q.FechaFinal,
+                                _q.ClasePeriodos,
+                                _q.NumerosPeriodos,
+                                _q.Estado,
+                                _q.CuentaContableAcumulada,
+                                _q.CuentaPerdidaGanancia,
+                                _q.CuentaContablePeriodo,
+                                _q.FechaReg,
+                                _q.UsuarioReg,
+                                _q.FechaUpdate,
+                                _q.UsuarioUpdate,
+                                _q.Periodos
                             }).ToList();
 
             Cls_Datos datos = new Cls_Datos();
@@ -98,6 +113,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     bool esNuevo = false;
+                    bool EsNuevoDet = false;
                     EjercicioFiscal? _Maestro = Conexion.EjercicioFiscal.Find(d.IdEjercicio);
 
 
@@ -105,24 +121,65 @@ namespace Balance_api.Controllers.Contabilidad
                     {
                         _Maestro = new EjercicioFiscal();
                         _Maestro.FechaReg = DateTime.Now;
-                        _Maestro.IdUsuarioReg = d.IdUsuarioUpdate;
+                        _Maestro.UsuarioReg = d.UsuarioReg;
                         esNuevo = true;
                     }
 
 
 
-                    _Maestro.IdEjercicio = d.IdEjercicio;
+                    _Maestro.IdEjercicio = d.IdEjercicio;                    
                     _Maestro.Nombre = d.Nombre;
+                    _Maestro.FechaInicio = d.FechaInicio;
+                    _Maestro.FechaFinal = d.FechaFinal;
+                    _Maestro.ClasePeriodos = d.ClasePeriodos;
+                    _Maestro.NumerosPeriodos = d.NumerosPeriodos;
+                    _Maestro.Estado = d.Estado; 
+                    _Maestro.CuentaContableAcumulada = d.CuentaContableAcumulada;
+                    _Maestro.CuentaPerdidaGanancia = d.CuentaPerdidaGanancia;
+                    _Maestro.CuentaContablePeriodo = d.CuentaContablePeriodo;
+                    _Maestro.FechaReg = d.FechaReg;
+                    _Maestro.UsuarioReg = d.UsuarioReg;
 
                     _Maestro.FechaUpdate = DateTime.Now;
                     if (esNuevo) Conexion.EjercicioFiscal.Add(_Maestro);
 
                     Conexion.SaveChanges();
 
+                    foreach (var det in d.Periodos)
+                    {
+                        Periodos? _Detalle = Conexion.Periodos.Find(d.IdEjercicio);
+
+                        EsNuevoDet = false;
 
 
+                        if (_Detalle == null)
+                        {
+                            _Detalle = new Periodos();
+                            _Detalle.IdPeriodo = det.IdPeriodo;
+                            _Detalle.FechaReg = DateTime.Now;
+                            _Detalle.UsuarioReg = det.UsuarioReg;
+                            EsNuevoDet = true;
+                        }                       
+                        
+                        _Detalle.IdEjercicio = d.IdEjercicio;
+                        _Detalle.NoPeriodo = det.NoPeriodo;
+                        _Detalle.NombrePeriodo = det.NombrePeriodo;
+                        _Detalle.ClasePeriodo = det.ClasePeriodo;
+                        _Detalle.FechaInicio = det.FechaInicio;
+                        _Detalle.FechaFinal = det.FechaFinal;
+                        _Detalle.Estado = det.Estado;                        
+                        _Detalle.UsuarioUpdate = det.UsuarioReg;
+                        _Detalle.FechaUpdate = DateTime.Now;
+                    
+                        
+                        if (EsNuevoDet) Conexion.Periodos.Add(_Detalle);
+                        Conexion.SaveChanges();
 
-                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    }
+                    
+
+
+                    List<Cls_Datos> lstDatos = new();
 
 
                     Cls_Datos datos = new Cls_Datos();
