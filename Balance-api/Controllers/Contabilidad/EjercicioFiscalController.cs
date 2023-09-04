@@ -161,7 +161,7 @@ namespace Balance_api.Controllers.Contabilidad
                             EsNuevoDet = true;
                         }                       
                         
-                        _Detalle.IdEjercicio = d.IdEjercicio;
+                        _Detalle.IdEjercicio = _Maestro.IdEjercicio;
                         _Detalle.NoPeriodo = det.NoPeriodo;
                         _Detalle.NombrePeriodo = det.NombrePeriodo;
                         _Detalle.ClasePeriodo = det.ClasePeriodo;
