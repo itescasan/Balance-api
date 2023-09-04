@@ -16,13 +16,13 @@ namespace Balance_api.Models.Contabilidad
         public DateTime? FechaFinal { get; set; }
         public string? Estado { get; set; }
         public DateTime? FechaReg { get; set; }
-        public string? UsuarioReg { get; set; }
+        public string UsuarioReg { get; set; }
         public DateTime FechaUpdate { get; set; }
         public string UsuarioUpdate { get; set; }
 
 
-        [ForeignKey("IdEjercicio")]
-        public ICollection<EjercicioFiscal> EjercicioFiscal { get; set; }
+        //[ForeignKey("IdEjercicio")]
+        //public ICollection<EjercicioFiscal> EjercicioFiscal { get; set; }
 
     }
 }
