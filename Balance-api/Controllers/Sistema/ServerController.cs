@@ -107,6 +107,7 @@ namespace Balance_api.Controllers.Sistema
          
 
                     lstDatos.AddRange(v_FechaServidor(user, (u == null ? true : u.Desconectar) ));
+                    lstDatos.Add(v_TC(DateTime.Now));
 
 
 
@@ -149,20 +150,8 @@ namespace Balance_api.Controllers.Sistema
             string json = string.Empty;
             try
             {
-                using (Conexion)
-                {
-                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
-                    Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
 
-
-                    lstDatos.AddRange(v_FechaServidor(user, (u == null ? true : u.Desconectar)));
-
-
-
-                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
-                }
-
-
+                json = Cls_Mensaje.Tojson(v_TC(f), 1, string.Empty, string.Empty, 0);
 
             }
             catch (Exception ex)
@@ -172,5 +161,32 @@ namespace Balance_api.Controllers.Sistema
 
             return json;
         }
+
+
+        private Cls_Datos v_TC(DateTime f)
+        {
+            Cls_Datos Datos = new();
+            Datos.Nombre = "TC";
+            Datos.d = 0;
+
+
+            using (Conexion)
+            {
+                
+                string sQuery = $"SELECT TasaCambio FROM CON.TasaCambio WHERE fecha = CAST('{string.Format("{0:yyyy-MM-dd}", f)}' AS DATE)";
+                decimal TC = 0;
+                List<decimal> lst = Conexion.Database.SqlQueryRaw<decimal>(sQuery).ToList();
+
+                if (lst.Count > 0) TC = lst.First();
+
+                Datos.d = TC;
+
+
+            }
+
+            return Datos;
+
+        }
+
     }
 }
