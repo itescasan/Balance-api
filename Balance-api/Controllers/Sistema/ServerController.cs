@@ -134,10 +134,43 @@ namespace Balance_api.Controllers.Sistema
 
             Cls_Datos datos2 = new Cls_Datos();
             datos2.Nombre = "DESCONECCION";
-            datos2.d = Desconectar ? "-1" : "3600";
+            datos2.d = Desconectar ? "-1" : "7200";
 
            
             return new Cls_Datos[] { datos, datos2 };
+        }
+
+
+
+        [Route("api/Sistema/TC")]
+        [HttpGet]
+        public string TC(DateTime f)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
+
+
+                    lstDatos.AddRange(v_FechaServidor(user, (u == null ? true : u.Desconectar)));
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
         }
     }
 }
