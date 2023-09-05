@@ -1,4 +1,5 @@
-﻿using Balance_api.Class;
+﻿using Azure;
+using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
@@ -115,6 +116,16 @@ namespace Balance_api.Controllers.Contabilidad
                     bool esNuevo = false;
                     bool EsNuevoDet = false;
                     EjercicioFiscal? _Maestro = Conexion.EjercicioFiscal.Find(d.IdEjercicio);
+
+
+                    EjercicioFiscal? _FEchaEj = Conexion.EjercicioFiscal.FirstOrDefault(f=>f.FechaInicio.Year == d.FechaInicio.Year );
+
+                    if (_FEchaEj != null)
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "Ya se encuentra Registrada este año para este Ejercicio Fiscal.", 1); 
+                        return json;
+                    }
+
 
 
                     if (_Maestro == null)
