@@ -1,4 +1,5 @@
 ﻿using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -38,13 +39,19 @@ namespace Balance_api.Contexts
         public DbSet<Periodos> Periodos { get; set; }
 
 
+        //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
+        public DbSet<Bodegas> Bodegas { get; set; }
+
 
         //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
 
 
         public DbSet<Usuarios> Usuarios { get; set; }
 
-
+        public DbSet<Serie> Serie { get; set; }
+        public DbSet<BodegaSerie> BodegaSerie { get; set; }
+        public DbSet<SerieDocumento> SerieDocumento { get; set; }
+        public DbSet<TipoDocumento> TipoDocumento { get; set; }
 
 
     }

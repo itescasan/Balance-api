@@ -1,4 +1,5 @@
-﻿using Balance_api.Class;
+﻿using Azure;
+using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
@@ -186,6 +187,269 @@ namespace Balance_api.Controllers.Sistema
 
             return Datos;
 
+        }
+
+
+        [Route("api/Sistema/Serie")]
+        [HttpGet]
+        public string GetSerie(string CodBodega, string Tipo)
+        {
+            return _GetSerie(CodBodega, Tipo);
+        }
+
+        private string _GetSerie(string CodBodega, string Tipo)
+        {
+            string json = string.Empty;
+
+
+            Cls_Datos datos = new();
+            datos.Nombre = "SERIE";
+
+
+            try
+            {
+
+                using (Conexion)
+                {
+
+
+                    switch (Tipo)
+                    {
+                        case "Importacion":
+
+                            var qSerie = (from _q in Conexion.Serie
+                                          join _b in Conexion.BodegaSerie on _q.IdSerie equals _b.Serie
+                                          where _b.CodBodega == CodBodega && _b.EsImport
+                                          group _q by new { _q.IdSerie } into g
+                                          select new
+                                          {
+                                              g.Key.IdSerie
+                                          }
+                                      ).ToList();
+
+                            datos.d = qSerie;
+                         
+                            break;
+
+                        case "Inventario":
+
+                            var qInventario = (from _q in Conexion.Serie
+                                               join _b in Conexion.BodegaSerie on _q.IdSerie equals _b.Serie
+                                               where _b.CodBodega == CodBodega && _b.EsInv
+                                               group _q by new { _q.IdSerie } into g
+                                               select new
+                                               {
+                                                   g.Key.IdSerie
+                                               }
+                                      ).ToList();
+
+
+
+                            datos.d = qInventario;
+
+                            break;
+
+
+                        case "PedidoInventario":
+
+                            var qPedidoInventario = (from _q in Conexion.Serie
+                                                     join _b in Conexion.BodegaSerie on _q.IdSerie equals _b.Serie
+                                                     where _b.CodBodega == CodBodega && _b.EsPedido
+                                                     group _q by new { _q.IdSerie } into g
+                                                     select new
+                                                     {
+                                                         g.Key.IdSerie
+                                                     }
+                                      ).ToList();
+
+
+                            datos.d = qPedidoInventario;
+
+                            break;
+
+                        case "Requisa":
+
+                            var qRequisa = (from _q in Conexion.Serie
+                                            join _b in Conexion.BodegaSerie on _q.IdSerie equals _b.Serie
+                                            where _b.CodBodega == CodBodega && _b.EsRequisa
+                                            group _q by new { _q.IdSerie } into g
+                                            select new
+                                            {
+                                                g.Key.IdSerie
+                                            }
+                                      ).ToList();
+
+
+                            datos.d = qRequisa;
+
+                            break;
+
+
+
+                        case "Otros":
+
+                            var qOtros = (from _q in Conexion.Serie
+                                          join _b in Conexion.BodegaSerie on _q.IdSerie equals (_b.SerieUnion == null ? _b.Serie : _b.SerieUnion)
+                                          where _b.CodBodega == CodBodega && _b.EsImport
+                                          group _q by new { _q.IdSerie } into g
+                                          select new
+                                          {
+                                              IdSerie = g.Key.IdSerie
+                                          }
+                                      ).ToList();
+
+
+                            datos.d = qOtros;
+
+                            break;
+
+                        case "Contabilidad":
+                            var qCon = (from _q in Conexion.SerieDocumento
+                                        where _q.TipoDocumento.Manual
+                                        select _q.IdSerie
+                                   ).ToList();
+
+                            datos.d = qCon;
+                            break;
+                    }
+                }
+
+
+                json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Sistema/Consecutivo")]
+        [HttpGet]
+        public string GetConsecutivo(string Serie, string Tipo)
+        {
+            return _GetConsecutivo(Serie, Tipo);
+        }
+
+        private string _GetConsecutivo(string Serie, string Tipo)
+        {
+            string json = string.Empty;
+
+            Cls_Datos datos = new();
+            datos.Nombre = "CONSECUTIVO";
+            
+
+
+            try
+            {
+
+                using (Conexion)
+                {
+
+
+                    switch (Tipo)
+                    {
+                        case "Importacion":
+
+                            var qImportacion = (from _q in Conexion.Serie
+                                                where _q.IdSerie == Serie
+                                                select string.Concat(_q.IdSerie, _q.Inventario + 1)
+                                      ).ToList();
+
+
+                            datos.d = qImportacion;
+
+                            break;
+
+                        case "Inventario":
+
+                            var qInventario = (from _q in Conexion.Serie
+                                               where _q.IdSerie == Serie
+                                               select string.Concat(_q.IdSerie, _q.Inventario + 1)
+                                      ).ToList();
+
+
+                            datos.d = qInventario;
+
+                            break;
+
+
+                        case "PedidoInventario":
+
+                            var qPedidoInventario = (from _q in Conexion.Serie
+                                                     where _q.IdSerie == Serie
+                                                     select string.Concat(_q.IdSerie, _q.Pedido + 1)
+                                      ).ToList();
+
+
+                            datos.d = qPedidoInventario;
+
+                            break;
+
+
+                        case "Requisa":
+
+                            var qRequisa = (from _q in Conexion.Serie
+                                            where _q.IdSerie == Serie
+                                            select string.Concat(_q.IdSerie, _q.Requisa + 1)
+                                      ).ToList();
+
+
+                            datos.d = qRequisa;
+
+                            break;
+
+                        case "OT":
+
+                            var qOT = (from _q in Conexion.Serie
+                                       where _q.IdSerie == Serie
+                                       select string.Concat(_q.IdSerie, _q.OT + 1)
+                                      ).ToList();
+
+
+                            datos.d = qOT;
+
+                            break;
+
+                        case "Anexo":
+
+                            var qAnx = (from _q in Conexion.Serie
+                                        where _q.IdSerie == Serie
+                                        select string.Concat(_q.IdSerie, _q.Anexos + 1)
+                                      ).ToList();
+
+
+                            datos.d = qAnx;
+
+                            break;
+
+                        case "Contabilidad":
+                            var qCon = (from _q in Conexion.SerieDocumento
+                                        where _q.IdSerie == Serie
+                                        select string.Concat(_q.IdSerie, (_q.Consecutivo == null ?  0 : _q.Consecutivo) + 1)
+                                     ).ToList();
+
+                            datos.d = qCon;
+                            break;
+
+                    }
+
+
+                }
+
+                json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
+            }
+
+            return json;
         }
 
     }
