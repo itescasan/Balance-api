@@ -37,6 +37,8 @@ namespace Balance_api.Contexts
 
         public DbSet<EjercicioFiscal> EjercicioFiscal { get; set; }
         public DbSet<Periodos> Periodos { get; set; }
+        public DbSet<Asiento> AsientosContables { get; set; }
+        public DbSet<AsientoDetalle> AsientosContablesDetalle { get; set; }
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
