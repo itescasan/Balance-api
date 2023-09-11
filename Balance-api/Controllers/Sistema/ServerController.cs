@@ -294,7 +294,7 @@ namespace Balance_api.Controllers.Sistema
                                           group _q by new { _q.IdSerie } into g
                                           select new
                                           {
-                                              IdSerie = g.Key.IdSerie
+                                              g.Key.IdSerie
                                           }
                                       ).ToList();
 
