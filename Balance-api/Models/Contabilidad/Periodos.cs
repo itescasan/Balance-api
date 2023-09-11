@@ -8,7 +8,7 @@ namespace Balance_api.Models.Contabilidad
     {
         [Key]        
         public int IdPeriodo { get; set; }
-        public int? IdEjercicio { get; set; }
+        public int IdEjercicio { get; set; }
         public int NoPeriodo { get; set; }
         public string NombrePeriodo { get; set; }
         public string ClasePeriodo { get; set; }

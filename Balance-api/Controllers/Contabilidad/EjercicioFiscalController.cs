@@ -61,9 +61,9 @@ namespace Balance_api.Controllers.Contabilidad
                             {
                                 _q.IdEjercicio,
                                 _q.Nombre,
-                                _q.FechaInicio,
-                                _q.FechaFinal,
-                                _q.ClasePeriodos,
+                                        FechaInicio = string.Format("{0:yyyy-MM-dd}", _q.FechaInicio),
+                                        FechaFinal = string.Format("{0:yyyy-MM-dd}", _q.FechaFinal),
+                                        _q.ClasePeriodos,
                                 _q.NumerosPeriodos,
                                 _q.Estado,
                                 _q.CuentaContableAcumulada,
@@ -120,20 +120,19 @@ namespace Balance_api.Controllers.Contabilidad
 
                     EjercicioFiscal? _FEchaEj = Conexion.EjercicioFiscal.FirstOrDefault(f=>f.FechaInicio.Year == d.FechaInicio.Year );
 
-                    if (_FEchaEj != null)
-                    {
-                        json = Cls_Mensaje.Tojson(null, 0, "1", "Ya se encuentra Registrada este año para este Ejercicio Fiscal.", 1); 
-                        return json;
-                    }
-
-
-
+                   
                     if (_Maestro == null)
                     {
                         _Maestro = new EjercicioFiscal();
                         _Maestro.FechaReg = DateTime.Now;
                         _Maestro.UsuarioReg = d.UsuarioReg;
                         esNuevo = true;
+
+                        if (_FEchaEj != null)
+                        {
+                            json = Cls_Mensaje.Tojson(null, 0, "1", "Ya se encuentra Registrada este año para este Ejercicio Fiscal.", 1);
+                            return json;
+                        }
                     }
 
 
@@ -158,7 +157,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     foreach (var det in d.Periodos)
                     {
-                        Periodos? _Detalle = Conexion.Periodos.Find(d.IdEjercicio);
+                        Periodos? _Detalle = Conexion.Periodos.Find(det.IdPeriodo);
 
                         EsNuevoDet = false;
 
@@ -169,10 +168,11 @@ namespace Balance_api.Controllers.Contabilidad
                             _Detalle.IdPeriodo = det.IdPeriodo;
                             _Detalle.FechaReg = DateTime.Now;
                             _Detalle.UsuarioReg = det.UsuarioReg;
+                            _Detalle.IdEjercicio = _Maestro.IdEjercicio;
                             EsNuevoDet = true;
                         }                       
                         
-                        _Detalle.IdEjercicio = _Maestro.IdEjercicio;
+                        
                         _Detalle.NoPeriodo = det.NoPeriodo;
                         _Detalle.NombrePeriodo = det.NombrePeriodo;
                         _Detalle.ClasePeriodo = det.ClasePeriodo;
@@ -218,6 +218,71 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
 
+        }
+
+
+
+        [Route("api/Contabilidad/EjercicioFiscal/Periodo")]
+        [HttpGet]
+        public string GetP(int IdEjercicio)
+        {
+            return V_GetPeriodo(IdEjercicio);
+        }
+
+        private string V_GetPeriodo(int IdEjercicio)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    var datos = V_Obterner_Periodo (IdEjercicio);
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+       
+
+        private Cls_Datos V_Obterner_Periodo(int IdEjercicio)
+        {
+
+            var qPeriodos = (from _q in Conexion.Periodos where _q.IdEjercicio == IdEjercicio
+                             select new
+                                    {
+                                     _q.IdPeriodo,
+                                     _q.IdEjercicio,
+                                     _q.NoPeriodo,
+                                     _q.NombrePeriodo,
+                                     _q.ClasePeriodo,
+                                     _q.FechaInicio,
+                                     _q.FechaFinal,
+                                     _q.Estado,
+                                     _q.FechaReg,
+                                     _q.UsuarioReg,
+                                     _q.FechaUpdate,
+                                     _q.UsuarioUpdate                                     
+                                    }).ToList();
+
+            Cls_Datos datos = new Cls_Datos();
+            datos.Nombre = "PERIODOS";
+            datos.d = qPeriodos;
+
+            return datos;
         }
 
 
