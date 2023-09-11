@@ -85,7 +85,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Asiento/Guardar")]
+        [Route("api/Contabilidad/AsientoContable/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Asiento d)
         {
@@ -143,10 +143,10 @@ namespace Balance_api.Controllers.Contabilidad
                     if (_Maestro == null)
                     {
 
-                        Conexion.Database.ExecuteSql($"UPDATE CNT.SerieDocumento SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
                         Conexion.SaveChanges();
 
-                        int ConsecutivoSerie = Conexion.Database.SqlQuery<int>($"SELECT Consecutivo FROM CNT.SerieDocumento WHERE IdSerie = '{d.IdSerie}'").First();
+                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
 
                         SerieDocumento? s = Conexion.SerieDocumento.Find(d.IdSerie);
                         s!.Consecutivo = ConsecutivoSerie;
@@ -193,7 +193,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                         if(_det == null)
                         {
-                            esNuevoDet = false;
+                            esNuevoDet = true;
                             _det = new AsientoDetalle();
                         }
 
@@ -252,5 +252,70 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+        [Route("api/Contabilidad/AsientoContable/Get")]
+        [HttpGet]
+        public string Get(DateTime Fecha1, DateTime Fecha2)
+        {
+            return V_Get(Fecha1, Fecha2);
+        }
+
+        private string V_Get(DateTime Fecha1, DateTime Fecha2)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    var qAsiento = (from _q in Conexion.AsientosContables
+                                    where _q.Fecha.Date >= Fecha1 && _q.Fecha.Date <= Fecha2
+                                    select new
+                                    {
+                                        _q.IdAsiento,
+                                        _q.IdPeriodo,
+                                        _q.NoAsiento,
+                                        _q.IdSerie,
+                                        _q.Fecha,
+                                        _q.IdMoneda,
+                                        _q.TasaCambio,
+                                        _q.Concepto,
+                                        _q.NoDocOrigen,
+                                        _q.IdSerieDocOrigen,
+                                        _q.TipoDocOrigen,
+                                        _q.Bodega,
+                                        _q.Referencia,
+                                        _q.Estado,
+                                        _q.TipoAsiento,
+                                        _q.Total,
+                                        _q.TotalML,
+                                        _q.TotalMS,
+                                        _q.FechaReg,
+                                        _q.UsuarioReg,
+                                        _q.AsientosContablesDetalle
+
+                                    }).ToList();
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "ASIENTO";
+                    datos.d = qAsiento;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
     }
 }
