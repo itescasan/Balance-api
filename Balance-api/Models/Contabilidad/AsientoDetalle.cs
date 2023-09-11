@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Balance_api.Models.Contabilidad
 {
     [Table("AsientosContablesDetalle", Schema = "CNT")]
     public class AsientoDetalle
     {
+        [Key]
         public int IdDetalleAsiento { get; set; }
         public int IdAsiento { get; set; }
         public int NoLinea { get; set; }
@@ -19,7 +21,5 @@ namespace Balance_api.Models.Contabilidad
         public string Descripcion { get; set; }
         public string Referencia { get; set; }
 
-        [ForeignKey("IdAsiento")]
-        public Asiento AsientosContables { get; set; }
     }
 }

@@ -430,7 +430,7 @@ namespace Balance_api.Controllers.Sistema
                         case "Contabilidad":
                             var qCon = (from _q in Conexion.SerieDocumento
                                         where _q.IdSerie == Serie
-                                        select string.Concat(_q.IdSerie, (_q.Consecutivo == null ?  0 : _q.Consecutivo) + 1)
+                                        select string.Concat(_q.IdSerie, _q.Consecutivo + 1)
                                      ).ToList();
 
                             datos.d = qCon;

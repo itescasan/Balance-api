@@ -2,6 +2,7 @@
 using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
@@ -86,7 +87,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Asiento/Guardar")]
         [HttpPost]
-        public IActionResult Guardar([FromBody] CatalogoCuenta d)
+        public IActionResult Guardar([FromBody] Asiento d)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +102,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        private string V_Guardar(CatalogoCuenta d)
+        private string V_Guardar(Asiento d)
         {
 
             string json = string.Empty;
@@ -114,60 +115,107 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     bool esNuevo = false;
-                    CatalogoCuenta? _Maestro = Conexion.CatalogoCuenta.Find(d.CuentaContable);
+                    Asiento? _Maestro = Conexion.AsientosContables.Find(d.IdAsiento);
+                    Periodos? Pi = Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+                    EjercicioFiscal? Ej = Conexion.EjercicioFiscal.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+
+
+                    if (Pi == null)
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "No se ha configurado el periodo", 1);
+                        return json;
+                    }
+
+                    if (Pi.Estado == "BLOQUEADO")
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "El periodo se encuentra bloqueado.", 1);
+                        return json;
+                    }
+
+
+                    if (Ej.Estado == "CERRADO")
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "El Ejercicio Fiscal se cuentra cerrado", 1);
+                        return json;
+                    }
 
 
                     if (_Maestro == null)
                     {
-                        _Maestro = new CatalogoCuenta();
-                        _Maestro.FechaCreacion = DateTime.Now;
-                        _Maestro.UsuarioReg = d.UsuarioModifica;
+
+                        Conexion.Database.ExecuteSql($"UPDATE CNT.SerieDocumento SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
+                        Conexion.SaveChanges();
+
+                        int ConsecutivoSerie = Conexion.Database.SqlQuery<int>($"SELECT Consecutivo FROM CNT.SerieDocumento WHERE IdSerie = '{d.IdSerie}'").First();
+
+                        SerieDocumento? s = Conexion.SerieDocumento.Find(d.IdSerie);
+                        s!.Consecutivo = ConsecutivoSerie;
+                        d.NoAsiento = string.Concat(d.IdSerie, s!.Consecutivo);
+
+
+                        _Maestro = new Asiento();
+                        _Maestro.FechaReg = DateTime.Now;
+                        _Maestro.UsuarioReg = d.UsuarioReg;
                         esNuevo = true;
                     }
 
-                    if (d.ClaseCuenta == "D")
-                    {
-                        CatalogoCuenta? _Padre = Conexion.CatalogoCuenta.Find(d.CuentaPadre);
-                        CatalogoCuenta? _Hija = Conexion.CatalogoCuenta.FirstOrDefault(f => f.CuentaPadre == d.CuentaContable && f.ClaseCuenta == "G");
+                    d.IdPeriodo = Pi.IdPeriodo;
 
-                        if (_Padre == null)
-                        {
-                            json = Cls_Mensaje.Tojson(null, 0, "1", "No se ha definido una cuenta padre.", 1);
-                            return json;
-                        }
-
-                        if (_Padre.ClaseCuenta == "D")
-                        {
-                            json = Cls_Mensaje.Tojson(null, 0, "1", "La cuenta padre esta definida como Detalle.", 1);
-                            return json;
-                        }
-
-
-                        if (_Hija != null)
-                        {
-                            json = Cls_Mensaje.Tojson(null, 0, "1", "No se puede cambiar la clase de la cuenta, por favor modifique las cuentas hijas.", 1);
-                            return json;
-
-                        }
-
-                    }
-
-
-
-                    _Maestro.CuentaContable = d.CuentaContable;
-                    _Maestro.NombreCuenta = d.NombreCuenta;
-                    _Maestro.Nivel = d.Nivel;
-                    _Maestro.IdGrupo = d.IdGrupo;
-                    _Maestro.ClaseCuenta = d.ClaseCuenta;
-                    _Maestro.CuentaPadre = d.CuentaPadre;
-                    _Maestro.Naturaleza = d.Naturaleza;
-                    _Maestro.Bloqueada = d.Bloqueada;
-                    _Maestro.UsuarioModifica = d.UsuarioModifica;
+                    _Maestro.IdPeriodo = d.IdPeriodo;
+                    _Maestro.NoAsiento = d.NoAsiento;
+                    _Maestro.IdSerie = d.IdSerie;
+                    _Maestro.Fecha = d.Fecha;
+                    _Maestro.IdMoneda = d.IdMoneda;
+                    _Maestro.TasaCambio = d.TasaCambio;
+                    _Maestro.Concepto = d.Concepto;
+                    _Maestro.NoDocOrigen = d.NoDocOrigen;
+                    _Maestro.IdSerieDocOrigen = d.IdSerieDocOrigen;
+                    _Maestro.TipoDocOrigen = d.TipoDocOrigen;
+                    _Maestro.Bodega = d.Bodega;
+                    _Maestro.Referencia = d.Referencia;
+                    _Maestro.Estado = d.Estado;
+                    _Maestro.TipoAsiento = d.TipoAsiento;
+                    _Maestro.Total = d.Total;
+                    _Maestro.TotalML = d.TotalML;
+                    _Maestro.TotalMS = d.TotalMS;
+                    _Maestro.UsuarioUpdate = d.UsuarioReg;
                     _Maestro.FechaUpdate = DateTime.Now;
-                    if (esNuevo) Conexion.CatalogoCuenta.Add(_Maestro);
+                    if (esNuevo) Conexion.AsientosContables.Add(_Maestro);
 
                     Conexion.SaveChanges();
 
+                    int x = 1;
+                    foreach(AsientoDetalle detalle in d.AsientosContablesDetalle.OrderBy(o => o.NoLinea))
+                    {
+                        bool esNuevoDet = false;
+
+                        AsientoDetalle? _det = Conexion.AsientosContablesDetalle.Find(detalle.IdDetalleAsiento);
+
+                        if(_det == null)
+                        {
+                            esNuevoDet = false;
+                            _det = new AsientoDetalle();
+                        }
+
+                        _det.IdAsiento = _Maestro.IdAsiento;
+                        _det.NoLinea = x;
+                        _det.CuentaContable = detalle.CuentaContable;
+                        _det.Debito = detalle.Debito;
+                        _det.DebitoML = detalle.DebitoML;
+                        _det.DebitoMS = detalle.DebitoMS;
+                        _det.Credito = detalle.Credito;
+                        _det.CreditoML = detalle.CreditoML;
+                        _det.CreditoMS = detalle.CreditoMS;
+                        _det.Modulo = detalle.Modulo;
+                        _det.Descripcion = detalle.Descripcion;
+                        _det.Referencia = detalle.Referencia;
+
+
+                        if (esNuevoDet) Conexion.AsientosContablesDetalle.Add(_det);
+
+                        x++;
+                    }
+                    Conexion.SaveChanges();
 
 
 
