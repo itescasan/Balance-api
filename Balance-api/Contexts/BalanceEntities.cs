@@ -1,4 +1,5 @@
-﻿using Balance_api.Models.Contabilidad;
+﻿using Balance_api.Class.Contabilidad;
+using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,8 @@ namespace Balance_api.Contexts
         public DbSet<Periodos> Periodos { get; set; }
         public DbSet<Asiento> AsientosContables { get; set; }
         public DbSet<AsientoDetalle> AsientosContablesDetalle { get; set; }
+
+        public virtual DbSet<Cls_AuxiliarContable> AuxiliarContable { get; set; }
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
