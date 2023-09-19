@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Class\Inventario\" />
-    <Folder Include="Controllers\Inventario\" />
   </ItemGroup>
 
 </Project>
