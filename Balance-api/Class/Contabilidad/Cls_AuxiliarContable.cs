@@ -14,6 +14,7 @@ namespace Balance_api.Class.Contabilidad
         public string? Cuenta { get; set; }
         public string? Concepto { get; set; }
         public string? Referencia { get; set; }
+        public int? Editar { get; set; }
         public decimal? DEBE { get; set; }
         public decimal? HABER { get; set; }
         public int? Linea { get; set; }
