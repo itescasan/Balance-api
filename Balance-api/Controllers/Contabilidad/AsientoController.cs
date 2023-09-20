@@ -209,6 +209,7 @@ namespace Balance_api.Controllers.Contabilidad
                         _det.Modulo = detalle.Modulo;
                         _det.Descripcion = detalle.Descripcion;
                         _det.Referencia = detalle.Referencia;
+                        _det.Naturaleza = detalle.Naturaleza;
 
 
                         if (esNuevoDet) Conexion.AsientosContablesDetalle.Add(_det);

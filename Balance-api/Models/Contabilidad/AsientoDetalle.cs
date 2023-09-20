@@ -20,6 +20,7 @@ namespace Balance_api.Models.Contabilidad
         public string Modulo { get; set; }
         public string Descripcion { get; set; }
         public string Referencia { get; set; }
+        public string Naturaleza { get; set; }
 
     }
 }
