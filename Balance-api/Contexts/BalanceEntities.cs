@@ -1,4 +1,5 @@
 ﻿using Balance_api.Class.Contabilidad;
+using Balance_api.Models.Banca;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
@@ -48,11 +49,19 @@ namespace Balance_api.Contexts
         public DbSet<Bodegas> Bodegas { get; set; }
 
 
+
+
+
+        //██████████████████████████████████████████BANCA█████████████████████████████████████████████████████████████
+        public DbSet<Bancos> Bancos { get; set; }
+        public DbSet<CuentaBanco> CuentaBanco { get; set; }
+
+
         //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
 
 
         public DbSet<Usuarios> Usuarios { get; set; }
-
+        public DbSet<Monedas> Monedas { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<BodegaSerie> BodegaSerie { get; set; }
         public DbSet<SerieDocumento> SerieDocumento { get; set; }
