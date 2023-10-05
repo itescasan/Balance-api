@@ -1,12 +1,15 @@
 ﻿using Balance_api.Class;
+using Balance_api.Class.Contabilidad;
 using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Text.Json;
 using System.Transactions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Balance_api.Controllers.Contabilidad
 {
@@ -39,7 +42,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qCuentaBancaria = (from _q in Conexion.CuentaBanco
-                                           where _q.Activo
+                                           where _q.Activo && _q.Tipo == "T"
                                   select new
                                   {
                                       _q.IdCuentaBanco,
@@ -48,8 +51,7 @@ namespace Balance_api.Controllers.Contabilidad
                                       _q.NombreCuenta,
                                       _q.IdMoneda,
                                       _q.Monedas.Moneda,
-                                      ConsecutivoCheque = _q.ConsecutivoCheque + 1,
-                                      ConsecutivoTransferencia = _q.ConsecutivoTransferencia + 1,
+                                      Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
                                       DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
                                   }).ToList();
 
@@ -114,14 +116,11 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Transferencia/Guardar")]
         [HttpPost]
-        public IActionResult Guardar([FromBody] object[] d)
+        public IActionResult Guardar([FromBody] Cls_Datos_TransferenciaCuenta d)
         {
             if (ModelState.IsValid)
-            {
-                Transferencia T = (Transferencia)d[0];
-                Asiento A = (Asiento)d[1];
-
-                return Ok(V_Guardar(T, A));
+            { 
+                return Ok(V_Guardar(d));
 
             }
             else
@@ -131,7 +130,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        private string V_Guardar(Transferencia d, Asiento a)
+        private string V_Guardar(Cls_Datos_TransferenciaCuenta d)
         {
 
             string json = string.Empty;
@@ -144,34 +143,42 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     bool esNuevo = false;
-                    Transferencia? _Transf = Conexion.Transferencia.Find(d.IdTransferencia);
+                    Transferencia? _Transf = Conexion.Transferencia.Find(d.T.IdTransferencia);
                    
                     if (_Transf == null)
                     {
 
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.CuentaBanco SET ConsecutivoTransferencia += 1  WHERE  IdCuentaBanco = {d.IdCuentaBanco}");
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = 'TBan'");
                         Conexion.SaveChanges();
 
-                        int Consecutivo = Conexion.Database.SqlQueryRaw<int>($"SELECT ConsecutivoTransferencia FROM CNT.CuentaBanco WHERE IdCuentaBanco = {d.IdCuentaBanco}").ToList().First();
+                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = 'TBan'").ToList().First();
+
+                        d.T.NoTransferencia = string.Concat("TBan", ConsecutivoSerie);
+                        d.A.IdSerie = "TBan";
+
+                        d.A.TipoDocOrigen = "TRANSFERENCIA A CUENTA";
+                        d.A.NoDocOrigen = d.T.NoTransferencia;
+                        d.A.IdSerieDocOrigen = d.A.IdSerie;
 
                         _Transf = new Transferencia();
                         _Transf.FechaReg = DateTime.Now;
-                        _Transf.UsuarioReg = d.UsuarioReg;
+                        _Transf.UsuarioReg = d.T.UsuarioReg;
                         _Transf.Anulado = false;
                         esNuevo = true;
                     }
 
-                    _Transf.CodBodega = d.CodBodega;
-                    _Transf.NoTransferencia = d.NoTransferencia;
-                    _Transf.Fecha = d.Fecha;
-                    _Transf.Beneficiario = d.Beneficiario;
-                    _Transf.TasaCambio = d.TasaCambio;
-                    _Transf.Concepto = d.Concepto;
-                    _Transf.TipoTransferencia = d.TipoTransferencia;
-                    _Transf.CodBodega = d.CodBodega;
-                    _Transf.CodBodega = d.CodBodega;
+                    _Transf.IdCuentaBanco = d.T.IdCuentaBanco;
+                    _Transf.CodBodega = d.T.CodBodega;
+                    _Transf.NoTransferencia = d.T.NoTransferencia;
+                    _Transf.Fecha = d.T.Fecha;
+                    _Transf.Beneficiario = d.T.Beneficiario;
+                    _Transf.TasaCambio = d.T.TasaCambio;
+                    _Transf.Concepto = d.T.Concepto;
+                    _Transf.TipoTransferencia = d.T.TipoTransferencia;
+                    _Transf.CodBodega = d.T.CodBodega;
+        
 
-                    _Transf.UsuarioUpdate = d.UsuarioReg;
+                    _Transf.UsuarioUpdate = d.T.UsuarioReg;
                     _Transf.FechaUpdate = DateTime.Now;
                     if (esNuevo) Conexion.Transferencia.Add(_Transf);
 
@@ -181,16 +188,16 @@ namespace Balance_api.Controllers.Contabilidad
 
                     if (esNuevo)
                     {
-                        _Asiento = a;
+                        _Asiento = d.A;
                     }
                     else
                     {
-                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == "Transfer" && f.TipoDocOrigen == (d.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == "TBan" && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
 
                     }
 
                     AsientoController _Controller = new AsientoController(Conexion);
-                    json = _Controller.V_Guardar(_Asiento!, Conexion);
+                    json = _Controller.V_Guardar(_Asiento!, Conexion, false);
 
                     Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
 

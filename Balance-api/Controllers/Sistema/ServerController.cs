@@ -305,7 +305,7 @@ namespace Balance_api.Controllers.Sistema
 
                         case "Contabilidad":
                             var qCon = (from _q in Conexion.SerieDocumento
-                                        where _q.TipoDocumento.Manual
+                                        where !_q.TipoDocumento.Automatico && _q.Activo
                                         select _q.IdSerie
                                    ).ToList();
 

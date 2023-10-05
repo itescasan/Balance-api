@@ -10,6 +10,6 @@ namespace Balance_api.Models.Sistema
         public int IdTipoDocumento { get; set; }
         public string Abreviatura { get; set; }
         public string Descripcion { get; set; }
-        public bool Manual { get; set; }
+        public bool Automatico { get; set; }
     }
 }

@@ -15,8 +15,9 @@ namespace Balance_api.Models.Banca
         public string NombreCuenta { get; set; }
         public string IdMoneda { get; set; }
 
-        public int ConsecutivoCheque { get; set; }
-        public int ConsecutivoTransferencia { get; set; }
+        public string IdSerie { get; set; }
+        public string Tipo { get; set; }
+
         public bool Activo { get; set; }
 
         [ForeignKey("IdBanco")]
@@ -24,5 +25,8 @@ namespace Balance_api.Models.Banca
 
         [ForeignKey("IdMoneda")]
         public Monedas Monedas { get; set; }
+
+        [ForeignKey("IdSerie")]
+        public SerieDocumento SerieDocumento { get; set; }
     }
 }

@@ -104,7 +104,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        public string V_Guardar(Asiento d, BalanceEntities _Conexion)
+        public string V_Guardar(Asiento d, BalanceEntities _Conexion, bool Consecutivo)
         {
             string json = string.Empty;
 
@@ -137,14 +137,18 @@ namespace Balance_api.Controllers.Contabilidad
             if (_Maestro == null)
             {
 
-                _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
-                _Conexion.SaveChanges();
+                if(Consecutivo)
+                {
+                    _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
+                    _Conexion.SaveChanges();
 
-                int ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
+                    int ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
 
-                SerieDocumento? s = _Conexion.SerieDocumento.Find(d.IdSerie);
-                s!.Consecutivo = ConsecutivoSerie;
-                d.NoAsiento = string.Concat(d.IdSerie, s!.Consecutivo);
+                    d.NoAsiento = string.Concat(d.IdSerie, ConsecutivoSerie);
+
+                }
+
+             
 
 
                 _Maestro = new Asiento();
@@ -241,7 +245,7 @@ namespace Balance_api.Controllers.Contabilidad
                 using (Conexion)
                 {
 
-                    json =  V_Guardar(d, Conexion);
+                    json =  V_Guardar(d, Conexion, true);
 
                     Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
 
