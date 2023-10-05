@@ -43,6 +43,7 @@ namespace Balance_api.Contexts
         public DbSet<AsientoDetalle> AsientosContablesDetalle { get; set; }
 
         public virtual DbSet<Cls_AuxiliarContable> AuxiliarContable { get; set; }
+        public virtual DbSet<Transferencia> Transferencia { get; set; }
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████

@@ -5,6 +5,8 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Transactions;
 
 namespace Balance_api.Controllers.Contabilidad
@@ -92,7 +94,7 @@ namespace Balance_api.Controllers.Contabilidad
             if (ModelState.IsValid)
             {
 
-                return Ok(V_Guardar(d));
+                return Ok(V_GuardarAsiento(d));
 
             }
             else
@@ -102,143 +104,154 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        private string V_Guardar(Asiento d)
+        public string V_Guardar(Asiento d, BalanceEntities _Conexion)
         {
+            string json = string.Empty;
 
+            bool esNuevo = false;
+            Asiento? _Maestro = _Conexion.AsientosContables.Find(d.IdAsiento);
+            Periodos? Pi = _Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+            EjercicioFiscal? Ej = _Conexion.EjercicioFiscal.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+
+
+            if (Pi == null)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", "No se ha configurado el periodo", 1);
+                return json;
+            }
+
+            if (Pi.Estado == "BLOQUEADO")
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", "El periodo se encuentra bloqueado.", 1);
+                return json;
+            }
+
+
+            if (Ej?.Estado == "CERRADO")
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", "El Ejercicio Fiscal se cuentra cerrado", 1);
+                return json;
+            }
+
+
+            if (_Maestro == null)
+            {
+
+                _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
+                _Conexion.SaveChanges();
+
+                int ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
+
+                SerieDocumento? s = _Conexion.SerieDocumento.Find(d.IdSerie);
+                s!.Consecutivo = ConsecutivoSerie;
+                d.NoAsiento = string.Concat(d.IdSerie, s!.Consecutivo);
+
+
+                _Maestro = new Asiento();
+                _Maestro.FechaReg = DateTime.Now;
+                _Maestro.UsuarioReg = d.UsuarioReg;
+                esNuevo = true;
+            }
+
+            d.IdPeriodo = Pi.IdPeriodo;
+
+            _Maestro.IdPeriodo = d.IdPeriodo;
+            _Maestro.NoAsiento = d.NoAsiento;
+            _Maestro.IdSerie = d.IdSerie;
+            _Maestro.Fecha = d.Fecha;
+            _Maestro.IdMoneda = d.IdMoneda;
+            _Maestro.TasaCambio = d.TasaCambio;
+            _Maestro.Concepto = d.Concepto;
+            _Maestro.NoDocOrigen = d.NoDocOrigen;
+            _Maestro.IdSerieDocOrigen = d.IdSerieDocOrigen;
+            _Maestro.TipoDocOrigen = d.TipoDocOrigen;
+            _Maestro.Bodega = d.Bodega;
+            _Maestro.Referencia = d.Referencia;
+            _Maestro.Estado = d.Estado;
+            _Maestro.TipoAsiento = d.TipoAsiento;
+            _Maestro.Total = d.Total;
+            _Maestro.TotalML = d.TotalML;
+            _Maestro.TotalMS = d.TotalMS;
+            _Maestro.UsuarioUpdate = d.UsuarioReg;
+            _Maestro.FechaUpdate = DateTime.Now;
+            if (esNuevo) _Conexion.AsientosContables.Add(_Maestro);
+
+            _Conexion.SaveChanges();
+
+            int x = 1;
+            foreach (AsientoDetalle detalle in d.AsientosContablesDetalle.OrderBy(o => o.NoLinea))
+            {
+                bool esNuevoDet = false;
+
+                AsientoDetalle? _det = _Conexion.AsientosContablesDetalle.Find(detalle.IdDetalleAsiento);
+
+                if (_det == null)
+                {
+                    esNuevoDet = true;
+                    _det = new AsientoDetalle();
+                }
+
+                _det.IdAsiento = _Maestro.IdAsiento;
+                _det.NoLinea = x;
+                _det.CuentaContable = detalle.CuentaContable;
+                _det.Debito = detalle.Debito;
+                _det.DebitoML = detalle.DebitoML;
+                _det.DebitoMS = detalle.DebitoMS;
+                _det.Credito = detalle.Credito;
+                _det.CreditoML = detalle.CreditoML;
+                _det.CreditoMS = detalle.CreditoMS;
+                _det.Modulo = detalle.Modulo;
+                _det.Descripcion = detalle.Descripcion;
+                _det.Referencia = detalle.Referencia;
+                _det.Naturaleza = detalle.Naturaleza;
+
+
+                if (esNuevoDet) _Conexion.AsientosContablesDetalle.Add(_det);
+
+                x++;
+            }
+            _Conexion.SaveChanges();
+
+
+
+            List<Cls_Datos> lstDatos = new();
+
+
+            Cls_Datos datos = new();
+            datos.Nombre = "GUARDAR";
+            datos.d = "Registro Guardado";
+            lstDatos.Add(datos);
+
+
+            json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+
+
+            return json;
+
+        }
+
+
+        private string V_GuardarAsiento(Asiento d)
+        {
             string json = string.Empty;
 
             try
             {
-
                 using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
                 using (Conexion)
                 {
 
-                    bool esNuevo = false;
-                    Asiento? _Maestro = Conexion.AsientosContables.Find(d.IdAsiento);
-                    Periodos? Pi = Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
-                    EjercicioFiscal? Ej = Conexion.EjercicioFiscal.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+                    json =  V_Guardar(d, Conexion);
 
+                    Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
 
-                    if (Pi == null)
-                    {
-                        json = Cls_Mensaje.Tojson(null, 0, "1", "No se ha configurado el periodo", 1);
-                        return json;
-                    }
-
-                    if (Pi.Estado == "BLOQUEADO")
-                    {
-                        json = Cls_Mensaje.Tojson(null, 0, "1", "El periodo se encuentra bloqueado.", 1);
-                        return json;
-                    }
-
-
-                    if (Ej.Estado == "CERRADO")
-                    {
-                        json = Cls_Mensaje.Tojson(null, 0, "1", "El Ejercicio Fiscal se cuentra cerrado", 1);
-                        return json;
-                    }
-
-
-                    if (_Maestro == null)
-                    {
-
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
-                        Conexion.SaveChanges();
-
-                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
-
-                        SerieDocumento? s = Conexion.SerieDocumento.Find(d.IdSerie);
-                        s!.Consecutivo = ConsecutivoSerie;
-                        d.NoAsiento = string.Concat(d.IdSerie, s!.Consecutivo);
-
-
-                        _Maestro = new Asiento();
-                        _Maestro.FechaReg = DateTime.Now;
-                        _Maestro.UsuarioReg = d.UsuarioReg;
-                        esNuevo = true;
-                    }
-
-                    d.IdPeriodo = Pi.IdPeriodo;
-
-                    _Maestro.IdPeriodo = d.IdPeriodo;
-                    _Maestro.NoAsiento = d.NoAsiento;
-                    _Maestro.IdSerie = d.IdSerie;
-                    _Maestro.Fecha = d.Fecha;
-                    _Maestro.IdMoneda = d.IdMoneda;
-                    _Maestro.TasaCambio = d.TasaCambio;
-                    _Maestro.Concepto = d.Concepto;
-                    _Maestro.NoDocOrigen = d.NoDocOrigen;
-                    _Maestro.IdSerieDocOrigen = d.IdSerieDocOrigen;
-                    _Maestro.TipoDocOrigen = d.TipoDocOrigen;
-                    _Maestro.Bodega = d.Bodega;
-                    _Maestro.Referencia = d.Referencia;
-                    _Maestro.Estado = d.Estado;
-                    _Maestro.TipoAsiento = d.TipoAsiento;
-                    _Maestro.Total = d.Total;
-                    _Maestro.TotalML = d.TotalML;
-                    _Maestro.TotalMS = d.TotalMS;
-                    _Maestro.UsuarioUpdate = d.UsuarioReg;
-                    _Maestro.FechaUpdate = DateTime.Now;
-                    if (esNuevo) Conexion.AsientosContables.Add(_Maestro);
-
-                    Conexion.SaveChanges();
-
-                    int x = 1;
-                    foreach(AsientoDetalle detalle in d.AsientosContablesDetalle.OrderBy(o => o.NoLinea))
-                    {
-                        bool esNuevoDet = false;
-
-                        AsientoDetalle? _det = Conexion.AsientosContablesDetalle.Find(detalle.IdDetalleAsiento);
-
-                        if(_det == null)
-                        {
-                            esNuevoDet = true;
-                            _det = new AsientoDetalle();
-                        }
-
-                        _det.IdAsiento = _Maestro.IdAsiento;
-                        _det.NoLinea = x;
-                        _det.CuentaContable = detalle.CuentaContable;
-                        _det.Debito = detalle.Debito;
-                        _det.DebitoML = detalle.DebitoML;
-                        _det.DebitoMS = detalle.DebitoMS;
-                        _det.Credito = detalle.Credito;
-                        _det.CreditoML = detalle.CreditoML;
-                        _det.CreditoMS = detalle.CreditoMS;
-                        _det.Modulo = detalle.Modulo;
-                        _det.Descripcion = detalle.Descripcion;
-                        _det.Referencia = detalle.Referencia;
-                        _det.Naturaleza = detalle.Naturaleza;
-
-
-                        if (esNuevoDet) Conexion.AsientosContablesDetalle.Add(_det);
-
-                        x++;
-                    }
-                    Conexion.SaveChanges();
-
-
-
-                    List<Cls_Datos> lstDatos = new();
-
-
-                    Cls_Datos datos = new();
-                    datos.Nombre = "GUARDAR";
-                    datos.d = "Registro Guardado";
-                    lstDatos.Add(datos);
-
-
-
+                    if (reponse == null) return json;
+                    if (reponse.esError == 1) return json;
 
                     scope.Complete();
 
-                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
-
-
-
+                    return json;
                 }
-
 
 
             }
@@ -248,10 +261,7 @@ namespace Balance_api.Controllers.Contabilidad
             }
 
             return json;
-
         }
-
-
 
         [Route("api/Contabilidad/AsientoContable/Get")]
         [HttpGet]
