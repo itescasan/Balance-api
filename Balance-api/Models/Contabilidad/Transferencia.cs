@@ -11,6 +11,7 @@ namespace Balance_api.Models.Contabilidad
         public Guid IdTransferencia { get; set; }
         public int IdCuentaBanco { get; set; }
         public string CodBodega { get; set; }
+        public string IdSerie { get; set; }
         public string NoTransferencia { get; set; }
         public DateTime Fecha { get; set; }
         public string Beneficiario { get; set; }

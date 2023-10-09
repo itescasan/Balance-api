@@ -148,16 +148,18 @@ namespace Balance_api.Controllers.Contabilidad
                     if (_Transf == null)
                     {
 
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = 'TBan'");
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.T.IdSerie}'");
                         Conexion.SaveChanges();
 
-                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = 'TBan'").ToList().First();
+                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.T.IdSerie}'").ToList().First();
 
-                        d.T.NoTransferencia = string.Concat("TBan", ConsecutivoSerie);
-                        d.A.IdSerie = "TBan";
+                        d.T.NoTransferencia = string.Concat(d.T.IdSerie, ConsecutivoSerie);
+        
 
                         d.A.TipoDocOrigen = "TRANSFERENCIA A CUENTA";
                         d.A.NoDocOrigen = d.T.NoTransferencia;
+                        d.A.NoAsiento = d.T.NoTransferencia;
+                        d.A.IdSerie = d.T.IdSerie;
                         d.A.IdSerieDocOrigen = d.A.IdSerie;
 
                         _Transf = new Transferencia();
@@ -169,6 +171,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     _Transf.IdCuentaBanco = d.T.IdCuentaBanco;
                     _Transf.CodBodega = d.T.CodBodega;
+                    _Transf.IdSerie = d.T.IdSerie;
                     _Transf.NoTransferencia = d.T.NoTransferencia;
                     _Transf.Fecha = d.T.Fecha;
                     _Transf.Beneficiario = d.T.Beneficiario;
@@ -192,7 +195,7 @@ namespace Balance_api.Controllers.Contabilidad
                     }
                     else
                     {
-                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == "TBan" && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
 
                     }
 
