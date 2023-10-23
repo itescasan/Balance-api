@@ -92,6 +92,7 @@ namespace Balance_api.Controllers.Contabilidad
         private string V_Datos()
         {
             string json = string.Empty;
+     
             try
             {
                 using (Conexion)
@@ -111,8 +112,6 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-
-
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
@@ -126,6 +125,104 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+        [Route("api/Contabilidad/CatalogoCuenta/GetCuentaNueva")]
+        [HttpGet]
+        public string GetCuentaNueva(int Nivel, int Grupo , string CuentaPadre)
+        {
+            return V_GetCuentaNueva(Nivel, Grupo, CuentaPadre);
+        }
+
+        private string V_GetCuentaNueva(int Nivel, int Grupo , string CuentaPadre)
+        {
+            string json = string.Empty;
+            if (CuentaPadre == null) CuentaPadre = string.Empty;
+
+
+            try
+            {
+                using (Conexion)
+                {
+                
+                    string Cuenta = "1";
+                    var qCuentas = Conexion.CatalogoCuenta.Where(w => w.Nivel == Nivel && w.IdGrupo == Grupo && w.CuentaPadre == CuentaPadre).ToList();
+
+                    if(qCuentas.Count > 0)
+                    {
+                        string[] _C = qCuentas.Max(m => m.CuentaContable)!.Split("-");
+
+                        int numero = int.Parse(_C[_C.Length - 1].ToString().Replace(CuentaPadre, string.Empty));
+                       
+           
+                        switch(Nivel)
+                        {
+                            case 1:
+                                if (numero < 9) numero += 1;
+                                Cuenta = numero.ToString();
+                                break;
+                            case 2:
+                                if (numero < 9) numero += 1;
+                                Cuenta = numero.ToString();
+                                break;
+                            case 3:
+                                if (numero < 9) numero += 1;
+                                Cuenta = numero.ToString();
+                                break;
+
+                            case 4:
+                                if (numero < 9) numero += 1;
+                                Cuenta = numero.ToString();
+                                break;
+                            case 5:
+
+                                numero += 1;
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(4, '0');
+                                Cuenta = _C[_C.Length - 1];
+
+                                break;
+
+                            case 6:
+
+                                numero += 1;
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(4, '0');
+                                Cuenta = _C[_C.Length - 1];
+
+                                break;
+
+                            case 7:
+
+                                numero += 1;
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(3, '0');
+                                Cuenta = _C[_C.Length - 1];
+
+                                break;
+                        }
+
+                    }
+            
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "NUEVA CUENTA";
+                    datos.d = Cuenta;
+
+
+
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
 
 

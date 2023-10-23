@@ -18,6 +18,9 @@ namespace Balance_api.Models.Contabilidad
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
         public string TipoTransferencia { get; set; }
+        public decimal Total { get; set; }
+        public decimal TotalDolar { get; set; }
+        public decimal TotalCordoba { get; set; }
         public bool Anulado { get; set; }
 
         public string UsuarioReg { get; set; }

@@ -179,7 +179,10 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.Concepto = d.T.Concepto;
                     _Transf.TipoTransferencia = d.T.TipoTransferencia;
                     _Transf.CodBodega = d.T.CodBodega;
-        
+                    _Transf.Total = d.T.Total;
+                    _Transf.TotalDolar = d.T.TotalDolar;
+                    _Transf.TotalCordoba = d.T.TotalCordoba;
+
 
                     _Transf.UsuarioUpdate = d.T.UsuarioReg;
                     _Transf.FechaUpdate = DateTime.Now;
@@ -238,6 +241,76 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
 
         }
+
+
+
+
+        [Route("api/Contabilidad/Transferencia/Get")]
+        [HttpGet]
+        public string Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
+        {
+            return V_Get(Fecha1, Fecha2, CodBodega);
+        }
+
+        private string V_Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
+        {
+            if (CodBodega == null) CodBodega = string.Empty;
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var qTransferencia = (from _q in Conexion.Transferencia
+                                          where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega)
+                                          select new
+                                          {
+                                              _q.IdTransferencia,
+                                              _q.IdCuentaBanco,
+                                              CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
+                                              _q.CodBodega,
+                                              _q.IdSerie,
+                                              _q.NoTransferencia,
+                                              _q.Fecha,
+                                              _q.Beneficiario,
+                                              _q.TasaCambio,
+                                              _q.Concepto,
+                                              _q.TipoTransferencia,
+                                              _q.Total,
+                                              _q.TotalDolar,
+                                              _q.TotalCordoba,
+                                              _q.Anulado,
+                                              _q.UsuarioReg,
+                                              _q.FechaReg
+                                          }).ToList();
+
+
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "TRANSFERENCIA";
+                    datos.d = qTransferencia;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
     }
 }
