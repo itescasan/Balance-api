@@ -200,6 +200,8 @@ namespace Balance_api.Controllers.Contabilidad
                     {
                         _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
 
+                        _Asiento!.AsientosContablesDetalle = d.A.AsientosContablesDetalle;
+
                     }
 
                     AsientoController _Controller = new AsientoController(Conexion);
@@ -293,6 +295,54 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos datos = new();
                     datos.Nombre = "TRANSFERENCIA";
                     datos.d = qTransferencia;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/Transferencia/GetDetalleCuenta")]
+        [HttpGet]
+        public string GetDetalleCuenta(Guid IdTransferencia)
+        {
+            return V_GetDetalleCuenta(IdTransferencia);
+        }
+
+        private string V_GetDetalleCuenta(Guid IdTransferencia)
+        {
+     
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    Transferencia T = Conexion.Transferencia.Find(IdTransferencia)!;
+
+                    var A = (from _q in Conexion.AsientosContables
+                                 where _q.NoDocOrigen == T.NoTransferencia && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "TRANSFERENCIA A CUENTA"
+                                 select _q.AsientosContablesDetalle).ToList();
+
+
+  
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "DETALLE TRANSFERENCIA";
+                    datos.d = A.First();
 
                     lstDatos.Add(datos);
 
