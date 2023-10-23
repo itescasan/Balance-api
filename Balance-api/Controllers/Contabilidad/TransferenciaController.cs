@@ -161,6 +161,7 @@ namespace Balance_api.Controllers.Contabilidad
                         d.A.NoAsiento = d.T.NoTransferencia;
                         d.A.IdSerie = d.T.IdSerie;
                         d.A.IdSerieDocOrigen = d.A.IdSerie;
+                        d.A.Estado = "Autorizado";
 
                         _Transf = new Transferencia();
                         _Transf.FechaReg = DateTime.Now;
