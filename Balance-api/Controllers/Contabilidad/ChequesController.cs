@@ -95,6 +95,47 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/Cheques/GetReembolsos")]
+        [HttpGet]
+        public string GetReembolsos()
+        {
+            return V_GetReembolsos();
+        }
+
+        private string V_GetReembolsos()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    List<Reembolsos> qReembolso = Conexion.Reembolsos.FromSqlRaw<Reembolsos>($"select Distinct R.Fecha,C.Titulo, R.Numero from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where year(Fecha) = year(GETDATE()) and R.Contabilizado = 0").ToList();
+                    
+                    Cls_Datos datos = new();
+                    datos.Nombre = "REEMBOLSOS";
+                    datos.d = qReembolso;
+
+                    lstDatos.Add(datos);
+
+
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
@@ -112,8 +153,5 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-
-
-        
     }
 }
