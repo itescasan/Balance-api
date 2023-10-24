@@ -85,6 +85,71 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/AsientoContable/Autorizar")]
+        [HttpPost]
+        public IActionResult Autorizar(int IdAsiento, string Usuario)
+        {
+            if (ModelState.IsValid)
+            {
+
+                return Ok(V_Autorizar(IdAsiento, Usuario));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        public string V_Autorizar(int IdAsiento, string Usuario)
+        {
+
+
+
+            string json = string.Empty;
+
+            try
+            {
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    Asiento A = Conexion.AsientosContables.Find(IdAsiento)!;
+                    A.Estado = "Autorizado";
+                    A.UsuarioUpdate = Usuario;
+                    A.FechaUpdate = DateTime.Now;
+
+                    Conexion.SaveChanges();
+
+
+                    scope.Complete();
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "AUTORIZAR";
+                    datos.d = "Registro Autorizado";
+          
+
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+
+                    return json;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
+
+
 
 
         [Route("api/Contabilidad/AsientoContable/Guardar")]
