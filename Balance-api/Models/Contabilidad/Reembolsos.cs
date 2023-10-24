@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Balance_api.Models.Contabilidad
 {
       public class Reembolsos
     {
         [Key]
-        public int Id { get; set; }
-        public string? Ccosto { get; set; } 
+        public DateTime Fecha { get; set; }
+        public string? Titulo { get; set; } 
        // public string Fecha { get; set; }
         public string? Numero { get; set; }
         /*public string Concepto { get; set; }
