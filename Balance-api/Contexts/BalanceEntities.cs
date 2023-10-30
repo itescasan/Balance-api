@@ -2,6 +2,7 @@
 using Balance_api.Models.Banca;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
+using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -60,6 +61,11 @@ namespace Balance_api.Contexts
         public DbSet<CuentaBanco> CuentaBanco { get; set; }
 
 
+
+        //██████████████████████████████████████████PROVEEDOR████████████████████████████████████████████████████████
+        public DbSet<Proveedor> Proveedor { get; set; }
+
+
         //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
 
 
@@ -69,6 +75,7 @@ namespace Balance_api.Contexts
         public DbSet<BodegaSerie> BodegaSerie { get; set; }
         public DbSet<SerieDocumento> SerieDocumento { get; set; }
         public DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public DbSet<MovimientoDoc> MovimientoDoc { get; set; }
 
 
     }
