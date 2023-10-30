@@ -51,7 +51,10 @@ namespace Balance_api.Controllers.Contabilidad
                                       _q.NombreCuenta,
                                       _q.IdMoneda,
                                       _q.Monedas.Moneda,
+                                      _q.Bancos.CuentaC,
+                                      _q.Bancos.CuentaD,
                                       Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
+                                      _q.Activo,
                                       DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
                                   }).ToList();
 
@@ -95,6 +98,24 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+                    var qProveedor = (from _q in Conexion.Proveedor
+                                      select new
+                                      {
+                                          _q.IdProveedor,
+                                          _q.Codigo,
+                                          Proveedor = _q.Proveedor1,
+                                          _q.NombreComercial,
+                                          _q.CUENTAXPAGAR,
+                                          DisplayKey = string.Concat(_q.Codigo, " ", _q.Proveedor1),
+                                      }).ToList();
+
+
+                    datos = new();
+                    datos.Nombre = "PROVEEDOR";
+                    datos.d = qProveedor;
+                    lstDatos.Add(datos);
+
+
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
@@ -110,6 +131,74 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
+
+
+        [Route("api/Contabilidad/Transferencia/GetDocumentos")]
+        [HttpGet]
+        public string GetDocumentos(string CodProveedor)
+        {
+            return V_GetDocumentos(CodProveedor);
+        }
+
+        private string V_GetDocumentos(string CodProveedor)
+        {
+            string json = string.Empty;
+            try
+            {
+        
+                using (Conexion)
+                {
+                    var qDoc = Conexion.MovimientoDoc.Where(w => w.CodigoCliente == CodProveedor && w.Activo && w.Esquema == "CXP").ToList();
+
+                    List<TransferenciaDocumento> qDocumentos = (from _q in qDoc
+                                       where _q.Activo
+                                       group _q by new
+                                       {
+                                           NoDococumento = (_q.NoDocEnlace == null ? _q.NoDocOrigen : _q.NoDocEnlace),
+                                           Serie = (_q.NoDocEnlace == null ? _q.SerieOrigen : _q.SerieEnlace),
+                                           TipoDocumento = (_q.NoDocEnlace == null ? _q.TipoDocumentoOrigen : _q.TipoDocumentoEnlace),
+                                       } into grupo
+                                       select new TransferenciaDocumento
+                                       {
+                                           Index = 0,
+                                           Documento = grupo.Key.NoDococumento,
+                                           Serie = grupo.Key.Serie,
+                                           TipoDocumento = grupo.Key.TipoDocumento,
+                                           Fecha = (DateTime)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.FechaDocumento.Date!,
+                                           IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
+                                           SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
+                                           SaldoDolar = grupo.Sum(s => s.TotalDolar)
+                                       }).ToList();
+
+
+                    qDocumentos = qDocumentos.Where(w => w.SaldoCordoba > 0).ToList();
+
+                 
+
+                    var Doc = qDocumentos.Select((file, index) => new { Index = index, Documento = file.Documento, Serie = file.Serie, TipoDocumento  = file.TipoDocumento,
+                        Fecha = file.Fecha, IdMoneda = file.IdMoneda, SaldoDolar = file.SaldoDolar, SaldoCordoba = file.SaldoCordoba
+                    }).ToList();
+
+                    Cls_Datos  datos = new();
+                    datos.Nombre = "DOC PROVEEDOR";
+                    datos.d = Doc;
+               
+
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
 
 
 
