@@ -111,98 +111,98 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Cheques/GetReembolsos")]
-        [HttpGet]
-        public string GetReembolsos()
-        {
-            return V_GetReembolsos();
-        }
+        //[Route("api/Contabilidad/Cheques/GetReembolsos")]
+        //[HttpGet]
+        //public string GetReembolsos()
+        //{
+        //    return V_GetReembolsos();
+        //}
 
-        private string V_GetReembolsos()
-        {
-            string json = string.Empty;
-            try
-            {
-                using (Conexion)
-                {
-                    List<Cls_Datos> lstDatos = new();
+        //private string V_GetReembolsos()
+        //{
+        //    string json = string.Empty;
+        //    try
+        //    {
+        //        using (Conexion)
+        //        {
+        //            List<Cls_Datos> lstDatos = new();
 
-                    List<Reembolsos> qReembolso = Conexion.Reembolsos.FromSqlRaw<Reembolsos>($"select Distinct R.Fecha,C.Titulo, R.Numero from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where year(Fecha) = year(GETDATE()) and R.Contabilizado = 0").ToList();
+        //            List<Reembolsos> qReembolso = Conexion.Reembolsos.FromSqlRaw<Reembolsos>($"select Distinct R.Fecha,C.Titulo, R.Numero from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where year(Fecha) = year(GETDATE()) and R.Contabilizado = 0").ToList();
                     
-                    Cls_Datos datos = new();
-                    datos.Nombre = "REEMBOLSOS";
-                    datos.d = qReembolso;
+        //            Cls_Datos datos = new();
+        //            datos.Nombre = "REEMBOLSOS";
+        //            datos.d = qReembolso;
 
-                    lstDatos.Add(datos);
-
-
-                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
-                }
+        //            lstDatos.Add(datos);
 
 
-
-            }
-            catch (Exception ex)
-            {
-                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
-            }
-
-            return json;
-        }
-
-        [Route("api/Contabilidad/Cheques/GetReembolsos")]
-        [HttpPost]
-        public IActionResult GetReembolso(int Numero)
-        {
-            if (ModelState.IsValid)
-            {
-
-                return Ok(V_GetReembolso(Numero));
-
-            }
-            else
-            {
-                return BadRequest();
-            }
-
-        }
-
-        public string V_GetReembolso(int Numero)
-        {
+        //            json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+        //        }
 
 
 
-            string json = string.Empty;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+        //    }
 
-            try
-            {
-                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
-                using (Conexion)
-                {
-                    List<Cls_Datos> lstDatos = new();
+        //    return json;
+        //}
 
-                    List<Reembolsos> qReembolso = Conexion.Reembolsos.FromSqlRaw<Reembolsos>($"select Distinct R.Fecha,C.Titulo, R.Numero from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where year(Fecha) = year(GETDATE()) and R.Contabilizado = 0").ToList();
+        //[Route("api/Contabilidad/Cheques/GetReembolsos")]
+        //[HttpPost]
+        //public IActionResult GetReembolso(int Numero)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
-                    Cls_Datos datos = new();
-                    datos.Nombre = "REEMBOLSOS";
-                    datos.d = qReembolso;
+        //        return Ok(V_GetReembolso(Numero));
 
-                    lstDatos.Add(datos);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //}
+
+        //public string V_GetReembolso(int Numero)
+        //{
 
 
-                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
-                }
+
+        //    string json = string.Empty;
+
+        //    try
+        //    {
+        //        using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+        //        using (Conexion)
+        //        {
+        //            List<Cls_Datos> lstDatos = new();
+
+        //            List<Reembolsos> qReembolso = Conexion.Reembolsos.FromSqlRaw<Reembolsos>($"select Distinct R.Fecha,C.Titulo, R.Numero from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where year(Fecha) = year(GETDATE()) and R.Contabilizado = 0").ToList();
+
+        //            Cls_Datos datos = new();
+        //            datos.Nombre = "REEMBOLSOS";
+        //            datos.d = qReembolso;
+
+        //            lstDatos.Add(datos);
 
 
-            }
-            catch (Exception ex)
-            {
-                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
-            }
+        //            json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+        //        }
 
-            return json;
 
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+        //    }
+
+        //    return json;
+
+        //}
 
 
 

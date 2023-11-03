@@ -47,7 +47,7 @@ namespace Balance_api.Contexts
         public virtual DbSet<Transferencia> Transferencia { get; set; }
         public virtual DbSet<Reembolsos> Reembolsos { get; set; }
 
-
+        public virtual DbSet<Cheque> Cheque { get; set; }
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
         public DbSet<Bodegas> Bodegas { get; set; }
