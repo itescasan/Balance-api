@@ -99,6 +99,17 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+
+
+                    var qCentroCosto = Conexion.CentroCostos.ToList();
+
+
+                    datos = new();
+                    datos.Nombre = "CENTRO COSTO";
+                    datos.d = qCentroCosto;
+                    lstDatos.Add(datos);
+
+
                     var qProveedor = (from _q in Conexion.Proveedor
                                       select new
                                       {
@@ -115,6 +126,9 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.Nombre = "PROVEEDOR";
                     datos.d = qProveedor;
                     lstDatos.Add(datos);
+
+
+
 
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
