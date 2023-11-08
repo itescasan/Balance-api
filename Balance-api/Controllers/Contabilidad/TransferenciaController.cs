@@ -53,6 +53,7 @@ namespace Balance_api.Controllers.Contabilidad
                                       _q.Monedas.Moneda,
                                       _q.Bancos.CuentaC,
                                       _q.Bancos.CuentaD,
+                                      _q.SerieDocumento.IdSerie,
                                       Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
                                       _q.Activo,
                                       DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
@@ -167,6 +168,7 @@ namespace Balance_api.Controllers.Contabilidad
                                            TipoDocumento = grupo.Key.TipoDocumento,
                                            Fecha = (DateTime)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.FechaDocumento.Date!,
                                            IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
+                                           TasaCambioDoc = (decimal)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.TasaCambio!,
                                            SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
                                            SaldoDolar = grupo.Sum(s => s.TotalDolar)
                                        }).ToList();
@@ -176,8 +178,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                  
 
-                    var Doc = qDocumentos.Select((file, index) => new { Index = index, Documento = file.Documento, Serie = file.Serie, TipoDocumento  = file.TipoDocumento,
-                        Fecha = file.Fecha, IdMoneda = file.IdMoneda, SaldoDolar = file.SaldoDolar, SaldoCordoba = file.SaldoCordoba
+                    var Doc = qDocumentos.Select((file, index) => new { Index = index,  file.Documento,  file.Serie,file.TipoDocumento,
+                         file.Fecha,  file.IdMoneda, file.TasaCambioDoc,  file.SaldoDolar,  file.SaldoCordoba
                     }).ToList();
 
                     Cls_Datos  datos = new();

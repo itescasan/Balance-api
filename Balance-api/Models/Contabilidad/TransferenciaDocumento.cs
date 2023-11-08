@@ -10,6 +10,7 @@
         public string TipoDocumento { get; set; }
         public DateTime Fecha { get; set; }
         public string IdMoneda { get; set; }
+        public decimal TasaCambioDoc { get; set; }
         public decimal Saldo { get; set; }
         public decimal SaldoDolar { get; set; }
         public decimal SaldoCordoba { get; set; }
