@@ -70,6 +70,14 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+                    var qCentroCosto = Conexion.CentroCostos.ToList();
+
+
+                    datos = new();
+                    datos.Nombre = "CENTRO COSTO";
+                    datos.d = qCentroCosto;
+                    lstDatos.Add(datos);
+
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
@@ -273,6 +281,7 @@ namespace Balance_api.Controllers.Contabilidad
                 _det.Descripcion = detalle.Descripcion;
                 _det.Referencia = detalle.Referencia;
                 _det.Naturaleza = detalle.Naturaleza;
+                _det.CentroCosto = detalle.CentroCosto;
 
 
                 if (esNuevoDet) _Conexion.AsientosContablesDetalle.Add(_det);
