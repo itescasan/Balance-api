@@ -4,21 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Balance_api.Models.Contabilidad
 {
-    [Table("Cheque", Schema = "CNT")]
-    public class Cheque
+    [Table("Cheques", Schema = "CNT")]
+    public class Cheques
     {
+        private CatalogoCuenta catalogoCuenta;
+
         [Key]
-        public Guid IdTransferencia { get; set; }
+        public Guid IdCheque { get; set; }
         public int IdCuentaBanco { get; set; }
         public string CuentaContable { get; set; }
         public string CodBodega { get; set; }
         public string IdSerie { get; set; }
-        public string NoTransferencia { get; set; }
+        public string NoCheque { get; set; }
         public DateTime Fecha { get; set; }
         public string Beneficiario { get; set; }
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
-        public string TipoTransferencia { get; set; }
+        public string TipoCheque { get; set; }
         public decimal Total { get; set; }
         public decimal TotalDolar { get; set; }
         public decimal TotalCordoba { get; set; }
@@ -36,6 +38,6 @@ namespace Balance_api.Models.Contabilidad
         public CuentaBanco CuentaBanco { get; set; }
 
         [ForeignKey("CuentaContable")]
-        public CatalogoCuenta CatalogoCuenta { get; set; }
+        public CatalogoCuenta CatalogoCuenta { get => catalogoCuenta; set => catalogoCuenta = value; }
     }
 }
