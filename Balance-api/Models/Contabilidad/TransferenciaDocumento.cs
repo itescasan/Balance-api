@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Balance_api.Models.Contabilidad
 {
+    [Table("TranferenciaDocumento", Schema = "CNT")]
     public class TransferenciaDocumento
     {
         [Key]

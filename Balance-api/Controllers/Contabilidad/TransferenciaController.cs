@@ -3,6 +3,7 @@ using Balance_api.Class.Contabilidad;
 using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -251,7 +252,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     bool esNuevo = false;
                     Transferencia? _Transf = Conexion.Transferencia.Find(d.T.IdTransferencia);
-                   
+                    string IdMonedaLocal =  Conexion.Database.SqlQueryRaw<string>($"SELECT TOP 1 MonedaLocal FROM SIS.Parametros").ToList().First();
+
                     if (_Transf == null)
                     {
 
@@ -271,6 +273,8 @@ namespace Balance_api.Controllers.Contabilidad
                         d.A.Estado = "Autorizado";
 
                         _Transf = new Transferencia();
+                        _Transf.IdTransferencia = Guid.NewGuid();
+                        d.T.IdTransferencia = _Transf.IdTransferencia;
                         _Transf.FechaReg = DateTime.Now;
                         _Transf.UsuarioReg = d.T.UsuarioReg;
                         _Transf.Anulado = false;
@@ -278,6 +282,7 @@ namespace Balance_api.Controllers.Contabilidad
                     }
 
                     _Transf.IdCuentaBanco = d.T.IdCuentaBanco;
+                    _Transf.IdMoneda = d.T.IdMoneda;
                     _Transf.CodBodega = d.T.CodBodega;
                     _Transf.IdSerie = d.T.IdSerie;
                     _Transf.NoTransferencia = d.T.NoTransferencia;
@@ -303,6 +308,12 @@ namespace Balance_api.Controllers.Contabilidad
 
                     if(d.T.TransferenciaDocumento != null)
                     {
+
+                        //MovimientoDoc[] _mov = Conexion.MovimientoDoc.Where(w => w.NoDocOrigen == _Transf.NoTransferencia).ToArray();
+                        //Conexion.MovimientoDoc.RemoveRange(_mov);
+                        //Conexion.SaveChanges();
+
+
                         int i = 0;
                         foreach (TransferenciaDocumento doc in d.T.TransferenciaDocumento)
                         {
@@ -317,7 +328,7 @@ namespace Balance_api.Controllers.Contabilidad
                                 det.IdDetTrasnfDoc = Guid.NewGuid();
                             }
 
-                            det.IdTransferencia = doc.IdTransferencia;
+                            det.IdTransferencia = _Transf.IdTransferencia;
                             det.Index = i;
                             det.Operacion = doc.Operacion;
                             det.Documento = doc.Documento;
@@ -347,6 +358,69 @@ namespace Balance_api.Controllers.Contabilidad
 
                             i++;
 
+
+
+                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == det.Documento && ff.TipoDocumentoOrigen == "TRANSF" && ff.Esquema == "CXP");     
+                            Bodegas? bo = Conexion.Bodegas.FirstOrDefault(ff => ff.Codigo == _Transf.CodBodega);
+
+                            if (mdoc != null)
+                            {
+                                Conexion.MovimientoDoc.Remove(mdoc);
+                                Conexion.SaveChanges();
+                            }
+
+                            mdoc = new MovimientoDoc();
+                            mdoc.NoMovimiento = string.Empty;
+                            mdoc.IdBodega = (bo == null? 0 : bo.IdBodega);
+                            mdoc.CodigoBodega = (bo == null ? string.Empty : bo.Codigo);
+                            mdoc.CodigoCliente = _Transf.Beneficiario;
+                            mdoc.CodVendedor = string.Empty;
+                            mdoc.NoDocOrigen = _Transf.NoTransferencia;
+                            mdoc.SerieOrigen = _Transf.IdSerie;
+                            mdoc.FechaDocumento = _Transf.Fecha;
+                            mdoc.Plazo = 30;
+                            mdoc.DiaGracia = 0;
+                            mdoc.TipoVenta = "Credito";
+                            mdoc.TasaCambio = _Transf.TasaCambio;
+                            mdoc.TipoDocumentoOrigen = "TRANSF";
+                            mdoc.IdMoneda = _Transf.IdMoneda;
+                            mdoc.SubTotal = 0;
+                            mdoc.SubTotalDolar = 0;
+                            mdoc.SubTotalCordoba = 0;
+                            mdoc.Descuento = 0;
+                            mdoc.DescuentoDolar = 0;
+                            mdoc.DescuentoCordoba = 0;
+                            mdoc.SubTotalNeto = 0;
+                            mdoc.SubTotalNetoDolar = 0;
+                            mdoc.SubTotalNetoCordoba = 0;
+                            mdoc.Impuesto = 0;
+                            mdoc.ImpuestoDolar = 0;
+                            mdoc.ImpuestoCordoba = 0;
+                            mdoc.Total = (mdoc.IdMoneda == IdMonedaLocal ? det.ImporteML : det.ImporteMS) * -1;
+                            mdoc.TotalDolar = det.ImporteMS * -1;
+                            mdoc.TotalCordoba = det.ImporteML * -1;
+                            mdoc.DiferencialDolar = det.DiferencialMS;
+                            mdoc.DiferencialCordoba = det.DiferencialML;
+                            mdoc.RetenidoAlma = 0;
+                            mdoc.RetenidoAlmaDolar = 0;
+                            mdoc.RetenidoAlmaCordoba = 0;
+                            mdoc.RetenidoIR = 0;
+                            mdoc.RetenidoIRDolar = 0;
+                            mdoc.RetenidoIRCordoba = 0;
+                            mdoc.Operacion = det.Operacion;
+                            mdoc.Activo = true;
+                            mdoc.Esquema = "CXP";
+                            Conexion.MovimientoDoc.Add(mdoc);
+                            Conexion.SaveChanges();
+
+                            int num = 0;
+                            int.TryParse(Conexion.MovimientoDoc.Where(fF => fF.Esquema == "CXP" && fF.NoMovimiento != string.Empty).Max(m => m.NoMovimiento), out num);
+                            num++;
+
+                            mdoc.NoMovimiento = num.ToString();
+                            Conexion.SaveChanges();
+
+
                         }
 
                     }
@@ -370,7 +444,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     }
 
-                    AsientoController _Controller = new AsientoController(Conexion);
+                    AsientoController _Controller = new(Conexion);
                     json = _Controller.V_Guardar(_Asiento!, Conexion, false);
 
                     Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
@@ -422,7 +496,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         private string V_Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
         {
-            if (CodBodega == null) CodBodega = string.Empty;
+            CodBodega ??= string.Empty;
 
             string json = string.Empty;
             try
@@ -439,6 +513,7 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.IdTransferencia,
                                               _q.IdCuentaBanco,
                                               CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
+                                              _q.IdMoneda,
                                               _q.CodBodega,
                                               _q.IdSerie,
                                               _q.NoTransferencia,

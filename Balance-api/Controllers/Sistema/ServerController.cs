@@ -22,17 +22,17 @@ namespace Balance_api.Controllers.Sistema
         [HttpGet]
         public string Login(string user, string pass)
         {
-            return v_Login(user, pass);
+            return V_Login(user, pass);
         }
 
-        private string v_Login(string user, string pass)
+        private string V_Login(string user, string pass)
         {
             string json = string.Empty;
             try
             {
                 using (Conexion)
                 {
-                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    List<Cls_Datos> lstDatos = new();
 
 
                     var qUsuario = (from _q in Conexion.Usuarios
@@ -69,13 +69,13 @@ namespace Balance_api.Controllers.Sistema
                         return json;
                     }
 
-                    Cls_Datos datos = new Cls_Datos();
+                    Cls_Datos datos = new();
                     datos.Nombre = "USUARIO";
                     datos.d = qUsuario;
                     lstDatos.Add(datos);
 
 
-                    lstDatos.AddRange(v_FechaServidor(user, qUsuario[0].Desconectar));
+                    lstDatos.AddRange(V_DatosServidor(user, qUsuario[0].Desconectar));
 
               
 
@@ -94,21 +94,21 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/Sistema/FechaServidor")]
+        [Route("api/Sistema/DatosServidor")]
         [HttpGet]
-        public string FechaServidor(string user)
+        public string DatosServidor(string user)
         {
             string json = string.Empty;
             try
             {
                 using (Conexion)
                 {
-                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    List<Cls_Datos> lstDatos = new();
                     Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
          
 
-                    lstDatos.AddRange(v_FechaServidor(user, (u == null ? true : u.Desconectar) ));
-                    lstDatos.Add(v_TC(DateTime.Now));
+                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : u.Desconectar)));
+                    lstDatos.Add(V_TC(DateTime.Now));
 
 
 
@@ -126,20 +126,29 @@ namespace Balance_api.Controllers.Sistema
             return json;
         }
 
-        private Cls_Datos[] v_FechaServidor(string user, bool Desconectar)
+        private Cls_Datos[] V_DatosServidor(string user, bool Desconectar)
         { 
      
-            Cls_Datos datos = new Cls_Datos();
+            Cls_Datos datos = new();
             datos.Nombre = "FECHA SERVIDOR";
             datos.d = string.Format("{0:yyy-MM-dd hh:mm:ss}", DateTime.Now);
 
 
-            Cls_Datos datos2 = new Cls_Datos();
+            Cls_Datos datos2 = new();
             datos2.Nombre = "DESCONECCION";
             datos2.d = Desconectar ? "-1" : "7200";
 
-           
-            return new Cls_Datos[] { datos, datos2 };
+
+            string IdMonedaLocal = Conexion.Database.SqlQueryRaw<string>($"SELECT TOP 1 MonedaLocal FROM SIS.Parametros").ToList().First();
+            Cls_Datos datos3 = new();
+            datos3.Nombre = "MONEDA LOCAL";
+            datos3.d = IdMonedaLocal;
+
+
+            
+
+
+            return new Cls_Datos[] { datos, datos2, datos3 };
         }
 
 
@@ -148,11 +157,11 @@ namespace Balance_api.Controllers.Sistema
         [HttpGet]
         public string TC(DateTime f)
         {
-            string json = string.Empty;
+            string json;
             try
             {
 
-                json = Cls_Mensaje.Tojson(v_TC(f), 1, string.Empty, string.Empty, 0);
+                json = Cls_Mensaje.Tojson(V_TC(f), 1, string.Empty, string.Empty, 0);
 
             }
             catch (Exception ex)
@@ -164,7 +173,7 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        private Cls_Datos v_TC(DateTime f)
+        private Cls_Datos V_TC(DateTime f)
         {
             Cls_Datos Datos = new();
             Datos.Nombre = "TC";
@@ -194,10 +203,10 @@ namespace Balance_api.Controllers.Sistema
         [HttpGet]
         public string GetSerie(string CodBodega, string Tipo)
         {
-            return _GetSerie(CodBodega, Tipo);
+            return V_GetSerie(CodBodega, Tipo);
         }
 
-        private string _GetSerie(string CodBodega, string Tipo)
+        private string V_GetSerie(string CodBodega, string Tipo)
         {
             string json = string.Empty;
 
@@ -319,7 +328,7 @@ namespace Balance_api.Controllers.Sistema
 
 
             }
-            catch (Exception ex)
+            catch 
             {
                 json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
             }
@@ -332,10 +341,10 @@ namespace Balance_api.Controllers.Sistema
         [HttpGet]
         public string GetConsecutivo(string Serie, string Tipo)
         {
-            return _GetConsecutivo(Serie, Tipo);
+            return V_GetConsecutivo(Serie, Tipo);
         }
 
-        private string _GetConsecutivo(string Serie, string Tipo)
+        private string V_GetConsecutivo(string Serie, string Tipo)
         {
             string json = string.Empty;
 
@@ -444,7 +453,7 @@ namespace Balance_api.Controllers.Sistema
                 json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
 
             }
-            catch (Exception ex)
+            catch
             {
                 json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
             }

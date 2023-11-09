@@ -10,6 +10,7 @@ namespace Balance_api.Models.Contabilidad
         [Key]
         public Guid IdTransferencia { get; set; }
         public int IdCuentaBanco { get; set; }
+        public string IdMoneda { get; set; }
         public string CodBodega { get; set; }
         public string IdSerie { get; set; }
         public string NoTransferencia { get; set; }
