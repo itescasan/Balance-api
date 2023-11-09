@@ -4,6 +4,7 @@ using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -176,6 +177,7 @@ namespace Balance_api.Controllers.Contabilidad
                                        } into grupo
                                        select new TransferenciaDocumento
                                        {
+                                           IdDetTrasnfDoc = new Guid(),
                                            Index = 0,
                                            Documento = grupo.Key.NoDococumento,
                                            Serie = grupo.Key.Serie,
@@ -285,6 +287,9 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.Concepto = d.T.Concepto;
                     _Transf.TipoTransferencia = d.T.TipoTransferencia;
                     _Transf.CodBodega = d.T.CodBodega;
+                    _Transf.Comision = d.T.Comision;
+                    _Transf.ComisionDolar = d.T.ComisionDolar;
+                    _Transf.ComisionCordoba = d.T.ComisionCordoba;
                     _Transf.Total = d.T.Total;
                     _Transf.TotalDolar = d.T.TotalDolar;
                     _Transf.TotalCordoba = d.T.TotalCordoba;
@@ -295,6 +300,61 @@ namespace Balance_api.Controllers.Contabilidad
                     if (esNuevo) Conexion.Transferencia.Add(_Transf);
 
                     Conexion.SaveChanges();
+
+                    if(d.T.TransferenciaDocumento != null)
+                    {
+                        int i = 0;
+                        foreach (TransferenciaDocumento doc in d.T.TransferenciaDocumento)
+                        {
+                            bool esNuevoDet = false;
+
+                            TransferenciaDocumento? det = Conexion.TransferenciaDocumento.Find(doc.IdDetTrasnfDoc);
+
+                            if (det == null)
+                            {
+                                esNuevoDet = true;
+                                det = new TransferenciaDocumento();
+                                det.IdDetTrasnfDoc = Guid.NewGuid();
+                            }
+
+                            det.IdTransferencia = doc.IdTransferencia;
+                            det.Index = i;
+                            det.Operacion = doc.Operacion;
+                            det.Documento = doc.Documento;
+                            det.Serie = doc.Serie;
+                            det.TipoDocumento = doc.TipoDocumento;
+                            det.Fecha = doc.Fecha;
+                            det.IdMoneda = doc.IdMoneda;
+                            det.TasaCambioDoc = doc.TasaCambioDoc;
+                            det.SaldoAnt = doc.SaldoAnt;
+                            det.SaldoAntML = doc.SaldoAntML;
+                            det.SaldoAntMS = doc.SaldoAntMS;
+                            det.Saldo = doc.Saldo;
+                            det.SaldoDolar = doc.SaldoDolar;
+                            det.SaldoCordoba = doc.SaldoCordoba;
+                            det.Importe = doc.Importe;
+                            det.ImporteML = doc.ImporteML;
+                            det.ImporteMS = doc.ImporteMS;
+                            det.NuevoSaldo = doc.NuevoSaldo;
+                            det.NuevoSaldoML = doc.NuevoSaldoML;
+                            det.NuevoSaldoMS = doc.NuevoSaldoMS;
+                            det.DiferencialML = doc.DiferencialML;
+                            det.DiferencialMS = doc.DiferencialMS;
+
+
+                            if (esNuevoDet) Conexion.TransferenciaDocumento.Add(det);
+
+
+                            i++;
+
+                        }
+
+                    }
+
+
+
+
+
 
                     Asiento? _Asiento = null;
 

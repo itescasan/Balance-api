@@ -18,6 +18,9 @@ namespace Balance_api.Models.Contabilidad
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
         public string TipoTransferencia { get; set; }
+        public decimal Comision { get; set; }
+        public decimal ComisionDolar { get; set; }
+        public decimal ComisionCordoba { get; set; }
         public decimal Total { get; set; }
         public decimal TotalDolar { get; set; }
         public decimal TotalCordoba { get; set; }
@@ -33,6 +36,9 @@ namespace Balance_api.Models.Contabilidad
 
         [ForeignKey("IdCuentaBanco")]
         public CuentaBanco CuentaBanco { get; set; }
+
+        [ForeignKey("IdTransferencia")]
+        public ICollection<TransferenciaDocumento> TransferenciaDocumento { get; set; }
 
     }
 }
