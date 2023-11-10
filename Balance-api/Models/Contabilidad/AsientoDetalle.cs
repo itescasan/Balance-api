@@ -21,6 +21,6 @@ namespace Balance_api.Models.Contabilidad
         public string Descripcion { get; set; }
         public string Referencia { get; set; }
         public string Naturaleza { get; set; }
-        public string CentroCosto { get; set; }
+        public string? CentroCosto { get; set; }
     }
 }

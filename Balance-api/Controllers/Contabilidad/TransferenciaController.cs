@@ -360,7 +360,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == det.Documento && ff.TipoDocumentoOrigen == "TRANSF" && ff.Esquema == "CXP");     
+                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Transf.NoTransferencia && ff.TipoDocumentoOrigen == "TRANSF" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
                             Bodegas? bo = Conexion.Bodegas.FirstOrDefault(ff => ff.Codigo == _Transf.CodBodega);
 
                             if (mdoc != null)
