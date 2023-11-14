@@ -19,6 +19,7 @@ namespace Balance_api.Models.Sistema
         public int Plazo { get; set; }
         public int DiaGracia { get; set; }
         public string TipoVenta { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambio { get; set; }
         public string TipoDocumentoOrigen { get; set; }
         public string? NoDocEnlace { get; set; }

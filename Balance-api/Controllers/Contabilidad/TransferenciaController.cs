@@ -265,7 +265,7 @@ namespace Balance_api.Controllers.Contabilidad
                         d.T.NoTransferencia = string.Concat(d.T.IdSerie, ConsecutivoSerie);
         
 
-                        d.A.TipoDocOrigen = "TRANSFERENCIA A CUENTA";
+                        d.A.TipoDocOrigen = d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO";
                         d.A.NoDocOrigen = d.T.NoTransferencia;
                         d.A.NoAsiento = d.T.NoTransferencia;
                         d.A.IdSerie = d.T.IdSerie;
@@ -360,7 +360,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Transf.NoTransferencia && ff.TipoDocumentoOrigen == "TRANSF" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
+                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Transf.NoTransferencia && ff.SerieOrigen == _Transf.IdSerie && ff.TipoDocumentoOrigen == "TRANSF" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
                             Bodegas? bo = Conexion.Bodegas.FirstOrDefault(ff => ff.Codigo == _Transf.CodBodega);
 
                             if (mdoc != null)
@@ -384,6 +384,9 @@ namespace Balance_api.Controllers.Contabilidad
                             mdoc.TasaCambio = _Transf.TasaCambio;
                             mdoc.TipoDocumentoOrigen = "TRANSF";
                             mdoc.IdMoneda = _Transf.IdMoneda;
+                            mdoc.NoDocEnlace = det.Documento;
+                            mdoc.SerieEnlace = det.Serie;
+                            mdoc.TipoDocumentoEnlace = det.TipoDocumento;
                             mdoc.SubTotal = 0;
                             mdoc.SubTotalDolar = 0;
                             mdoc.SubTotalCordoba = 0;
@@ -396,9 +399,9 @@ namespace Balance_api.Controllers.Contabilidad
                             mdoc.Impuesto = 0;
                             mdoc.ImpuestoDolar = 0;
                             mdoc.ImpuestoCordoba = 0;
-                            mdoc.Total = (mdoc.IdMoneda == IdMonedaLocal ? det.ImporteML : det.ImporteMS) * -1;
-                            mdoc.TotalDolar = det.ImporteMS * -1;
-                            mdoc.TotalCordoba = det.ImporteML * -1;
+                            mdoc.Total = (det.IdMoneda == IdMonedaLocal ? det.ImporteML : det.ImporteMS) * -1;
+                            mdoc.TotalDolar = ((det.ImporteMS + det.DiferencialMS) * -1);
+                            mdoc.TotalCordoba = ((det.ImporteML + det.DiferencialML) * -1);
                             mdoc.DiferencialDolar = det.DiferencialMS;
                             mdoc.DiferencialCordoba = det.DiferencialML;
                             mdoc.RetenidoAlma = 0;
@@ -507,7 +510,8 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qTransferencia = (from _q in Conexion.Transferencia
-                                          where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega)
+                                          where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
+                                          orderby _q.NoTransferencia
                                           select new
                                           {
                                               _q.IdTransferencia,
@@ -525,6 +529,9 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.Total,
                                               _q.TotalDolar,
                                               _q.TotalCordoba,
+                                              _q.Comision,
+                                              _q.ComisionCordoba,
+                                              _q.ComisionDolar,
                                               _q.Anulado,
                                               _q.UsuarioReg,
                                               _q.FechaReg
@@ -602,6 +609,69 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+
+        [Route("api/Contabilidad/Transferencia/GetDetalleDocumentos")]
+        [HttpGet]
+        public string GetDetalleDocumentos(Guid IdTransferencia)
+        {
+            return V_GetDetalleDocumentos(IdTransferencia);
+        }
+
+        private string V_GetDetalleDocumentos(Guid IdTransferencia)
+        {
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    Transferencia T = Conexion.Transferencia.Find(IdTransferencia)!;
+
+
+
+                    var qDocumentos = (from _q in Conexion.Transferencia
+                                       where _q.IdTransferencia == IdTransferencia
+                                       select _q.TransferenciaDocumento).First();
+
+
+
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "DETALLE DOCUMENTOS";
+                    datos.d = qDocumentos;
+                    lstDatos.Add(datos);
+
+
+                    var A = (from _q in Conexion.AsientosContables
+                             where _q.NoDocOrigen == T.NoTransferencia && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "TRANSFERENCIA A DOCUMENTO"
+                             select _q.AsientosContablesDetalle).ToList();
+
+
+
+
+                    datos = new();
+                    datos.Nombre = "DETALLE ASIENTO";
+                    datos.d = A.First();
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
 
     }
 }

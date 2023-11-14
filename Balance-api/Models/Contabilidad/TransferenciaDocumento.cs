@@ -16,6 +16,7 @@ namespace Balance_api.Models.Contabilidad
         public string TipoDocumento { get; set; }
         public DateTime Fecha { get; set; }
         public string IdMoneda { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambioDoc { get; set; }
         public decimal SaldoAnt { get; set; }
         public decimal SaldoAntML { get; set; }

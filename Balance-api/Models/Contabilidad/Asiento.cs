@@ -13,6 +13,7 @@ namespace Balance_api.Models.Contabilidad
         public string IdSerie { get; set; }
         public DateTime Fecha { get; set; }
         public string IdMoneda { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
         public string? NoDocOrigen { get; set; }

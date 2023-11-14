@@ -3,6 +3,7 @@ using Balance_api.Class.Contabilidad;
 using Balance_api.Contexts;
 using Balance_api.Controllers.Contabilidad;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
@@ -60,7 +61,7 @@ namespace Balance_api.Controllers.Sistema
                         case "Asiento":
 
 
-                            A = Conexion.AsientosContables.Find(int.Parse(IdDoc));
+                            A = Conexion.AsientosContables.Find(int.Parse(IdDoc))!;
 
                             A.Estado = "Anulado";
                             A.UsuarioUpdate = Usuario;
@@ -76,6 +77,14 @@ namespace Balance_api.Controllers.Sistema
                             Transf.Anulado = true;
                             Transf.UsuarioAnula = Usuario;
                             Transf.FechaAnulacion = DateTime.Now;
+
+                            MovimientoDoc[] mod = Conexion.MovimientoDoc.Where(w => w.NoDocOrigen == Transf.NoTransferencia && w.SerieOrigen == Transf.IdSerie && w.TipoDocumentoOrigen == "TRANSF").ToArray();
+
+                            foreach(MovimientoDoc m in mod)
+                            {
+                                m.Activo = false;
+                            }
+
 
                             A = Conexion.AsientosContables.FirstOrDefault(w => w.NoDocOrigen == Transf.NoTransferencia && w.IdSerieDocOrigen == Transf.IdSerie && w.TipoDocOrigen == (Transf.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
 
