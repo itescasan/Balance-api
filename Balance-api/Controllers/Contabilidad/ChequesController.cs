@@ -409,7 +409,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     List<Cls_Datos> lstDatos = new();
 
-                    Cheques T = Conexion.Cheque.Find(Idcheque)!;
+                    Cheques T = Conexion.Cheque.Find(Idcheque)!; 
 
                     var A = (from _q in Conexion.AsientosContables
                              where _q.NoDocOrigen == T.NoCheque && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "Cheque"
