@@ -16,6 +16,7 @@ namespace Balance_api.Models.Contabilidad
         public string NoTransferencia { get; set; }
         public DateTime Fecha { get; set; }
         public string Beneficiario { get; set; }
+        public string? CodProveedor { get; set; }
         [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }

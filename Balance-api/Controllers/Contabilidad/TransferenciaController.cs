@@ -288,6 +288,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.NoTransferencia = d.T.NoTransferencia;
                     _Transf.Fecha = d.T.Fecha;
                     _Transf.Beneficiario = d.T.Beneficiario;
+                    _Transf.CodProveedor = d.T.CodProveedor;
                     _Transf.TasaCambio = d.T.TasaCambio;
                     _Transf.Concepto = d.T.Concepto;
                     _Transf.TipoTransferencia = d.T.TipoTransferencia;
@@ -510,6 +511,8 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qTransferencia = (from _q in Conexion.Transferencia
+                                          join _p in Conexion.Proveedor on _q.CodProveedor equals _p.Codigo into _q_p
+                                          from u in _q_p.DefaultIfEmpty()
                                           where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
                                           orderby _q.NoTransferencia
                                           select new
@@ -522,7 +525,8 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.IdSerie,
                                               _q.NoTransferencia,
                                               _q.Fecha,
-                                              _q.Beneficiario,
+                                              Beneficiario = _q.TipoTransferencia == "C"? _q.Beneficiario : u.Proveedor1,
+                                              _q.CodProveedor,
                                               _q.TasaCambio,
                                               _q.Concepto,
                                               _q.TipoTransferencia,

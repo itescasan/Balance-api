@@ -359,6 +359,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     var qAsiento = (from _q in Conexion.AsientosContables
                                     where _q.Fecha.Date >= Fecha1 && _q.Fecha.Date <= Fecha2
+                                    orderby  _q.FechaReg descending
                                     select new
                                     {
                                         _q.IdAsiento,
