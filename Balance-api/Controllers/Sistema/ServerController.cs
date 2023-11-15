@@ -367,7 +367,7 @@ namespace Balance_api.Controllers.Sistema
                             var qImportacion = (from _q in Conexion.Serie
                                                 where _q.IdSerie == Serie
                                                 select string.Concat(_q.IdSerie, _q.Inventario + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qImportacion;
@@ -379,7 +379,7 @@ namespace Balance_api.Controllers.Sistema
                             var qInventario = (from _q in Conexion.Serie
                                                where _q.IdSerie == Serie
                                                select string.Concat(_q.IdSerie, _q.Inventario + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qInventario;
@@ -392,7 +392,7 @@ namespace Balance_api.Controllers.Sistema
                             var qPedidoInventario = (from _q in Conexion.Serie
                                                      where _q.IdSerie == Serie
                                                      select string.Concat(_q.IdSerie, _q.Pedido + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qPedidoInventario;
@@ -405,7 +405,7 @@ namespace Balance_api.Controllers.Sistema
                             var qRequisa = (from _q in Conexion.Serie
                                             where _q.IdSerie == Serie
                                             select string.Concat(_q.IdSerie, _q.Requisa + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qRequisa;
@@ -417,7 +417,7 @@ namespace Balance_api.Controllers.Sistema
                             var qOT = (from _q in Conexion.Serie
                                        where _q.IdSerie == Serie
                                        select string.Concat(_q.IdSerie, _q.OT + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qOT;
@@ -429,7 +429,7 @@ namespace Balance_api.Controllers.Sistema
                             var qAnx = (from _q in Conexion.Serie
                                         where _q.IdSerie == Serie
                                         select string.Concat(_q.IdSerie, _q.Anexos + 1)
-                                      ).ToList();
+                                      ).FirstOrDefault();
 
 
                             datos.d = qAnx;
@@ -440,7 +440,7 @@ namespace Balance_api.Controllers.Sistema
                             var qCon = (from _q in Conexion.SerieDocumento
                                         where _q.IdSerie == Serie
                                         select string.Concat(_q.IdSerie, _q.Consecutivo + 1)
-                                     ).ToList();
+                                     ).FirstOrDefault();
 
                             datos.d = qCon;
                             break;
