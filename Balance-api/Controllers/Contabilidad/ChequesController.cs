@@ -419,7 +419,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     Cls_Datos datos = new();
-                    datos.Nombre = "DETALLE Cheque";
+                    datos.Nombre = "DETALLE CHEQUE";
                     datos.d = A.First();
 
                     lstDatos.Add(datos);
