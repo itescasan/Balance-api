@@ -94,7 +94,30 @@ namespace Balance_api.Controllers.Sistema
                                 A.UsuarioUpdate = Transf.UsuarioAnula;
                                 A.FechaUpdate = Transf.FechaAnulacion;
                             }
+                            break;
+                        case "Cheque":
+                            Cheques cheque = Conexion.Cheque.Find(Guid.Parse(IdDoc))!;
 
+                            cheque.Anulado = true;
+                            cheque.UsuarioAnula = Usuario;
+                            cheque.FechaAnulacion = DateTime.Now;
+
+                            MovimientoDoc[] mod2 = Conexion.MovimientoDoc.Where(w => w.NoDocOrigen == cheque.NoCheque && w.SerieOrigen == cheque.IdSerie && w.TipoDocumentoOrigen == "Cheque").ToArray();
+
+                            foreach (MovimientoDoc m in mod2)
+                            {
+                                m.Activo = false;
+                            }
+
+
+                            A = Conexion.AsientosContables.FirstOrDefault(w => w.NoDocOrigen == cheque.NoCheque && w.IdSerieDocOrigen == cheque.IdSerie && w.TipoDocOrigen ==  (cheque.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO"));
+
+                            if (A != null)
+                            {
+                                A.Estado = "Anulado";
+                                A.UsuarioUpdate = cheque.UsuarioAnula;
+                                A.FechaUpdate = cheque.FechaAnulacion;
+                            }
 
                             break;
                     }

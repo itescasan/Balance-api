@@ -278,6 +278,7 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.IdCuentaBanco,
                                               CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
                                               _q.CuentaContable,
+                                              _q.IdMoneda,
                                               _q.CentroCosto,
                                               _q.CodBodega,
                                               _q.IdSerie,
