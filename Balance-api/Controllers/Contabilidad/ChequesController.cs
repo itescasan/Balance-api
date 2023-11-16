@@ -176,7 +176,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     _Chequ.IdCuentaBanco = d.C.IdCuentaBanco;
                     _Chequ.CuentaContable = d.C.CuentaContable;
-                    _Chequ.CentroCosto = d.C.CentroCosto;
+                    _Chequ.IdMoneda = d.C.IdMoneda;
+                    //_Chequ.CentroCosto = d.C.CentroCosto;
                     _Chequ.CodBodega = d.C.CodBodega;
                     _Chequ.IdSerie = d.C.IdSerie;
                     _Chequ.NoCheque = d.C.NoCheque;
@@ -278,8 +279,7 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.IdCuentaBanco,
                                               CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
                                               _q.CuentaContable,
-                                              _q.IdMoneda,
-                                              _q.CentroCosto,
+                                              _q.IdMoneda,                                             
                                               _q.CodBodega,
                                               _q.IdSerie,
                                               _q.NoCheque,
