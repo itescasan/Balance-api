@@ -13,12 +13,14 @@ namespace Balance_api.Models.Contabilidad
         public Guid IdCheque { get; set; }
         public int IdCuentaBanco { get; set; }
         public string CuentaContable { get; set; }
+        public string? CentroCosto { get; set; }
         public string IdMoneda { get; set; }       
         public string CodBodega { get; set; }
         public string IdSerie { get; set; }
         public string NoCheque { get; set; }
         public DateTime Fecha { get; set; }
         public string Beneficiario { get; set; }
+        public string? CodProveedor { get; set; }
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
         public string TipoCheque { get; set; }
@@ -40,5 +42,8 @@ namespace Balance_api.Models.Contabilidad
 
         [ForeignKey("CuentaContable")]
         public CatalogoCuenta CatalogoCuenta { get => catalogoCuenta; set => catalogoCuenta = value; }
+
+        [ForeignKey("IdCheque")]
+        public ICollection<ChequeDocumento> ChequeDocumento { get; set; }
     }
 }

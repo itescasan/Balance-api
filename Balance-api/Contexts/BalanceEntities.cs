@@ -46,6 +46,7 @@ namespace Balance_api.Contexts
         public virtual DbSet<Cls_AuxiliarContable> AuxiliarContable { get; set; }
         public virtual DbSet<Transferencia> Transferencia { get; set; }
         public virtual DbSet<TransferenciaDocumento> TransferenciaDocumento { get; set; }
+        public virtual DbSet<ChequeDocumento> ChequeDocumento { get; set; }
         public virtual DbSet<Reembolsos> Reembolsos { get; set; }
 
         public virtual DbSet<Cheques> Cheque { get; set; }
