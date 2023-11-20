@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>\\192.168.0.98\c$\inetpub\wwwroot\BalanceAPi</_PublishTargetUrl>
+    <History>True|2023-11-20T21:13:20.6296011Z;True|2023-11-20T15:05:26.8395605-06:00;True|2023-11-20T15:03:23.2073974-06:00;True|2023-11-20T14:55:55.3029296-06:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
