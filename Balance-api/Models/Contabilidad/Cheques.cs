@@ -12,7 +12,7 @@ namespace Balance_api.Models.Contabilidad
         [Key]
         public Guid IdCheque { get; set; }
         public int IdCuentaBanco { get; set; }
-        public string CuentaContable { get; set; }
+        public string? CuentaContable { get; set; }
         public string? CentroCosto { get; set; }
         public string IdMoneda { get; set; }       
         public string CodBodega { get; set; }

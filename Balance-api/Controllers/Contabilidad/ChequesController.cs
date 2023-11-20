@@ -277,7 +277,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.IdCuentaBanco = d.C.IdCuentaBanco;
                     _Chequ.CuentaContable = d.C.CuentaContable;
                     _Chequ.IdMoneda = d.C.IdMoneda;
-                    //_Chequ.CentroCosto = d.C.CentroCosto;
+                    _Chequ.CentroCosto = d.C.CentroCosto;
                     _Chequ.CodBodega = d.C.CodBodega;
                     _Chequ.IdSerie = d.C.IdSerie;
                     _Chequ.NoCheque = d.C.NoCheque;
