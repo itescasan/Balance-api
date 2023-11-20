@@ -40,8 +40,6 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     List<Cls_Datos> lstDatos = new();
 
-
-
                     var qCuentaBancaria = (from _q in Conexion.CuentaBanco
                                            where _q.Activo && _q.Tipo == "C"
                                            select new
@@ -52,7 +50,11 @@ namespace Balance_api.Controllers.Contabilidad
                                                _q.NombreCuenta,
                                                _q.IdMoneda,
                                                _q.Monedas.Moneda,
+                                               _q.Bancos.CuentaC,
+                                               _q.Bancos.CuentaD,
+                                               _q.SerieDocumento.IdSerie,
                                                Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
+                                               _q.Activo,
                                                DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
                                            }).ToList();
 
@@ -61,6 +63,8 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qCuentaBancaria;
 
                     lstDatos.Add(datos);
+
+
 
 
 
