@@ -374,7 +374,7 @@ namespace Balance_api.Controllers.Contabilidad
                             mdoc.NoMovimiento = string.Empty;
                             mdoc.IdBodega = (bo == null? 0 : bo.IdBodega);
                             mdoc.CodigoBodega = (bo == null ? string.Empty : bo.Codigo);
-                            mdoc.CodigoCliente = _Transf.Beneficiario;
+                            mdoc.CodigoCliente = _Transf.CodProveedor!;
                             mdoc.CodVendedor = string.Empty;
                             mdoc.NoDocOrigen = _Transf.NoTransferencia;
                             mdoc.SerieOrigen = _Transf.IdSerie;
