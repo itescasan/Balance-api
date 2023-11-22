@@ -290,6 +290,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.Total = d.C.Total;
                     _Chequ.TotalDolar = d.C.TotalDolar;
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
+                    _Chequ.CodProveedor = d.C.CodProveedor;
 
 
                     _Chequ.UsuarioUpdate = d.C.UsuarioReg;
@@ -351,7 +352,7 @@ namespace Balance_api.Controllers.Contabilidad
                             i++;
 
 
-                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Chequ.NoCheque && ff.SerieOrigen == _Chequ.IdSerie && ff.TipoDocumentoOrigen == "TRANSF" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
+                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Chequ.NoCheque && ff.SerieOrigen == _Chequ.IdSerie && ff.TipoDocumentoOrigen == "CHEQUE" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
                             Bodegas? bo = Conexion.Bodegas.FirstOrDefault(ff => ff.Codigo == _Chequ.CodBodega);
 
                             if (mdoc != null)
@@ -362,9 +363,9 @@ namespace Balance_api.Controllers.Contabilidad
 
                             mdoc = new MovimientoDoc();
                             mdoc.NoMovimiento = string.Empty;
-                            mdoc.IdBodega = (bo == null? 0 : bo.IdBodega);
+                            mdoc.IdBodega = (bo == null ? 0 : bo.IdBodega);
                             mdoc.CodigoBodega = (bo == null ? string.Empty : bo.Codigo);
-                            mdoc.CodigoCliente = _Chequ.Beneficiario;
+                            mdoc.CodigoCliente = _Chequ.CodProveedor!;
                             mdoc.CodVendedor = string.Empty;
                             mdoc.NoDocOrigen = _Chequ.NoCheque;
                             mdoc.SerieOrigen = _Chequ.IdSerie;
@@ -373,7 +374,7 @@ namespace Balance_api.Controllers.Contabilidad
                             mdoc.DiaGracia = 0;
                             mdoc.TipoVenta = "Credito";
                             mdoc.TasaCambio = _Chequ.TasaCambio;
-                            mdoc.TipoDocumentoOrigen = "Cheque";
+                            mdoc.TipoDocumentoOrigen = "CHEQUE";
                             mdoc.IdMoneda = _Chequ.IdMoneda;
                             mdoc.NoDocEnlace = det.Documento;
                             mdoc.SerieEnlace = det.Serie;
@@ -590,7 +591,70 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+        [Route("api/Contabilidad/Cheques/GetDetalleDocumentos")]
+        [HttpGet]
+        public string GetDetalleDocumentos(Guid Idcheque)
+        {
+            return V_GetDetalleDocumentos(Idcheque);
+        }
 
-     
+        private string V_GetDetalleDocumentos(Guid Idcheque)
+        {
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    Cheques C = Conexion.Cheque.Find(Idcheque)!;
+
+
+
+                    var qDocumentos = (from _q in Conexion.Cheque
+                                       where _q.IdCheque == Idcheque
+                                       select _q.ChequeDocumento).First();
+
+
+
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "DETALLE DOCUMENTOS";
+                    datos.d = qDocumentos;
+                    lstDatos.Add(datos);
+
+
+                    var A = (from _q in Conexion.AsientosContables
+                             where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "Cheque"
+                             select _q.AsientosContablesDetalle).ToList();
+
+
+
+
+                    datos = new();
+                    datos.Nombre = "DETALLE ASIENTO";
+                    datos.d = A.First();
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
     }
+
 }
+
