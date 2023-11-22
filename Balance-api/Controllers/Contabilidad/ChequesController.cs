@@ -260,7 +260,7 @@ namespace Balance_api.Controllers.Contabilidad
                         d.C.NoCheque = string.Concat(d.C.IdSerie, ConsecutivoSerie);
 
 
-                        d.A.TipoDocOrigen = "Cheque";
+                        d.A.TipoDocOrigen = d.C.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO";
                         d.A.NoDocOrigen = d.C.NoCheque;
                         d.A.NoAsiento = d.C.NoCheque;
                         d.A.IdSerie = d.C.IdSerie;
@@ -428,7 +428,10 @@ namespace Balance_api.Controllers.Contabilidad
                     }
                     else
                     {
-                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Chequ.NoCheque && f.IdSerieDocOrigen == d.C.IdSerie && f.TipoDocOrigen == (d.C.TipoCheque));
+                        //d.C.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO"
+                        //_Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Chequ.NoCheque && f.IdSerieDocOrigen == d.C.IdSerie && f.TipoDocOrigen == (d.C.TipoCheque));
+                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Chequ.NoCheque && f.IdSerieDocOrigen == d.C.IdSerie && f.TipoDocOrigen == (d.C.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO"));
+
 
                         _Asiento!.AsientosContablesDetalle = d.A.AsientosContablesDetalle;
 
@@ -507,6 +510,7 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.NoCheque,
                                               _q.Fecha,
                                               _q.Beneficiario,
+                                              _q.CodProveedor,
                                               _q.TasaCambio,
                                               _q.Concepto,
                                               _q.TipoCheque,
@@ -564,7 +568,7 @@ namespace Balance_api.Controllers.Contabilidad
                     Cheques T = Conexion.Cheque.Find(Idcheque)!; 
 
                     var A = (from _q in Conexion.AsientosContables
-                             where _q.NoDocOrigen == T.NoCheque && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "Cheque"
+                             where _q.NoDocOrigen == T.NoCheque && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "CHEQUE A CUENTA"
                              select _q.AsientosContablesDetalle).ToList();
 
 
@@ -627,7 +631,44 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var A = (from _q in Conexion.AsientosContables
-                             where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "Cheque"
+                             where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "CHEQUE A DOCUMENTO"
+                             select new
+                             {
+                                 _q.IdAsiento,
+                                 _q.IdPeriodo,
+                                 _q.NoAsiento,
+                                 _q.IdSerie,
+                                 _q.Fecha,
+                                 _q.IdMoneda,
+                                 _q.TasaCambio,
+                                 _q.Concepto,
+                                 _q.NoDocOrigen,
+                                 _q.IdSerieDocOrigen,
+                                 _q.TipoDocOrigen,
+                                 _q.Bodega,
+                                 _q.Referencia,
+                                 _q.Estado,
+                                 _q.TipoAsiento,
+                                 _q.Total,
+                                 _q.TotalML,
+                                 _q.TotalMS,
+                                 _q.FechaReg,
+                                 _q.UsuarioReg
+
+                             }).ToList();
+
+
+
+
+                    datos = new();
+                    datos.Nombre = "ASIENTO";
+                    datos.d = A.First();
+
+                    lstDatos.Add(datos);
+
+
+                    var D = (from _q in Conexion.AsientosContables
+                             where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "CHEQUE A DOCUMENTO"
                              select _q.AsientosContablesDetalle).ToList();
 
 
@@ -635,7 +676,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     datos = new();
                     datos.Nombre = "DETALLE ASIENTO";
-                    datos.d = A.First();
+                    datos.d = D.First();
 
                     lstDatos.Add(datos);
 
