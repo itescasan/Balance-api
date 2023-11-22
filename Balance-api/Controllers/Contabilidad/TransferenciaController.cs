@@ -514,7 +514,7 @@ namespace Balance_api.Controllers.Contabilidad
                                           join _p in Conexion.Proveedor on _q.CodProveedor equals _p.Codigo into _q_p
                                           from u in _q_p.DefaultIfEmpty()
                                           where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
-                                          orderby _q.NoTransferencia
+                                          orderby _q.NoTransferencia descending
                                           select new
                                           {
                                               _q.IdTransferencia,
