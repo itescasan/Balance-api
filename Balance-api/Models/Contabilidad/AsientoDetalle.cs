@@ -22,5 +22,7 @@ namespace Balance_api.Models.Contabilidad
         public string Referencia { get; set; }
         public string Naturaleza { get; set; }
         public string? CentroCosto { get; set; }
+        public string? NoDocumento { get; set; }
+        public string? TipoDocumento { get; set; }
     }
 }

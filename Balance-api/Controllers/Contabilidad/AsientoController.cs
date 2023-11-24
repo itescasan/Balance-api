@@ -282,6 +282,8 @@ namespace Balance_api.Controllers.Contabilidad
                 _det.Referencia = detalle.Referencia;
                 _det.Naturaleza = detalle.Naturaleza;
                 _det.CentroCosto = detalle.CentroCosto;
+                _det.NoDocumento = detalle.NoDocumento;
+                _det.TipoDocumento = detalle.TipoDocumento;
 
 
                 if (esNuevoDet) _Conexion.AsientosContablesDetalle.Add(_det);
