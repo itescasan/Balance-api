@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace Balance_api.Reporte.Contabilidad
 {
-    public partial class Logo : DevExpress.XtraReports.UI.XtraReport
+    public partial class xrpLogo : DevExpress.XtraReports.UI.XtraReport
     {
-        public Logo()
+        public xrpLogo()
         {
             InitializeComponent();
         }

@@ -13,7 +13,7 @@
     <Compile Update="Reporte\Contabilidad\xrpBalanzaComprobacion.cs">
       <SubType>XtraReport</SubType>
     </Compile>
-    <Compile Update="Reporte\Contabilidad\Logo.cs">
+    <Compile Update="Reporte\Contabilidad\xrpLogo.cs">
       <SubType>XtraReport</SubType>
     </Compile>
   </ItemGroup>
