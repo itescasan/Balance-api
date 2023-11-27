@@ -23,12 +23,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/BalanzaComprobacion")]
         [HttpGet]
-        public string BalanzaComprobacion(DateTime FechaInicio, DateTime FechaFinal, int Nivel)
+        public string BalanzaComprobacion(DateTime FechaInicio, DateTime FechaFinal, int Nivel, bool EsMonedaLocal)
         {
-            return V_BalanzaComprobacion(FechaInicio, FechaFinal, Nivel);
+            return V_BalanzaComprobacion(FechaInicio, FechaFinal, Nivel, EsMonedaLocal);
         }
 
-        private string V_BalanzaComprobacion(DateTime FechaInicio, DateTime FechaFinal, int Nivel)
+        private string V_BalanzaComprobacion(DateTime FechaInicio, DateTime FechaFinal, int Nivel, bool EsMonedaLocal)
         {
             string json = string.Empty;
             try
@@ -47,8 +47,8 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_XRP_Balanza_Comprobacion"].Parameters["@_Fecha_Inicial"].Value = FechaInicio;
                     sqlDataSource.Queries["CNT_XRP_Balanza_Comprobacion"].Parameters["@_Fecha_Final"].Value = FechaFinal;
                     sqlDataSource.Queries["CNT_XRP_Balanza_Comprobacion"].Parameters["@_Nivel"].Value = Nivel;
+                    sqlDataSource.Queries["CNT_XRP_Balanza_Comprobacion"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
 
-          
 
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
