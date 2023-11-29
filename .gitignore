@@ -42,3 +42,4 @@
 /Balance-api/obj/project.nuget.cache
 /Balance-api/obj/project.assets.json
 /Balance-api/obj/Balance-api.csproj.nuget.dgspec.json
+*.txt
