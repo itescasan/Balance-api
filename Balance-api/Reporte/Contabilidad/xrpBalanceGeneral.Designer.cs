@@ -59,13 +59,13 @@
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.SubBand1 = new DevExpress.XtraReports.UI.SubBand();
             this.P_Titulo = new DevExpress.XtraReports.Parameters.Parameter();
             this.P_Moneda = new DevExpress.XtraReports.Parameters.Parameter();
             this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
-            this.P_Total1 = new DevExpress.XtraReports.Parameters.Parameter();
-            this.P_Total2 = new DevExpress.XtraReports.Parameters.Parameter();
             this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
-            this.SubBand1 = new DevExpress.XtraReports.UI.SubBand();
+            this.xrLabel6 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -173,6 +173,8 @@
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel7,
+            this.xrLabel6,
             this.xrSubreport2,
             this.xrSubreport1,
             this.xrLabel5,
@@ -182,21 +184,21 @@
             this.xrLabel3,
             this.xrLabel2,
             this.xrLabel1});
-            this.PageHeader.HeightF = 233.3333F;
+            this.PageHeader.HeightF = 244.7916F;
             this.PageHeader.Name = "PageHeader";
             this.PageHeader.SubBands.AddRange(new DevExpress.XtraReports.UI.SubBand[] {
             this.SubBand1});
             // 
             // xrSubreport2
             // 
-            this.xrSubreport2.LocationFloat = new DevExpress.Utils.PointFloat(467F, 160.375F);
+            this.xrSubreport2.LocationFloat = new DevExpress.Utils.PointFloat(467F, 171.8334F);
             this.xrSubreport2.Name = "xrSubreport2";
             this.xrSubreport2.SizeF = new System.Drawing.SizeF(320F, 72.95828F);
             this.xrSubreport2.ReportSource = new xrpBalanceGeneralDet();
             // 
             // xrSubreport1
             // 
-            this.xrSubreport1.LocationFloat = new DevExpress.Utils.PointFloat(20F, 160.375F);
+            this.xrSubreport1.LocationFloat = new DevExpress.Utils.PointFloat(20F, 171.8334F);
             this.xrSubreport1.Name = "xrSubreport1";
             this.xrSubreport1.SizeF = new System.Drawing.SizeF(320F, 72.95828F);
             this.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
@@ -282,6 +284,14 @@
             this.xrLabel1.Text = "Escalante Sanchez, S.A.";
             this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
+            // SubBand1
+            // 
+            this.SubBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrTable1,
+            this.xrTable2});
+            this.SubBand1.HeightF = 15F;
+            this.SubBand1.Name = "SubBand1";
+            // 
             // P_Titulo
             // 
             this.P_Titulo.Description = "Titulo";
@@ -297,21 +307,6 @@
             // 
             this.ReportHeader.HeightF = 32.29167F;
             this.ReportHeader.Name = "ReportHeader";
-            // 
-            // P_Total1
-            // 
-            this.P_Total1.Description = "P_Total1";
-            this.P_Total1.Name = "P_Total1";
-            this.P_Total1.Type = typeof(decimal);
-            this.P_Total1.ValueInfo = "0";
-            // 
-            // P_Total2
-            // 
-            this.P_Total2.Description = "Total2";
-            this.P_Total2.Name = "P_Total2";
-            this.P_Total2.Type = typeof(decimal);
-            this.P_Total2.ValueInfo = "0";
-            this.P_Total2.Visible = false;
             // 
             // sqlDataSource1
             // 
@@ -344,13 +339,27 @@
             storedProcQuery1});
             this.sqlDataSource1.ResultSchemaSerializable = resources.GetString("sqlDataSource1.ResultSchemaSerializable");
             // 
-            // SubBand1
+            // xrLabel6
             // 
-            this.SubBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable1,
-            this.xrTable2});
-            this.SubBand1.HeightF = 15F;
-            this.SubBand1.Name = "SubBand1";
+            this.xrLabel6.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold);
+            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(467F, 134.25F);
+            this.xrLabel6.Multiline = true;
+            this.xrLabel6.Name = "xrLabel6";
+            this.xrLabel6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel6.SizeF = new System.Drawing.SizeF(57.29167F, 23F);
+            this.xrLabel6.StylePriority.UseFont = false;
+            this.xrLabel6.Text = "PASIVO";
+            // 
+            // xrLabel7
+            // 
+            this.xrLabel7.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold);
+            this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(20.00001F, 134.25F);
+            this.xrLabel7.Multiline = true;
+            this.xrLabel7.Name = "xrLabel7";
+            this.xrLabel7.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel7.SizeF = new System.Drawing.SizeF(57.29167F, 23F);
+            this.xrLabel7.StylePriority.UseFont = false;
+            this.xrLabel7.Text = "ACTIVO";
             // 
             // xrpBalanceGeneral
             // 
@@ -368,9 +377,7 @@
             this.Margins = new System.Drawing.Printing.Margins(17, 16, 0, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.P_Titulo,
-            this.P_Moneda,
-            this.P_Total1,
-            this.P_Total2});
+            this.P_Moneda});
             this.Version = "21.2";
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
@@ -404,9 +411,9 @@
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
-        private DevExpress.XtraReports.Parameters.Parameter P_Total1;
-        private DevExpress.XtraReports.Parameters.Parameter P_Total2;
         private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
         private DevExpress.XtraReports.UI.SubBand SubBand1;
+        private DevExpress.XtraReports.UI.XRLabel xrLabel7;
+        private DevExpress.XtraReports.UI.XRLabel xrLabel6;
     }
 }
