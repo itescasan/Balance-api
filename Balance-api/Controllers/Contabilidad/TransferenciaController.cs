@@ -4,6 +4,7 @@ using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
+using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -310,9 +311,7 @@ namespace Balance_api.Controllers.Contabilidad
                     if(d.T.TransferenciaDocumento != null)
                     {
 
-                        //MovimientoDoc[] _mov = Conexion.MovimientoDoc.Where(w => w.NoDocOrigen == _Transf.NoTransferencia).ToArray();
-                        //Conexion.MovimientoDoc.RemoveRange(_mov);
-                        //Conexion.SaveChanges();
+        
 
 
                         int i = 0;
@@ -352,6 +351,7 @@ namespace Balance_api.Controllers.Contabilidad
                             det.NuevoSaldoMS = doc.NuevoSaldoMS;
                             det.DiferencialML = doc.DiferencialML;
                             det.DiferencialMS = doc.DiferencialMS;
+                            det.Retenido = doc.Retenido;
 
 
                             if (esNuevoDet) Conexion.TransferenciaDocumento.Add(det);
@@ -427,6 +427,47 @@ namespace Balance_api.Controllers.Contabilidad
 
                         }
 
+
+                        i = 0;
+
+                        foreach(TranferenciaRetencion doc in d.T.TranferenciaRetencion)
+                        {
+                            bool esNuevoDet = false;
+
+                            TranferenciaRetencion? ret = Conexion.TranferenciaRetencion.Find(doc.IdDetRetencion);
+
+                            if (ret == null)
+                            {
+                                esNuevoDet = true;
+                                ret = new TranferenciaRetencion();
+                                ret.IdDetRetencion = Guid.NewGuid();
+                            }
+
+                            ret.IdTransferencia = _Transf.IdTransferencia;
+                            ret.Index = i;
+                            ret.Retencion = doc.Retencion;
+                            ret.Porcentaje = doc.Porcentaje;
+                            ret.Documento = doc.Documento;
+                            ret.Serie = doc.Serie;
+                            ret.TipoDocumento = doc.TipoDocumento;
+                            ret.IdMoneda = doc.IdMoneda;
+                            ret.TasaCambio = doc.TasaCambio;
+                            ret.Monto = doc.Monto;
+                            ret.MontoMS = doc.MontoMS;
+                            ret.MontoML = doc.MontoML;
+                            ret.PorcImpuesto = doc.PorcImpuesto;
+                            ret.TieneImpuesto = doc.TieneImpuesto;
+                            ret.CuentaContable = doc.CuentaContable;
+
+
+                            if (esNuevoDet) Conexion.TranferenciaRetencion.Add(ret);
+
+
+                            i++;
+
+                        }
+
+                    
                     }
 
 
@@ -649,6 +690,21 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+
+                    var qRetenciones = (from _q in Conexion.Transferencia
+                                       where _q.IdTransferencia == IdTransferencia
+                                       select _q.TranferenciaRetencion).First();
+
+
+
+                    datos = new();
+                    datos.Nombre = "RETENCIONES";
+                    datos.d = qRetenciones;
+
+                    lstDatos.Add(datos);
+
+
+
                     var A = (from _q in Conexion.AsientosContables
                              where _q.NoDocOrigen == T.NoTransferencia && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "TRANSFERENCIA A DOCUMENTO"
                              select new { 
@@ -696,6 +752,59 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.Nombre = "DETALLE ASIENTO";
                     datos.d = D.First();
 
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+
+
+        [Route("api/Contabilidad/Transferencia/BuscarTiposRetenciones")]
+        [HttpGet]
+        public string BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        {
+            return V_BuscarTiposRetenciones(NoDocumento, TipoDocumento);
+        }
+
+        private string V_BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        {
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+
+                    List<Cls_Datos> lstDatos = new();
+
+                    List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXC == false).ToList();
+          
+                    Cls_Datos datos = new();
+                    datos = new();
+                    datos.Nombre = "RETENCIONES";
+                    datos.d = R;
+                    lstDatos.Add(datos);
+
+                    MovimientoDoc M = Conexion.MovimientoDoc.FirstOrDefault(w => w.NoDocOrigen == NoDocumento  && w.TipoDocumentoOrigen == TipoDocumento && w.Esquema == "CXP")!;
+
+           
+                    datos = new();
+                    datos.Nombre = "DOCUMENTO";
+                    datos.d = M;
                     lstDatos.Add(datos);
 
 

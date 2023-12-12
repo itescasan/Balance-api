@@ -43,5 +43,8 @@ namespace Balance_api.Models.Contabilidad
         [ForeignKey("IdTransferencia")]
         public ICollection<TransferenciaDocumento> TransferenciaDocumento { get; set; }
 
+        [ForeignKey("IdTransferencia")]
+        public ICollection<TranferenciaRetencion> TranferenciaRetencion { get; set; }
+
     }
 }
