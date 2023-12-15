@@ -45,5 +45,8 @@ namespace Balance_api.Models.Contabilidad
 
         [ForeignKey("IdCheque")]
         public ICollection<ChequeDocumento> ChequeDocumento { get; set; }
+
+        [ForeignKey("IdCheque")]
+        public ICollection<ChequeRetencion> ChequeRetencion { get; set; }
     }
 }
