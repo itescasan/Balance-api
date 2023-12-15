@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Balance_api.Models.Contabilidad
 {
-    [Table("TranferenciaRetencion", Schema = "CNT")]
+    [Table("TransferenciaRetencion", Schema = "CNT")]
     public class TranferenciaRetencion
     {
         [Key]
