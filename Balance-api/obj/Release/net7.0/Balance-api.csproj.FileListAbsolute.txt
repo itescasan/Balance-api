@@ -109,3 +109,6 @@ D:\PROYECTO\Balance-api\Balance-api\bin\Release\net7.0\runtimes\win\lib\netstand
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpBalanzaComprobacion.resources
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpLogo.resources
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance-api.csproj.GenerateResource.cache
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpBalanceGeneral.resources
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpBalanceGeneralDet.resources
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpCheque.resources
