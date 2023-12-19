@@ -4,6 +4,7 @@ using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
+using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -177,7 +178,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     List<ChequeDocumento> qDocumentos = (from _q in qDoc
                                                          where _q.Activo
-                                                         group _q by new
+                                                         group _q by new 
                                                          {
                                                              NoDococumento = (_q.NoDocEnlace == null ? _q.NoDocOrigen : _q.NoDocEnlace),
                                                              Serie = (_q.NoDocEnlace == null ? _q.SerieOrigen : _q.SerieEnlace),
@@ -418,6 +419,46 @@ namespace Balance_api.Controllers.Contabilidad
 
                         }
 
+
+                        i = 0;
+
+                        foreach (ChequeRetencion doc in d.C.ChequeRetencion)
+                        {
+                            bool esNuevoDet = false;
+
+                            ChequeRetencion? ret = Conexion.ChequeRetencion.Find(doc.IdDetRetencionCk);
+
+                            if (ret == null)
+                            {
+                                esNuevoDet = true;
+                                ret = new ChequeRetencion();
+                                ret.IdDetRetencionCk = Guid.NewGuid();
+                            }
+
+                            ret.IdCheque = _Chequ.IdCheque;
+                            ret.Index = i;
+                            ret.Retencion = doc.Retencion;
+                            ret.Porcentaje = doc.Porcentaje;
+                            ret.Documento = doc.Documento;
+                            ret.Serie = doc.Serie;
+                            ret.TipoDocumento = doc.TipoDocumento;
+                            ret.IdMoneda = doc.IdMoneda;
+                            ret.TasaCambio = doc.TasaCambio;
+                            ret.Monto = doc.Monto;
+                            ret.MontoMS = doc.MontoMS;
+                            ret.MontoML = doc.MontoML;
+                            ret.PorcImpuesto = doc.PorcImpuesto;
+                            ret.TieneImpuesto = doc.TieneImpuesto;
+                            ret.CuentaContable = doc.CuentaContable;
+
+
+                            if (esNuevoDet) Conexion.ChequeRetencion.Add(ret);
+
+
+                            i++;
+
+                        }
+
                     }
 
                     Asiento? _Asiento = null;
@@ -630,6 +671,19 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+                    var qRetenciones = (from _q in Conexion.Cheque
+                                        where _q.IdCheque == Idcheque
+                                        select _q.ChequeRetencion).First();
+
+
+
+                    datos = new();
+                    datos.Nombre = "RETENCIONES";
+                    datos.d = qRetenciones;
+
+                    lstDatos.Add(datos);
+
+
                     var A = (from _q in Conexion.AsientosContables
                              where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "CHEQUE A DOCUMENTO"
                              select new
@@ -657,14 +711,13 @@ namespace Balance_api.Controllers.Contabilidad
 
                              }).ToList();
 
-
-
-
                     datos = new();
                     datos.Nombre = "ASIENTO";
                     datos.d = A.First();
 
                     lstDatos.Add(datos);
+                   
+                    
 
 
                     var D = (from _q in Conexion.AsientosContables
