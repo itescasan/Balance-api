@@ -9,6 +9,7 @@ using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Transactions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -125,6 +126,19 @@ namespace Balance_api.Controllers.Contabilidad
                     datos = new();
                     datos.Nombre = "PROVEEDOR";
                     datos.d = qProveedor;
+                    lstDatos.Add(datos);
+
+
+                    string sQuery = $"select RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo))Titulo from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where Contabilizado = 0 GROUP BY C.Titulo,R.Numero,R.Ccosto order by RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo)) desc\r\n";
+                    var qReembolso = Conexion.Reembolsos.FromSqlRaw(sQuery).ToList();
+
+
+                    //var qReembolso = Conexion.Database.SqlQuery<Reembolsos>($"").ToList();
+
+
+                    datos = new();
+                    datos.Nombre = "Reembolso";
+                    datos.d = qReembolso;
                     lstDatos.Add(datos);
 
 
@@ -748,6 +762,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+       
     }
 
 }

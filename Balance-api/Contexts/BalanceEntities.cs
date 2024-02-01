@@ -56,6 +56,8 @@ namespace Balance_api.Contexts
 
         public virtual DbSet<ChequeRetencion> ChequeRetencion { get; set; }
 
+        
+
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
         public DbSet<Bodegas> Bodegas { get; set; }
 
