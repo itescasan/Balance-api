@@ -44,7 +44,7 @@ namespace Balance_api.Controllers.Sistema
                                         Pwd = _q.Pass,
                                         Rol = string.Empty,
                                         FechaLogin =  string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
-                                        _q.Desconectar
+                                        Desconectar = !_q.AccesoWeb ? true : _q.Desconectar
                                     }).ToList();
 
 
@@ -107,7 +107,7 @@ namespace Balance_api.Controllers.Sistema
                     Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
          
 
-                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : u.Desconectar)));
+                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : !u.AccesoWeb ? true : u.Desconectar)));
                     lstDatos.Add(V_TC(DateTime.Now));
 
 
