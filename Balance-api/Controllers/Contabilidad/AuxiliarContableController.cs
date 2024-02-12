@@ -118,7 +118,7 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
-                                        _q.AsientosContablesDetalle
+                                        AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0).ToList(),
 
                                     }).Take(1);
 
