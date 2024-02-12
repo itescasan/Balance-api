@@ -183,7 +183,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             bool esNuevo = false;
             Asiento? _Maestro = _Conexion.AsientosContables.Find(d.IdAsiento);
-            Periodos? Pi = _Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+            Periodos? Pi = _Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year && f.FechaInicio.Month == d.Fecha.Month);
             EjercicioFiscal? Ej = _Conexion.EjercicioFiscal.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
 
 
