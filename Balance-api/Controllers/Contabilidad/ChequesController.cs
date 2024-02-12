@@ -6,6 +6,8 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using DevExpress.Charts.Native;
+using DevExpress.CodeParser;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -129,7 +131,8 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-                    string sQuery = $"select RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo))Titulo from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where Contabilizado = 0 GROUP BY C.Titulo,R.Numero,R.Ccosto order by RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo)) desc\r\n";
+                    string sQuery = $"select RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo))Titulo from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where Contabilizado = 0 AND Aplicado = 0 GROUP BY C.Titulo,R.Numero,R.Ccosto order by RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo)) desc\r\n";
+
                     var qReembolso = Conexion.Reembolsos.FromSqlRaw(sQuery).ToList();
 
 
@@ -192,7 +195,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     List<ChequeDocumento> qDocumentos = (from _q in qDoc
                                                          where _q.Activo
-                                                         group _q by new 
+                                                         group _q by new
                                                          {
                                                              NoDococumento = (_q.NoDocEnlace == null ? _q.NoDocOrigen : _q.NoDocEnlace),
                                                              Serie = (_q.NoDocEnlace == null ? _q.SerieOrigen : _q.SerieEnlace),
@@ -217,7 +220,8 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var Doc = qDocumentos.Select((file, index) => new {
+                    var Doc = qDocumentos.Select((file, index) => new
+                    {
                         Index = index,
                         file.Documento,
                         file.Serie,
@@ -314,7 +318,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Conexion.SaveChanges();
 
-                    if(d.C.ChequeDocumento != null)
+                    if (d.C.ChequeDocumento != null)
                     {
 
                         //MovimientoDoc[] _mov = Conexion.MovimientoDoc.Where(w => w.NoDocOrigen == _Transf.NoTransferencia).ToArray();
@@ -367,7 +371,7 @@ namespace Balance_api.Controllers.Contabilidad
                             i++;
 
 
-                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Chequ.NoCheque && ff.SerieOrigen == _Chequ.IdSerie && ff.TipoDocumentoOrigen == "CHEQUE" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");     
+                            MovimientoDoc? mdoc = Conexion.MovimientoDoc.FirstOrDefault(ff => ff.NoDocOrigen == _Chequ.NoCheque && ff.SerieOrigen == _Chequ.IdSerie && ff.TipoDocumentoOrigen == "CHEQUE" && ff.NoDocEnlace == det.Documento && ff.TipoDocumentoEnlace == det.TipoDocumento && ff.Esquema == "CXP");
                             Bodegas? bo = Conexion.Bodegas.FirstOrDefault(ff => ff.Codigo == _Chequ.CodBodega);
 
                             if (mdoc != null)
@@ -552,30 +556,30 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qCheques = (from _q in Conexion.Cheque
-                                          where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega)
-                                          select new
-                                          {
-                                              _q.IdCheque,
-                                              _q.IdCuentaBanco,
-                                              CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
-                                              _q.CuentaContable,
-                                              _q.IdMoneda,                                             
-                                              _q.CodBodega,
-                                              _q.IdSerie,
-                                              _q.NoCheque,
-                                              _q.Fecha,
-                                              _q.Beneficiario,
-                                              _q.CodProveedor,
-                                              _q.TasaCambio,
-                                              _q.Concepto,
-                                              _q.TipoCheque,
-                                              _q.Total,
-                                              _q.TotalDolar,
-                                              _q.TotalCordoba,
-                                              _q.Anulado,
-                                              _q.UsuarioReg,
-                                              _q.FechaReg
-                                          }).ToList();
+                                    where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega)
+                                    select new
+                                    {
+                                        _q.IdCheque,
+                                        _q.IdCuentaBanco,
+                                        CuentaBancaria = string.Concat(_q.CuentaBanco.Bancos.Banco, " ", _q.CuentaBanco.NombreCuenta, " ", _q.CuentaBanco.Monedas.Simbolo, " ", _q.CuentaBanco.CuentaBancaria),
+                                        _q.CuentaContable,
+                                        _q.IdMoneda,
+                                        _q.CodBodega,
+                                        _q.IdSerie,
+                                        _q.NoCheque,
+                                        _q.Fecha,
+                                        _q.Beneficiario,
+                                        _q.CodProveedor,
+                                        _q.TasaCambio,
+                                        _q.Concepto,
+                                        _q.TipoCheque,
+                                        _q.Total,
+                                        _q.TotalDolar,
+                                        _q.TotalCordoba,
+                                        _q.Anulado,
+                                        _q.UsuarioReg,
+                                        _q.FechaReg
+                                    }).ToList();
 
 
 
@@ -601,7 +605,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-       
+
 
         [Route("api/Contabilidad/Cheques/GetDetalleCuenta")]
         [HttpGet]
@@ -620,7 +624,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     List<Cls_Datos> lstDatos = new();
 
-                    Cheques T = Conexion.Cheque.Find(Idcheque)!; 
+                    Cheques T = Conexion.Cheque.Find(Idcheque)!;
 
                     var A = (from _q in Conexion.AsientosContables
                              where _q.NoDocOrigen == T.NoCheque && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "CHEQUE A CUENTA"
@@ -730,8 +734,8 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = A.First();
 
                     lstDatos.Add(datos);
-                   
-                    
+
+
 
 
                     var D = (from _q in Conexion.AsientosContables
@@ -762,7 +766,47 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-       
+        [Route("api/Contabilidad/Cheques/GetDetalleReembolso")]
+        [HttpGet]
+        public string GetDetalleReembolso(string CC, string Numero)
+        {
+            return V_GetDetalleReembolso(CC, Numero);
+        }
+
+        private string V_GetDetalleReembolso(string CC, string Numero)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    string sQuery = $"select id,LTRIM(RTRIM(Cuenta)) Cuenta,LTRIM(RTRIM(Referencia)) Referencia,LTRIM(RTRIM(idCC)) idCC,Valor from CONESCASAN..Reembolsos  where Aplicado = 0 and Contabilizado = 0 and Ccosto = '{CC}' and Numero = '{Numero}'";
+
+                    var qReembolsoD = Conexion.ReembolsosD.FromSqlRaw(sQuery).ToList();
+
+
+                    //var qReembolso = Conexion.Database.SqlQuery<Reembolsos>($"").ToList();
+
+                    Cls_Datos datos = new();
+                    datos = new();
+                    datos.Nombre = "ReembolsoD";
+                    datos.d = qReembolsoD;
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
     }
 
 }

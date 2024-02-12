@@ -50,6 +50,8 @@ namespace Balance_api.Contexts
         public virtual DbSet<ChequeDocumento> ChequeDocumento { get; set; }
         public virtual DbSet<Reembolsos> Reembolsos { get; set; }
 
+        public virtual DbSet<ReembolsosD> ReembolsosD { get; set; }
+
         public virtual DbSet<Cheques> Cheque { get; set; }
 
         public virtual DbSet<CentroCostos> CentroCostos { get; set; }
