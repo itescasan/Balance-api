@@ -172,12 +172,12 @@ namespace Balance_api.Controllers.Contabilidad
 
                             case 4:
                                 if (numero < 9) numero += 1;
-                                Cuenta = numero.ToString();
+                                Cuenta = numero.ToString().PadLeft(2, '0');
                                 break;
                             case 5:
 
                                 numero += 1;
-                                _C[_C.Length - 1] = numero.ToString().PadLeft(4, '0');
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(2, '0');
                                 Cuenta = _C[_C.Length - 1];
 
                                 break;
@@ -185,7 +185,7 @@ namespace Balance_api.Controllers.Contabilidad
                             case 6:
 
                                 numero += 1;
-                                _C[_C.Length - 1] = numero.ToString().PadLeft(4, '0');
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(2, '0');
                                 Cuenta = _C[_C.Length - 1];
 
                                 break;
@@ -193,7 +193,7 @@ namespace Balance_api.Controllers.Contabilidad
                             case 7:
 
                                 numero += 1;
-                                _C[_C.Length - 1] = numero.ToString().PadLeft(3, '0');
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(2, '0');
                                 Cuenta = _C[_C.Length - 1];
 
                                 break;
