@@ -200,6 +200,10 @@ namespace Balance_api.Controllers.Contabilidad
                         }
 
                     }
+                    else
+                    {
+                        Cuenta = "01";
+                    }
             
 
                     Cls_Datos datos = new();
