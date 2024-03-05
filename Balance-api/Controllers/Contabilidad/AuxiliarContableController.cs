@@ -95,7 +95,7 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
                     var qAsiento = (from _q in Conexion.AsientosContables
-                                    where (_q.NoDocOrigen == null ? _q.NoAsiento : _q.NoDocOrigen) == NoDoc && (_q.IdSerieDocOrigen == null ? _q.IdSerie : _q.IdSerieDocOrigen) == Serie
+                                    where (_q.NoDocOrigen == null ? _q.NoAsiento : _q.NoDocOrigen) == NoDoc //&& (_q.IdSerieDocOrigen == null ? _q.IdSerie : _q.IdSerieDocOrigen) == Serie
                                     select new
                                     {
                                         _q.IdAsiento,
@@ -118,7 +118,7 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
-                                        AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0).ToList(),
+                                        AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0).OrderBy( o => o.NoLinea).ToList(),
 
                                     }).Take(1);
 
