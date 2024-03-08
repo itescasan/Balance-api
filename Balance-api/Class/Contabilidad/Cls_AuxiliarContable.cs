@@ -14,10 +14,15 @@ namespace Balance_api.Class.Contabilidad
         public string? Cuenta { get; set; }
         public string? Concepto { get; set; }
         public string? Referencia { get; set; }
-        public int? Editar { get; set; }
-        public decimal? DEBE { get; set; }
-        public decimal? HABER { get; set; }
-        public int? Linea { get; set; }
+        public decimal? DEBE_ML { get; set; }
+        public decimal? HABER_ML { get; set; }
+        public decimal? Saldo_ML { get; set; }
+        public decimal? DEBE_MS { get; set; }
+        public decimal? HABER_MS { get; set; }
+        public decimal? Saldo_MS { get; set; }
         public string? Cuenta_Padre { get; set; }
+        public int? Editar { get; set; }
+        public int? Linea { get; set; }
+       
     }
 }

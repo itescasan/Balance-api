@@ -3,11 +3,14 @@ using Balance_api.Class.Contabilidad;
 using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
+using Balance_api.Reporte.Contabilidad;
+using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using System.Data;
 
 namespace Balance_api.Controllers.Contabilidad
 {
@@ -39,26 +42,96 @@ namespace Balance_api.Controllers.Contabilidad
             {
                 using (Conexion)
                 {
+
+                    var bo = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == CodBodega);
+
+                   
+                    xrpAuxiliar rpt = new xrpAuxiliar();
+                    rpt.Parameters["P_Fecha1"].Value = Fecha1;
+                    rpt.Parameters["P_Fecha2"].Value = Fecha2;
+                    rpt.Parameters["P_Cuenta"].Value = Cuenta;
+                    rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty: string.Concat(bo.Codigo, " - ", bo.Bodega));
+
+
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+
+                    sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@CUENTA"].Value = Cuenta;
+                    sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@BODEGA"].Value = CodBodega;
+                    sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@FECHA_1"].Value = Fecha1;
+                    sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@FECHA_2"].Value = Fecha2;
+
+         
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+
+                
+
+
+                    //DevExpress.DataAccess.Sql.DataApi.ITable table = sqlDataSource.Result["CNT_SP_AuxiliarCuenta"];
+
+                    var qAuxiliar = (from _q in sqlDataSource.Result["CNT_SP_AuxiliarCuenta"]
+                              select new Cls_AuxiliarContable()
+                              {
+                                  Fecha = Convert.ToDateTime(_q["Fecha"]),
+                                  Serie = _q["Serie"].ToString(),
+                                  NoDoc = _q["NoDoc"].ToString(),
+                                  Cuenta = _q["Cuenta"].ToString(),
+                                  Concepto = _q["Concepto"].ToString(),
+                                  Referencia = _q["Referencia"].ToString(),
+                                  DEBE_ML = Convert.ToDecimal(_q["DEBE_ML"]),
+                                  HABER_ML = Convert.ToDecimal(_q["HABER_ML"]),
+                                  Saldo_ML = Convert.ToDecimal(_q["Saldo_ML"]),
+                                  DEBE_MS = Convert.ToDecimal(_q["DEBE_MS"]),
+                                  HABER_MS = Convert.ToDecimal(_q["HABER_MS"]),
+                                  Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
+                                  Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
+                                  Editar = Convert.ToInt32(_q["Editar"]),
+                                  Linea = Convert.ToInt32(_q["Linea"]),
+                                 
+                              }).ToList();
+
+                    /*
+                    foreach (DevExpress.DataAccess.Sql.DataApi.IRow row in table)
+                    {
+                        object value = row["Fecha"];
+                    }*/
+
+
+
+
+                    /*
+
+                               string sQuery = $"DECLARE @Fecha1  DATE = CAST('{string.Format("{0:yyyy-MM-dd}", Fecha1.Date)}' AS DATE)," +
+                                  $"@Fecha2 DATE =  CAST('{string.Format("{0:yyyy-MM-dd}", Fecha2.Date)}' AS DATE)" +
+                                  $"EXEC [CNT].[SP_AuxiliarCuenta] '{Cuenta}', '{CodBodega}', @Fecha1, @Fecha2";
+
+
+
+
+                               var qAuxiliar = Conexion.AuxiliarContable.FromSqlRaw<Cls_AuxiliarContable>(sQuery).ToList();
+
+                               */
+
+
                     List<Cls_Datos> lstDatos = new();
-                    
-                     string sQuery = $"DECLARE @Fecha1  DATE = CAST('{string.Format("{0:yyyy-MM-dd}", Fecha1.Date)}' AS DATE)," +
-                        $"@Fecha2 DATE =  CAST('{string.Format("{0:yyyy-MM-dd}", Fecha2.Date)}' AS DATE)" +
-                        $"EXEC [CNT].[SP_AuxiliarCuenta] '{Cuenta}', '{CodBodega}', '3', @Fecha1, @Fecha2, 1";
-
-        
-    
-                    var qAuxiliar = Conexion.AuxiliarContable.FromSqlRaw<Cls_AuxiliarContable>(sQuery).ToList();
-                                     
-
-
-
 
                     Cls_Datos datos = new();
-                    datos.Nombre = "ASIENTO";
+                    datos.Nombre = "AUXILIAR";
                     datos.d = qAuxiliar;
-
                     lstDatos.Add(datos);
 
+
+
+
+                    datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "xrpAuxiliar";
+                    lstDatos.Add(datos);
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
