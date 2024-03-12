@@ -7,7 +7,7 @@ namespace Balance_api.Class.Contabilidad
     [Keyless]
     public class Cls_AuxiliarContable
     {
-
+        public int IdAsiento { get; set; }
         public DateTime? Fecha { get; set; }
         public string? Serie { get; set; }
         public string? NoDoc { get; set; }

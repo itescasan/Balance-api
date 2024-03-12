@@ -69,31 +69,33 @@ namespace Balance_api.Controllers.Contabilidad
                     stream.Seek(0, SeekOrigin.Begin);
 
 
-                
+
 
 
                     //DevExpress.DataAccess.Sql.DataApi.ITable table = sqlDataSource.Result["CNT_SP_AuxiliarCuenta"];
 
                     var qAuxiliar = (from _q in sqlDataSource.Result["CNT_SP_AuxiliarCuenta"]
-                              select new Cls_AuxiliarContable()
-                              {
-                                  Fecha = Convert.ToDateTime(_q["Fecha"]),
-                                  Serie = _q["Serie"].ToString(),
-                                  NoDoc = _q["NoDoc"].ToString(),
-                                  Cuenta = _q["Cuenta"].ToString(),
-                                  Concepto = _q["Concepto"].ToString(),
-                                  Referencia = _q["Referencia"].ToString(),
-                                  DEBE_ML = Convert.ToDecimal(_q["DEBE_ML"]),
-                                  HABER_ML = Convert.ToDecimal(_q["HABER_ML"]),
-                                  Saldo_ML = Convert.ToDecimal(_q["Saldo_ML"]),
-                                  DEBE_MS = Convert.ToDecimal(_q["DEBE_MS"]),
-                                  HABER_MS = Convert.ToDecimal(_q["HABER_MS"]),
-                                  Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
-                                  Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
-                                  Editar = Convert.ToInt32(_q["Editar"]),
-                                  Linea = Convert.ToInt32(_q["Linea"]),
-                                 
-                              }).ToList();
+                                     orderby _q["Linea"]
+                                     select new Cls_AuxiliarContable()
+                                     {
+                                         IdAsiento = Convert.ToInt32(_q["IdAsiento"]),
+                                         Fecha = Convert.ToDateTime(_q["Fecha"]),
+                                         Serie = _q["Serie"].ToString(),
+                                         NoDoc = _q["NoDoc"].ToString(),
+                                         Cuenta = _q["Cuenta"].ToString(),
+                                         Concepto = _q["Concepto"].ToString(),
+                                         Referencia = _q["Referencia"].ToString(),
+                                         DEBE_ML = Convert.ToDecimal(_q["DEBE_ML"]),
+                                         HABER_ML = Convert.ToDecimal(_q["HABER_ML"]),
+                                         Saldo_ML = Convert.ToDecimal(_q["Saldo_ML"]),
+                                         DEBE_MS = Convert.ToDecimal(_q["DEBE_MS"]),
+                                         HABER_MS = Convert.ToDecimal(_q["HABER_MS"]),
+                                         Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
+                                         Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
+                                         Editar = Convert.ToInt32(_q["Editar"]),
+                                         Linea = Convert.ToInt32(_q["Linea"]),
+
+                                     }).ToList();
 
                     /*
                     foreach (DevExpress.DataAccess.Sql.DataApi.IRow row in table)
@@ -151,16 +153,17 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AuxiliarContable/GetAsiento")]
         [HttpGet]
-        public string GetAsiento(string NoDoc, string Serie)
+        public string GetAsiento(int IdAsiento, string NoDoc)
         {
-            return V_GetAsiento(NoDoc, Serie);
+            return V_GetAsiento(IdAsiento, NoDoc);
         }
 
-        private string V_GetAsiento(string NoDoc, string Serie)
+        private string V_GetAsiento(int IdAsiento, string NoDoc)
         {
        
 
             string json = string.Empty;
+            if (NoDoc == null) NoDoc = string.Empty;
             try
             {
                 using (Conexion)
@@ -168,7 +171,7 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
                     var qAsiento = (from _q in Conexion.AsientosContables
-                                    where (_q.NoDocOrigen == null ? _q.NoAsiento : _q.NoDocOrigen) == NoDoc //&& (_q.IdSerieDocOrigen == null ? _q.IdSerie : _q.IdSerieDocOrigen) == Serie
+                                    where _q.IdAsiento == IdAsiento 
                                     select new
                                     {
                                         _q.IdAsiento,
@@ -191,7 +194,7 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
-                                        AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0).OrderBy( o => o.NoLinea).ToList(),
+                                        AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0 && w.NoDocumento == (NoDoc == string.Empty ? w.NoDocumento : NoDoc)).OrderBy( o => o.NoLinea).ToList(),
 
                                     }).Take(1);
 
