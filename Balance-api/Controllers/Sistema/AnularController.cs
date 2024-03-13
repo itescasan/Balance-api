@@ -63,7 +63,7 @@ namespace Balance_api.Controllers.Sistema
 
                             A = Conexion.AsientosContables.Find(int.Parse(IdDoc))!;
 
-                            A.Estado = "Anulado";
+                            A.Estado = "ANULADO";
                             A.UsuarioUpdate = Usuario;
                             A.FechaUpdate = DateTime.Now;
 
@@ -90,7 +90,7 @@ namespace Balance_api.Controllers.Sistema
 
                             if(A != null)
                             {
-                                A.Estado = "Anulado";
+                                A.Estado = "ANULADO";
                                 A.UsuarioUpdate = Transf.UsuarioAnula;
                                 A.FechaUpdate = Transf.FechaAnulacion;
                             }
@@ -114,7 +114,7 @@ namespace Balance_api.Controllers.Sistema
 
                             if (A != null)
                             {
-                                A.Estado = "Anulado";
+                                A.Estado = "ANULADO";
                                 A.UsuarioUpdate = cheque.UsuarioAnula;
                                 A.FechaUpdate = cheque.FechaAnulacion;
                             }
