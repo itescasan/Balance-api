@@ -6,7 +6,9 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
+using DevExpress.DataAccess.Excel;
 using DevExpress.DataAccess.Sql;
+using DevExpress.DataAccess.Sql.DataApi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +46,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     var bo = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == CodBodega);
+                    CatalogoCuenta? ct = Conexion.CatalogoCuenta.FirstOrDefault(f => f.CuentaContable == Cuenta);
 
                    
                     xrpAuxiliar rpt = new xrpAuxiliar();
@@ -55,7 +58,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
-
+            
 
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@CUENTA"].Value = Cuenta;
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@BODEGA"].Value = CodBodega;
@@ -70,15 +73,15 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-
-
                     //DevExpress.DataAccess.Sql.DataApi.ITable table = sqlDataSource.Result["CNT_SP_AuxiliarCuenta"];
+ 
 
                     var qAuxiliar = (from _q in sqlDataSource.Result["CNT_SP_AuxiliarCuenta"]
                                      orderby _q["Linea"]
                                      select new Cls_AuxiliarContable()
                                      {
                                          IdAsiento = Convert.ToInt32(_q["IdAsiento"]),
+                                         Modulo = Convert.ToString(_q["Modulo"])!,
                                          Fecha = Convert.ToDateTime(_q["Fecha"]),
                                          Serie = _q["Serie"].ToString(),
                                          NoDoc = _q["NoDoc"].ToString(),
@@ -93,9 +96,85 @@ namespace Balance_api.Controllers.Contabilidad
                                          Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
                                          Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
                                          Editar = Convert.ToInt32(_q["Editar"]),
-                                         Linea = Convert.ToInt32(_q["Linea"]),
+                                         Linea = Convert.ToInt32(_q["Linea"])
 
                                      }).ToList();
+
+
+                    List<Cls_Datos> lstDatos = new();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "AUXILIAR";
+                    datos.d = qAuxiliar;
+                    lstDatos.Add(datos);
+
+
+                    datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "xrpAuxiliar";
+                    lstDatos.Add(datos);
+
+                    datos = new();
+                    datos.d = Cuenta;
+                    datos.Nombre = "CUENTA";
+                    lstDatos.Add(datos);
+
+
+                    datos = new();
+                    datos.d = ct == null ? string.Empty : ct.ClaseCuenta;
+                    datos.Nombre = "CUENTA";
+                    lstDatos.Add(datos);
+
+
+                    if (ct != null)
+                    {
+                        if(ct.ClaseCuenta == "D")
+                        {
+
+
+                            var qConsolidado = (from _q in qAuxiliar
+                                               group _q by new { _q.Modulo, _q.Fecha } into grupo select grupo).Select((x, i) => new Cls_AuxiliarContable()
+                                               {
+                                                   IdAsiento = 0,
+                                                   Modulo = x.Key.Modulo,
+                                                   Fecha = x.Key.Fecha,
+                                                   Serie = string.Empty,
+                                                   NoDoc = string.Empty,
+                                                   Cuenta = ct.CuentaContable,
+                                                   Concepto = ct.NombreCuenta,
+                                                   Referencia = string.Empty,
+                                                   DEBE_ML = x.Sum(s => s.DEBE_ML),
+                                                   HABER_ML = x.Sum(s => s.HABER_ML),
+                                                   Saldo_ML = x.Sum(s => s.Saldo_ML),
+                                                   DEBE_MS = x.Sum(s => s.DEBE_MS),
+                                                   HABER_MS = x.Sum(s => s.HABER_MS),
+                                                   Saldo_MS = x.Sum(s => s.Saldo_MS),
+                                                   Cuenta_Padre = ct.CuentaPadre,
+                                                   Editar = 0,
+                                                   Linea = i
+                                               }).ToList();
+
+
+
+                            xrpAuxiliarConsolidado rpt2 = new xrpAuxiliarConsolidado();
+                            rpt.Parameters["P_Fecha1"].Value = Fecha1;
+                            rpt.Parameters["P_Fecha2"].Value = Fecha2;
+                            rpt.Parameters["P_Cuenta"].Value = Cuenta;
+                            rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
+                            rpt2.DataSource = qConsolidado;
+
+
+                            stream = new MemoryStream();
+                            rpt2.ExportToPdf(stream, null);
+                            stream.Seek(0, SeekOrigin.Begin);
+
+                            datos = new();
+                            datos.d = stream.ToArray();
+                            datos.Nombre = "xrpAuxiliarConsolidado";
+                            lstDatos.Add(datos);
+
+                        }
+                    }
 
                     /*
                     foreach (DevExpress.DataAccess.Sql.DataApi.IRow row in table)
@@ -120,20 +199,12 @@ namespace Balance_api.Controllers.Contabilidad
                                */
 
 
-                    List<Cls_Datos> lstDatos = new();
-
-                    Cls_Datos datos = new();
-                    datos.Nombre = "AUXILIAR";
-                    datos.d = qAuxiliar;
-                    lstDatos.Add(datos);
+                  
 
 
 
 
-                    datos = new();
-                    datos.d = stream.ToArray();
-                    datos.Nombre = "xrpAuxiliar";
-                    lstDatos.Add(datos);
+                
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }

@@ -13,6 +13,9 @@
     <Compile Update="Reporte\Contabilidad\xrpAuxiliar.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpAuxiliarConsolidado.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpBalanceGeneral.cs">
       <SubType>XtraReport</SubType>
     </Compile>

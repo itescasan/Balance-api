@@ -8,6 +8,7 @@ namespace Balance_api.Class.Contabilidad
     public class Cls_AuxiliarContable
     {
         public int IdAsiento { get; set; }
+        public string Modulo { get; set; }
         public DateTime? Fecha { get; set; }
         public string? Serie { get; set; }
         public string? NoDoc { get; set; }
