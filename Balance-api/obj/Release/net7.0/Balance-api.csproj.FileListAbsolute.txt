@@ -114,3 +114,4 @@ D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Conta
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpCheque.resources
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpEstadoResultado.resources
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpAuxiliar.resources
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpAuxiliarConsolidado.resources
