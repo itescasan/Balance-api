@@ -96,7 +96,7 @@ namespace Balance_api.Controllers.Sistema
 
         [Route("api/Sistema/DatosServidor")]
         [HttpGet]
-        public string DatosServidor(string user)
+        public string DatosServidor(string user, string Modulo)
         {
             string json = string.Empty;
             try
@@ -107,7 +107,7 @@ namespace Balance_api.Controllers.Sistema
                     Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
          
 
-                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : !u.AccesoWeb ? true : u.Desconectar)));
+                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : !u.AccesoWeb ? true : u.Desconectar), Modulo));
                     lstDatos.Add(V_TC(DateTime.Now));
 
 
@@ -126,7 +126,7 @@ namespace Balance_api.Controllers.Sistema
             return json;
         }
 
-        private Cls_Datos[] V_DatosServidor(string user, bool Desconectar)
+        private Cls_Datos[] V_DatosServidor(string user, bool Desconectar, string Modulo)
         { 
      
             Cls_Datos datos = new();
@@ -146,7 +146,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-            var Perfil = Conexion.AccesoWeb.Where(w => w.Usuario == user && w.Modulo == "FACT" && w.Activo).ToList();
+            var Perfil = Conexion.AccesoWeb.Where(w => w.Usuario == user && w.Modulo == Modulo && w.Activo).ToList();
 
             Cls_Datos datos4 = new Cls_Datos();
             datos4.Nombre = "PERFIL";
