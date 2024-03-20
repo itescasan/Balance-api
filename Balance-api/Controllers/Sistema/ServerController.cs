@@ -145,7 +145,13 @@ namespace Balance_api.Controllers.Sistema
             datos3.d = IdMonedaLocal;
 
 
-            
+
+            var Perfil = Conexion.AccesoWeb.Where(w => w.Usuario == user && w.Modulo == "FACT" && w.Activo).ToList();
+
+            Cls_Datos datos4 = new Cls_Datos();
+            datos4.Nombre = "PERFIL";
+            datos4.d = Perfil;
+
 
 
             return new Cls_Datos[] { datos, datos2, datos3 };
