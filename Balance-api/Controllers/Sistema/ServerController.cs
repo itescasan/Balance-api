@@ -20,12 +20,12 @@ namespace Balance_api.Controllers.Sistema
         }
         [Route("api/Sistema/Login")]
         [HttpGet]
-        public string Login(string user, string pass)
+        public string Login(string user, string pass, string Modulo)
         {
             return V_Login(user, pass);
         }
 
-        private string V_Login(string user, string pass)
+        private string V_Login(string user, string pass, string Modulo)
         {
             string json = string.Empty;
             try
@@ -75,7 +75,7 @@ namespace Balance_api.Controllers.Sistema
                     lstDatos.Add(datos);
 
 
-                    lstDatos.AddRange(V_DatosServidor(user, qUsuario[0].Desconectar));
+                    lstDatos.AddRange(V_DatosServidor(user, qUsuario[0].Desconectar, Modulo));
 
               
 
