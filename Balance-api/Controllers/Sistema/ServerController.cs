@@ -22,7 +22,7 @@ namespace Balance_api.Controllers.Sistema
         [HttpGet]
         public string Login(string user, string pass, string Modulo)
         {
-            return V_Login(user, pass);
+            return V_Login(user, pass, Modulo);
         }
 
         private string V_Login(string user, string pass, string Modulo)
