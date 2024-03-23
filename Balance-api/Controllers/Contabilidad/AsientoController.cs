@@ -124,7 +124,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     Asiento A = Conexion.AsientosContables.Find(IdAsiento)!;
-                    A.Estado = "Autorizado";
+                    A.Estado = "AUTORIZADO";
                     A.UsuarioUpdate = Usuario;
                     A.FechaUpdate = DateTime.Now;
 
@@ -182,8 +182,10 @@ namespace Balance_api.Controllers.Contabilidad
             string json = string.Empty;
 
             bool esNuevo = false;
+            decimal TotalDebito = 0;
+            decimal TotalCredito = 0;
             Asiento? _Maestro = _Conexion.AsientosContables.Find(d.IdAsiento);
-            Periodos? Pi = _Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
+            Periodos? Pi = _Conexion.Periodos.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year && f.FechaInicio.Month == d.Fecha.Month);
             EjercicioFiscal? Ej = _Conexion.EjercicioFiscal.FirstOrDefault(f => f.FechaInicio.Year == d.Fecha.Year);
 
 
@@ -244,7 +246,7 @@ namespace Balance_api.Controllers.Contabilidad
             _Maestro.TipoDocOrigen = d.TipoDocOrigen;
             _Maestro.Bodega = d.Bodega;
             _Maestro.Referencia = d.Referencia;
-            _Maestro.Estado = d.Estado;
+            _Maestro.Estado = d.Estado.ToUpper();
             _Maestro.TipoAsiento = d.TipoAsiento;
             _Maestro.Total = d.Total;
             _Maestro.TotalML = d.TotalML;
@@ -285,6 +287,9 @@ namespace Balance_api.Controllers.Contabilidad
                 _det.NoDocumento = detalle.NoDocumento;
                 _det.TipoDocumento = detalle.TipoDocumento;
 
+                TotalDebito += _det.Debito;
+                TotalCredito += _det.Credito;
+
 
                 if (esNuevoDet) _Conexion.AsientosContablesDetalle.Add(_det);
 
@@ -292,6 +297,12 @@ namespace Balance_api.Controllers.Contabilidad
             }
             _Conexion.SaveChanges();
 
+
+            if(TotalDebito - TotalCredito != 0 || TotalDebito == 0 && TotalCredito == 0)
+            {
+                _Maestro.Estado = "DESCUADRADO";
+                _Conexion.SaveChanges();
+            }
 
 
             List<Cls_Datos> lstDatos = new();
