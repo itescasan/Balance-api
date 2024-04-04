@@ -472,7 +472,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/SIS/AccesoWeb")]
+        [Route("api/Sistema/AccesoWeb")]
         [HttpGet]
         public string AccesoWeb(string user)
         {
@@ -547,9 +547,9 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/SIS/GuardarAcceso")]
+        [Route("api/Sistema/GuardarAcceso")]
         [HttpPost]
-        public IActionResult GuardarAcceso(AccesoWeb[] d)
+        public IActionResult GuardarAcceso([FromBody] AccesoWeb d)
         {
 
             if (ModelState.IsValid)
