@@ -4,6 +4,7 @@ using Balance_api.Contexts;
 using Balance_api.Models.Sistema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Balance_api.Controllers.Sistema
@@ -466,6 +467,165 @@ namespace Balance_api.Controllers.Sistema
 
             return json;
         }
+
+
+
+
+
+        [Route("api/SIS/AccesoWeb")]
+        [HttpGet]
+        public string AccesoWeb(string user)
+        {
+            return V_AccesoWeb(user);
+        }
+
+        private string V_AccesoWeb(string user)
+        {
+            string json = string.Empty;
+            try
+            {
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.IdRol == 1 & f.AccesoWeb);
+
+                    if (Usuario == null)
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "No tiene permiso para acceder a la inforacion solicitada.", 1);
+                        return json;
+                    }
+
+
+
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+
+
+                    var qUsuario = (from _q in Conexion.Usuarios
+                                    where _q.AccesoWeb
+                                    select new
+                                    {
+                                        _q.Usuario,
+                                        Nombre = string.Concat(_q.Nombres, " ", _q.Apellidos)
+                                    }).ToList();
+
+
+
+
+
+
+                    Cls_Datos datos = new Cls_Datos();
+                    datos.Nombre = "USUARIO";
+                    datos.d = qUsuario;
+                    lstDatos.Add(datos);
+
+
+
+                    var qAccesoWeb = Conexion.AccesoWeb.ToList();
+
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "ACCESO WEB";
+                    datos.d = qAccesoWeb;
+                    lstDatos.Add(datos);
+
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/SIS/GuardarAcceso")]
+        [HttpPost]
+        public IActionResult GuardarAcceso(AccesoWeb[] d)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                return Ok(V_GuardarAcceso(d));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        private string V_GuardarAcceso(AccesoWeb[] d)
+        {
+
+            string json = string.Empty;
+
+            try
+            {
+
+                        
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+                    foreach(AccesoWeb f in d)
+                    {
+                        bool esNuevo = false;
+                        AccesoWeb? a = Conexion.AccesoWeb.Find(f.IdAcceso);
+
+                        if (a == null)
+                        {
+                            a = new AccesoWeb();
+                            esNuevo = true;
+                        }
+
+                        a.EsMenu = f.EsMenu;
+                        a.Id = f.Id;
+                        a.Caption = f.Caption;
+                        a.MenuPadre = f.MenuPadre;
+                        a.Clase = f.Clase;
+                        a.Usuario = f.Usuario;
+                        a.Modulo = "FACT";
+                        a.Activo = f.Activo;
+
+                        if (esNuevo) Conexion.AccesoWeb.Add(a);
+                        Conexion.SaveChanges();
+                    }
+
+        
+
+
+                    Cls_Datos datos = new Cls_Datos();
+                    datos.Nombre = "ACCESO WEB";
+                    datos.d = "Registro Guardado";
+
+
+
+
+                    scope.Complete();
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
+
 
     }
 }
