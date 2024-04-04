@@ -614,7 +614,7 @@ namespace Balance_api.Controllers.Sistema
 
                     scope.Complete();
 
-                    json = Cls_Mensaje.Tojson(datos, datos.Count, string.Empty, string.Empty, 0);
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
 
 
 
