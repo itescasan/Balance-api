@@ -594,7 +594,7 @@ namespace Balance_api.Controllers.Sistema
                         a.MenuPadre = f.MenuPadre;
                         a.Clase = f.Clase;
                         a.Usuario = f.Usuario;
-                        a.Modulo = "FACT";
+                        a.Modulo = f.Modulo;
                         a.Activo = f.Activo;
 
                         if (esNuevo) Conexion.AccesoWeb.Add(a);
