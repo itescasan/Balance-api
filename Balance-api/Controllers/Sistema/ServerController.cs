@@ -549,7 +549,7 @@ namespace Balance_api.Controllers.Sistema
 
         [Route("api/Sistema/GuardarAcceso")]
         [HttpPost]
-        public IActionResult GuardarAcceso([FromBody] AccesoWeb d)
+        public IActionResult GuardarAcceso([FromBody] AccesoWeb[] d)
         {
 
             if (ModelState.IsValid)
@@ -610,8 +610,14 @@ namespace Balance_api.Controllers.Sistema
 
 
 
+                 
 
                     scope.Complete();
+
+                    json = Cls_Mensaje.Tojson(datos, datos.Count, string.Empty, string.Empty, 0);
+
+
+
                 }
 
 
