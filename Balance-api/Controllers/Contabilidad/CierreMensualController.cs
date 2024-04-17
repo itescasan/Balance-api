@@ -123,5 +123,56 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
+
+
+
+
+        [Route("api/Contabilidad/CierreMensual/ModuloVSContabilidad")]
+        [HttpGet]
+        public string ModuloVSContabilidad(string Modulo, string NoDocumento, DateTime Fecha,  bool esCordoba)
+        {
+            return V_ModuloVSContabilidad(Modulo, NoDocumento, Fecha, esCordoba);
+        }
+
+        private string V_ModuloVSContabilidad(string Modulo, string NoDocumento, DateTime Fecha, bool esCordoba)
+        {
+            string json = string.Empty;
+            try
+            {
+                if (Modulo == null) Modulo = string.Empty;
+                if (NoDocumento == null) NoDocumento = string.Empty;
+                using (Conexion)
+                {
+
+
+           
+
+                    List<ModuloVSContabilidad> lst = Conexion.ModuloVSContabilidad.FromSqlRaw($"EXEC CNT.Modulo_VS_Contabilidad '{Modulo}', '{NoDocumento}', {Fecha.Month}, {Fecha.Year}, {(esCordoba ? 1 : 0)}").ToList();
+        
+
+
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "MODULO VS CONTABILIDAD";
+                    datos.d = lst;
+
+
+
+                    json = Cls_Mensaje.Tojson(datos, lst.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
     }
 }
