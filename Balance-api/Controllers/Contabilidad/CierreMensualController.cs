@@ -129,12 +129,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/CierreMensual/ModuloVSContabilidad")]
         [HttpGet]
-        public string ModuloVSContabilidad(string Modulo, string NoDocumento, DateTime Fecha,  bool esCordoba)
+        public string ModuloVSContabilidad(string Modulo, string NoDocumento, string CuentaContable, DateTime Fecha,  bool esCordoba)
         {
-            return V_ModuloVSContabilidad(Modulo, NoDocumento, Fecha, esCordoba);
+            return V_ModuloVSContabilidad(Modulo, NoDocumento, CuentaContable, Fecha, esCordoba);
         }
 
-        private string V_ModuloVSContabilidad(string Modulo, string NoDocumento, DateTime Fecha, bool esCordoba)
+        private string V_ModuloVSContabilidad(string Modulo, string NoDocumento, string CuentaContable, DateTime Fecha, bool esCordoba)
         {
             string json = string.Empty;
             try
@@ -147,7 +147,7 @@ namespace Balance_api.Controllers.Contabilidad
 
            
 
-                    List<ModuloVSContabilidad> lst = Conexion.ModuloVSContabilidad.FromSqlRaw($"EXEC CNT.Modulo_VS_Contabilidad '{Modulo}', '{NoDocumento}', {Fecha.Month}, {Fecha.Year}, {(esCordoba ? 1 : 0)}").ToList();
+                    List<ModuloVSContabilidad> lst = Conexion.ModuloVSContabilidad.FromSqlRaw($"EXEC CNT.Modulo_VS_Contabilidad '{Modulo}', '{NoDocumento}', '{CuentaContable}', {Fecha.Month}, {Fecha.Year}, {(esCordoba ? 1 : 0)}").ToList();
         
 
 
