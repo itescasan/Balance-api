@@ -11,6 +11,7 @@ namespace Balance_api.Models.Contabilidad
         public string CuentaContable { get; set; }
         public string NombreCuenta { get; set; }
         public string NoDocumento { get; set; }
+        public string Referencia { get; set; }
         public string CodigoBodega { get; set; }
         public decimal Modulo { get; set; }
         public decimal Contabilidad { get; set; }

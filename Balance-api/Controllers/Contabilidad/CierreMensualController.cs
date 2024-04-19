@@ -57,6 +57,14 @@ namespace Balance_api.Controllers.Contabilidad
                     string Sql2 = $"";
 
 
+                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+
+
+
+
+
+
 
                     switch (Codigo)
                     {
@@ -87,7 +95,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     CierreMes Cierre2 = Conexion.CierreMes.FromSqlRaw(Sql2).ToList().First();
 
-
+                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
 
 
 
