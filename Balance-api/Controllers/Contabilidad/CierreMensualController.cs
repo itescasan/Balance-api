@@ -57,8 +57,8 @@ namespace Balance_api.Controllers.Contabilidad
                     string Sql2 = $"";
 
 
-                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
-                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+                   // Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                   // Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
 
 
 
@@ -95,8 +95,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     CierreMes Cierre2 = Conexion.CierreMes.FromSqlRaw(Sql2).ToList().First();
 
-                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
-                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+                   // Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                   // Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
 
 
 
@@ -138,17 +138,20 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/CierreMensual/ModuloVSContabilidad")]
         [HttpGet]
-        public string ModuloVSContabilidad(string Modulo, string NoDocumento, string CuentaContable, DateTime Fecha,  bool esCordoba)
+        public string ModuloVSContabilidad(int Nivel, string Tabla, string CodBodega, string TipoDoc, string CodConfig, string NoDocumento, DateTime Fecha,  bool esCordoba)
         {
-            return V_ModuloVSContabilidad(Modulo, NoDocumento, CuentaContable, Fecha, esCordoba);
+            return V_ModuloVSContabilidad(Nivel, Tabla, CodBodega, TipoDoc, CodConfig, NoDocumento, Fecha, esCordoba);
         }
 
-        private string V_ModuloVSContabilidad(string Modulo, string NoDocumento, string CuentaContable, DateTime Fecha, bool esCordoba)
+        private string V_ModuloVSContabilidad(int Nivel, string Tabla, string CodBodega, string TipoDoc, string CodConfig, string NoDocumento, DateTime Fecha, bool esCordoba)
         {
             string json = string.Empty;
             try
             {
-                if (Modulo == null) Modulo = string.Empty;
+                if (Tabla == null) Tabla = string.Empty;
+                if (CodBodega == null) CodBodega = string.Empty;
+                if (TipoDoc == null) TipoDoc = string.Empty;
+                if (CodConfig == null) CodConfig = string.Empty;
                 if (NoDocumento == null) NoDocumento = string.Empty;
                 using (Conexion)
                 {
@@ -156,7 +159,7 @@ namespace Balance_api.Controllers.Contabilidad
 
            
 
-                    List<ModuloVSContabilidad> lst = Conexion.ModuloVSContabilidad.FromSqlRaw($"EXEC CNT.Modulo_VS_Contabilidad '{Modulo}', '{NoDocumento}', '{CuentaContable}', {Fecha.Month}, {Fecha.Year}, {(esCordoba ? 1 : 0)}").ToList();
+                    List<ModuloVSContabilidad> lst = Conexion.ModuloVSContabilidad.FromSqlRaw($"EXEC CNT.Modulo_VS_Contabilidad {Nivel}, '{Tabla}', '{CodBodega}', '{TipoDoc}', '{CodConfig}', '{NoDocumento}',  {Fecha.Month}, {Fecha.Year}, {(esCordoba ? 1 : 0)}").ToList();
         
 
 
