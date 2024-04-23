@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\models\\banca\\cuentabanco.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\banca\\cuentabanco.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\ejerciciofiscalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\ejerciciofiscalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CuentaBanco.cs",
+              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Banca\\CuentaBanco.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Models\\Banca\\CuentaBanco.cs",
+              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Banca\\CuentaBanco.cs",
+              "RelativeToolTip": "Balance-api\\Models\\Banca\\CuentaBanco.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-22T17:33:56.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BalanceEntities.cs",
+              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Contexts\\BalanceEntities.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Contexts\\BalanceEntities.cs",
+              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Contexts\\BalanceEntities.cs",
+              "RelativeToolTip": "Balance-api\\Contexts\\BalanceEntities.cs",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAgwEwAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-19T23:07:09.741Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EjercicioFiscalController.cs",
+              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\EjercicioFiscalController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\EjercicioFiscalController.cs",
+              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\EjercicioFiscalController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\EjercicioFiscalController.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAOEAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-19T22:36:07.96Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
