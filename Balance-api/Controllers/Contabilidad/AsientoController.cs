@@ -395,7 +395,6 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
-                                        _q.AsientosContablesDetalle
 
                                     }).ToList();
 
@@ -408,6 +407,42 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/AsientoContable/GetDetalle")]
+        [HttpGet]
+        public string GetDetalle(int IdAsiento)
+        {
+            return V_GetDetalle(IdAsiento);
+        }
+
+        private string V_GetDetalle(int IdAsiento)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                 
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "ASIENTO";
+                    datos.d = Conexion.AsientosContablesDetalle.Where(W => W.IdAsiento == IdAsiento).ToList();
+
+                    
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
                 }
 
 
