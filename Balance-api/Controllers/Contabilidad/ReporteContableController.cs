@@ -182,14 +182,14 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     Cls_Datos Datos = new();
 
-                    //Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
                     xrpEstadoResultado rpt = new xrpEstadoResultado();
 
 
 
-                    //rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+                    rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 

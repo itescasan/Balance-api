@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>\\srvweb\GV_API$</_PublishTargetUrl>
-    <History>True|2023-11-20T20:45:34.3588586Z;True|2023-10-17T12:28:59.2189906-06:00;True|2023-10-17T12:27:58.9668570-06:00;True|2023-10-17T12:27:57.1671610-06:00;True|2023-10-17T12:27:28.1324735-06:00;</History>
+    <_PublishTargetUrl>\\192.168.0.98\c$\inetpub\wwwroot\BalanceAPi</_PublishTargetUrl>
+    <History>True|2024-05-03T20:56:33.0433701Z;False|2024-05-03T14:55:08.5172998-06:00;True|2024-05-03T14:37:06.2962664-06:00;True|2023-11-20T14:45:34.3588586-06:00;True|2023-10-17T12:28:59.2189906-06:00;True|2023-10-17T12:27:58.9668570-06:00;True|2023-10-17T12:27:57.1671610-06:00;True|2023-10-17T12:27:28.1324735-06:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
