@@ -62,6 +62,10 @@
             this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
             this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.P_Fecha1 = new DevExpress.XtraReports.Parameters.Parameter();
+            this.P_Fecha2 = new DevExpress.XtraReports.Parameters.Parameter();
+            this.P_Cuenta = new DevExpress.XtraReports.Parameters.Parameter();
+            this.P_Bodega = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
@@ -426,6 +430,34 @@
             this.xrPageInfo1.StylePriority.UseTextAlignment = false;
             this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             // 
+            // P_Fecha1
+            // 
+            this.P_Fecha1.Description = "P_Fecha1";
+            this.P_Fecha1.Name = "P_Fecha1";
+            this.P_Fecha1.Type = typeof(System.DateTime);
+            this.P_Fecha1.ValueInfo = "2024-05-10";
+            this.P_Fecha1.Visible = false;
+            // 
+            // P_Fecha2
+            // 
+            this.P_Fecha2.Description = "P_Fecha2";
+            this.P_Fecha2.Name = "P_Fecha2";
+            this.P_Fecha2.Type = typeof(System.DateTime);
+            this.P_Fecha2.ValueInfo = "2024-05-10";
+            this.P_Fecha2.Visible = false;
+            // 
+            // P_Cuenta
+            // 
+            this.P_Cuenta.Description = "P_Cuenta";
+            this.P_Cuenta.Name = "P_Cuenta";
+            this.P_Cuenta.Visible = false;
+            // 
+            // P_Bodega
+            // 
+            this.P_Bodega.Description = "P_Bodega";
+            this.P_Bodega.Name = "P_Bodega";
+            this.P_Bodega.Visible = false;
+            // 
             // xrpAuxiliarConsolidado
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -436,6 +468,11 @@
             this.ReportFooter,
             this.PageFooter});
             this.Margins = new System.Drawing.Printing.Margins(15, 14, 19, 15);
+            this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
+            this.P_Fecha1,
+            this.P_Fecha2,
+            this.P_Cuenta,
+            this.P_Bodega});
             this.Version = "21.2";
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
@@ -478,5 +515,9 @@
         private DevExpress.XtraReports.UI.PageFooterBand PageFooter;
         private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
         private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo1;
+        private DevExpress.XtraReports.Parameters.Parameter P_Fecha1;
+        private DevExpress.XtraReports.Parameters.Parameter P_Fecha2;
+        private DevExpress.XtraReports.Parameters.Parameter P_Cuenta;
+        private DevExpress.XtraReports.Parameters.Parameter P_Bodega;
     }
 }
