@@ -53,3 +53,5 @@
 /Balance-api/obj/Release/net7.0/ref/Balance-api.dll
 /Balance-api/bin/Release/net7.0/Balance-api.dll
 /Balance-api/obj/Debug/net7.0/Balance-api.csproj.GenerateResource.cache
+/Balance-api/obj/Debug/net7.0/Balance-api.AssemblyInfo.cs
+/Balance-api/obj/Debug/net7.0/Balance-api.AssemblyInfoInputs.cache
