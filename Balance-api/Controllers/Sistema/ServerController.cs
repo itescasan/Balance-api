@@ -444,17 +444,58 @@ namespace Balance_api.Controllers.Sistema
                             break;
 
                         case "Contabilidad":
-                            var qCon = (from _q in Conexion.SerieDocumento
-                                        where _q.IdSerie == Serie
-                                        select string.Concat(_q.IdSerie, "$-", _q.Consecutivo + 1)
-                                     ).FirstOrDefault();
 
-                            datos.d = qCon;
+                            int x = 0;
+                            int.TryParse( Conexion.AsientosContables.Where(w => w.IdSerie == Serie).Max(m => m.NoAsiento.Replace(Serie, string.Empty)), out x);
+
+
+                            datos.d = string.Concat(Serie, "$-", x + 1);
                             break;
 
                     }
 
 
+                }
+
+                json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+            }
+            catch
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Sistema/ConsecutivoContabilidad")]
+        [HttpGet]
+        public string GetConsecutivoContabilidad(string Serie, DateTime Fecha)
+        {
+            return V_GetConsecutivoContabilidad(Serie, Fecha);
+        }
+
+        private string V_GetConsecutivoContabilidad(string Serie, DateTime Fecha)
+        {
+            string json = string.Empty;
+
+            Cls_Datos datos = new();
+            datos.Nombre = "CONSECUTIVO";
+
+
+
+            try
+            {
+
+                using (Conexion)
+                {
+                    int x = 0;
+                    int.TryParse(Conexion.AsientosContables.Where(w => w.IdSerie == Serie && w.Fecha.Month == Fecha.Month && w.Fecha.Year == Fecha.Year).Max(m => m.NoAsiento.Replace(Serie + "-", string.Empty)), out x);
+
+
+                    datos.d = string.Concat(Serie, "$-", x + 1);
+    
                 }
 
                 json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
