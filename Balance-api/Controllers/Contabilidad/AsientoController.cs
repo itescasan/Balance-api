@@ -230,7 +230,7 @@ namespace Balance_api.Controllers.Contabilidad
                         _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConsecutivoDiario SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}' AND Mes = {d.Fecha.Month}  AND Anio = {d.Fecha.Year}");
                         _Conexion.SaveChanges();
 
-                        ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE Serie = '{d.IdSerie}' AND Mes = {d.Fecha.Month}  AND Anio = {d.Fecha.Year}").ToList().First();
+                        ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE IdSerie = '{d.IdSerie}' AND Mes = {d.Fecha.Month}  AND Anio = {d.Fecha.Year}").ToList().First();
                     }
 
 

@@ -485,7 +485,7 @@ namespace Balance_api.Controllers.Sistema
                 {
 
                     var qContabilidad = (from _q in Conexion.ConsecutivoDiario
-                                where _q.Serie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
+                                where _q.IdSerie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
                                 select string.Concat(Serie, "$-", _q.Consecutivo + 1)
                               ).FirstOrDefault();
 
