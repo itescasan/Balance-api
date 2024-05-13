@@ -46,6 +46,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     var qCuentaBancaria = (from _q in Conexion.CuentaBanco
                                            where _q.Activo && _q.Tipo == "T"
+                                           orderby _q.IdBanco
                                   select new
                                   {
                                       _q.IdCuentaBanco,
