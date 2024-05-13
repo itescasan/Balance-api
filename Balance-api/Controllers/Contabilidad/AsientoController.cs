@@ -214,10 +214,30 @@ namespace Balance_api.Controllers.Contabilidad
 
                 if(Consecutivo)
                 {
-                    _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
-                    _Conexion.SaveChanges();
 
-                    int ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
+                    SerieDocumento sd = _Conexion.SerieDocumento.First(w => w.IdSerie == d.IdSerie);
+                    int ConsecutivoSerie = 0;
+
+                    if (sd.TipoDocumento.Automatico)
+                    {
+                        _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}'");
+                        _Conexion.SaveChanges();
+
+                        ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.IdSerie}'").ToList().First();
+                    }
+                    else
+                    {
+                        _Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConsecutivoDiario SET Consecutivo += 1  WHERE  IdSerie = '{d.IdSerie}' AND Mes = {d.Fecha.Month}  AND Anio = {d.Fecha.Year}");
+                        _Conexion.SaveChanges();
+
+                        ConsecutivoSerie = _Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE Serie = '{d.IdSerie}' AND Mes = {d.Fecha.Month}  AND Anio = {d.Fecha.Year}").ToList().First();
+                    }
+
+
+
+                    
+
+                   
 
                     d.NoAsiento = string.Concat(d.IdSerie, ConsecutivoSerie);
 

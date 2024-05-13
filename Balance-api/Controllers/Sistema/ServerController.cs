@@ -443,14 +443,7 @@ namespace Balance_api.Controllers.Sistema
 
                             break;
 
-                        case "Contabilidad":
-
-                            int x = 0;
-                            int.TryParse( Conexion.AsientosContables.Where(w => w.IdSerie == Serie).Max(m => m.NoAsiento.Replace(Serie, string.Empty)), out x);
-
-
-                            datos.d = string.Concat(Serie, "$-", x + 1);
-                            break;
+    
 
                     }
 
@@ -490,11 +483,14 @@ namespace Balance_api.Controllers.Sistema
 
                 using (Conexion)
                 {
-                    int x = 0;
-                    int.TryParse(Conexion.AsientosContables.Where(w => w.IdSerie == Serie && w.Fecha.Month == Fecha.Month && w.Fecha.Year == Fecha.Year).Max(m => m.NoAsiento.Replace(Serie + "-", string.Empty)), out x);
+
+                    var qContabilidad = (from _q in Conexion.ConsecutivoDiario
+                                where _q.Serie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
+                                select string.Concat(Serie, "$-", _q.Consecutivo + 1)
+                              ).FirstOrDefault();
 
 
-                    datos.d = string.Concat(Serie, "$-", x + 1);
+                    datos.d = qContabilidad;
     
                 }
 

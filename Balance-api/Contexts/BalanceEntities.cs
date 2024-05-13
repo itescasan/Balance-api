@@ -87,6 +87,8 @@ namespace Balance_api.Contexts
         public DbSet<Serie> Serie { get; set; }
         public DbSet<BodegaSerie> BodegaSerie { get; set; }
         public DbSet<SerieDocumento> SerieDocumento { get; set; }
+        public DbSet<ConsecutivoDiario> ConsecutivoDiario { get; set; }
+
         public DbSet<TipoDocumento> TipoDocumento { get; set; }
         public DbSet<MovimientoDoc> MovimientoDoc { get; set; }
         public DbSet<AccesoWeb> AccesoWeb { get; set; }
