@@ -322,7 +322,7 @@ namespace Balance_api.Controllers.Sistema
                         case "Contabilidad":
                             var qCon = (from _q in Conexion.SerieDocumento
                                         where !_q.TipoDocumento.Automatico && _q.Activo
-                                        select _q.IdSerie
+                                        select  new { _q.IdSerie, _q.DescripcionSerie }
                                    ).ToList();
 
                             datos.d = qCon;
@@ -443,18 +443,55 @@ namespace Balance_api.Controllers.Sistema
 
                             break;
 
-                        case "Contabilidad":
-                            var qCon = (from _q in Conexion.SerieDocumento
-                                        where _q.IdSerie == Serie
-                                        select string.Concat(_q.IdSerie, "$-", _q.Consecutivo + 1)
-                                     ).FirstOrDefault();
-
-                            datos.d = qCon;
-                            break;
+    
 
                     }
 
 
+                }
+
+                json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+            }
+            catch
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Sistema/ConsecutivoContabilidad")]
+        [HttpGet]
+        public string GetConsecutivoContabilidad(string Serie, DateTime Fecha)
+        {
+            return V_GetConsecutivoContabilidad(Serie, Fecha);
+        }
+
+        private string V_GetConsecutivoContabilidad(string Serie, DateTime Fecha)
+        {
+            string json = string.Empty;
+
+            Cls_Datos datos = new();
+            datos.Nombre = "CONSECUTIVO";
+
+
+
+            try
+            {
+
+                using (Conexion)
+                {
+
+                    var qContabilidad = (from _q in Conexion.ConsecutivoDiario
+                                where _q.IdSerie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
+                                select string.Concat(Serie, "$-", _q.Consecutivo + 1)
+                              ).FirstOrDefault();
+
+
+                    datos.d = qContabilidad;
+    
                 }
 
                 json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
