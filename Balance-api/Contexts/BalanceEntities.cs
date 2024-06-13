@@ -61,6 +61,10 @@ namespace Balance_api.Contexts
 
         public virtual DbSet<ModuloVSContabilidad> ModuloVSContabilidad { get; set; }
 
+        public DbSet<AccesoCajaC> AccesoCajaChica { get; set; }
+
+        public DbSet<ConfCaja> ConfCaja { get; set; }
+
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
         public DbSet<Bodegas> Bodegas { get; set; }
