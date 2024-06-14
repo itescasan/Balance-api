@@ -95,6 +95,7 @@ namespace Balance_api.Controllers.Contabilidad
                                          HABER_MS = Convert.ToDecimal(_q["HABER_MS"]),
                                          Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
                                          Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
+                                         Bodega = _q["Bodega"].ToString(),
                                          Editar = Convert.ToInt32(_q["Editar"]),
                                          Linea = Convert.ToInt32(_q["Linea"])
 
@@ -150,6 +151,7 @@ namespace Balance_api.Controllers.Contabilidad
                                                    HABER_MS = x.Sum(s => s.HABER_MS),
                                                    Saldo_MS = x.Sum(s => s.Saldo_MS),
                                                    Cuenta_Padre = ct.CuentaPadre,
+                                                   Bodega = string.Empty,
                                                    Editar = 0,
                                                    Linea = i
                                                }).ToList();
