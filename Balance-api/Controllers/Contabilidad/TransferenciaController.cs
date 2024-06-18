@@ -259,10 +259,10 @@ namespace Balance_api.Controllers.Contabilidad
                     if (_Transf == null)
                     {
 
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.T.IdSerie}'");
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConsecutivoDiario SET Consecutivo += 1  WHERE  IdSerie = '{d.T.IdSerie}' AND Mes = {d.T.Fecha.Month}  AND Anio = {d.T.Fecha.Year}");
                         Conexion.SaveChanges();
 
-                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.T.IdSerie}'").ToList().First();
+                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE IdSerie = '{d.T.IdSerie}' AND Mes = {d.T.Fecha.Month}  AND Anio = {d.T.Fecha.Year}").ToList().First();
 
                         d.T.NoTransferencia = string.Concat(d.T.IdSerie, ConsecutivoSerie);
         

@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Class\Inventario\**" />
     <Compile Remove="Class\SIS\**" />
+    <Content Remove="Class\Inventario\**" />
     <Content Remove="Class\SIS\**" />
+    <EmbeddedResource Remove="Class\Inventario\**" />
     <EmbeddedResource Remove="Class\SIS\**" />
+    <None Remove="Class\Inventario\**" />
     <None Remove="Class\SIS\**" />
   </ItemGroup>
 
@@ -27,10 +31,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Class\Inventario\" />
   </ItemGroup>
 
 </Project>
