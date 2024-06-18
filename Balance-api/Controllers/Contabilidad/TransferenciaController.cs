@@ -6,6 +6,7 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using DevExpress.Charts.Native;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +58,7 @@ namespace Balance_api.Controllers.Contabilidad
                                       _q.Monedas.Moneda,
                                       _q.Bancos.CuentaNuevaC,
                                       _q.Bancos.CuentaNuevaD,
-                                      _q.SerieDocumento.IdSerie,
+                                      IdSerie = "EG",
                                       Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
                                       _q.Activo,
                                       DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
