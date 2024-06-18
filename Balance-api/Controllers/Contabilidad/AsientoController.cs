@@ -235,11 +235,11 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+
+
+
                     
-
-                   
-
-                    d.NoAsiento = string.Concat(d.IdSerie, ConsecutivoSerie);
+                    d.NoAsiento = string.Concat(d.IdSerie, string.Format("{0:yyyyMM}", d.Fecha), "-", ConsecutivoSerie);
 
                 }
 

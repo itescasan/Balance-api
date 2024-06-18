@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\asientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\contabilidad\\auxiliarcontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\auxiliarcontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\models\\sistema\\bodegaserie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ViewState": "AQIAAPIAAAAAAAAAAAAswAUBAABWAAAA",
+              "ViewState": "AQIAAPgAAAAAAAAAAAAwwA4BAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-18T16:47:58.863Z",
               "EditorCaption": ""
@@ -69,14 +69,14 @@
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
               "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
-              "ViewState": "AQIAANEAAAAAAAAAAAAwwOgAAADlAAAA",
+              "ViewState": "AQIAAOAAAAAAAAAAAAAwwPEAAAB4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-07T20:48:20.096Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AuxiliarContableController.cs",
               "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
@@ -88,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": ".editorconfig",
               "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\.editorconfig",
               "RelativeDocumentMoniker": ".editorconfig",
@@ -99,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "BalanceEntities.cs",
               "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Contexts\\BalanceEntities.cs",
               "RelativeDocumentMoniker": "Balance-api\\Contexts\\BalanceEntities.cs",
@@ -123,15 +123,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "ServerController.cs",
               "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
               "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ViewState": "AQIAAAUBAAAAAAAAAAAYwCYBAAAtAAAA",
+              "ViewState": "AQIAANcBAAAAAAAAAAAowOgBAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T01:18:49.109Z"
+              "WhenOpened": "2024-05-10T01:18:49.109Z",
+              "EditorCaption": ""
             }
           ]
         }

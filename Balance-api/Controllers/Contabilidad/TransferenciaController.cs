@@ -265,8 +265,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                         int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE IdSerie = '{d.T.IdSerie}' AND Mes = {d.T.Fecha.Month}  AND Anio = {d.T.Fecha.Year}").ToList().First();
 
-                        d.T.NoTransferencia = string.Concat(d.T.IdSerie, ConsecutivoSerie);
-        
+                        d.T.NoTransferencia = string.Concat(d.T.IdSerie, string.Format("{0:yyyyMM}", d.T.Fecha), "-", ConsecutivoSerie);
+
 
                         d.A.TipoDocOrigen = d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO";
                         d.A.NoDocOrigen = d.T.NoTransferencia;
