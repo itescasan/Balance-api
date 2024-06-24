@@ -505,7 +505,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Cls_Datos datos = new();
                     datos.Nombre = "GUARDAR";
-                    datos.d = "Registro Guardado";
+                    datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
 
 
