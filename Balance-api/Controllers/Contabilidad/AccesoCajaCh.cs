@@ -76,8 +76,8 @@ namespace Balance_api.Controllers.Contabilidad
                                      where _q.Nivel == 5 && _q.IdGrupo == 5
                                      select new
                                      {
-                                         IdAcceso = 0,_q.CuentaContable,_q.NombreCuenta,
-                                         Usuario = "",Activo = false, Clase = "fa-solid fa-house",Caption = _q.NombreCuenta
+                                         IdAcceso = 0,_q.CuentaContable,
+                                         Usuario = "",Activo = false, Clase = "fa-solid fa-house",_q.NombreCuenta
                                      }).ToList();
 
                     datos = new Cls_Datos();
@@ -144,7 +144,8 @@ namespace Balance_api.Controllers.Contabilidad
                             msg = "Registro Aptualizado";
                         }
 
-                        a.CuentaContable = f.CuentaContable;                        
+                        a.CuentaContable = f.CuentaContable;
+                        a.NombreCuenta = f.NombreCuenta;
                         a.Usuario = f.Usuario;                        
                         a.Activo = f.Activo;
 

@@ -11,11 +11,11 @@ using DevExpress.Pdf.Interop;
 using DevExpress.CodeParser;
 namespace Balance_api.Controllers.Contabilidad
 {
-    public class ConfCajaChica : Controller
+    public class ConfCajaChicaController : Controller
     {
         private readonly BalanceEntities Conexion;
 
-        public ConfCajaChica(BalanceEntities db)
+        public ConfCajaChicaController(BalanceEntities db)
         {
             Conexion = db;
         }
@@ -67,9 +67,9 @@ namespace Balance_api.Controllers.Contabilidad
                                          _q.CuentaContable,
                                          _q.NombreCuenta,
                                          Valor = 0.0,
-                                         Activo = true                                    
-                                        
-                                        
+                                         Activo = "BLOQUEADO"
+
+
                                      }).ToList();
 
                     datos = new Cls_Datos();

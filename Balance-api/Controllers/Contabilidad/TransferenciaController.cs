@@ -132,6 +132,23 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
+                    var qReembolsos = (from _q in Conexion.IngresoC
+                                       join _c in Conexion.CatalogoCuenta on _q.Cuenta equals _c.CuentaContable
+                                       where _q.Aplicado == true && _q.Contabilizado == false
+                                       orderby _q.Consecutivo
+                                       select new
+                                       {
+                                           _q.IdIngresoCajaChica,
+                                           Cuenta = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
+                                           DetalleCaja = _q.DetalleCaja.ToList()
+                                       }).ToList();
+
+
+
+                    datos = new();
+                    datos.Nombre = "Reembolso";
+                    datos.d = qReembolsos;
+                    lstDatos.Add(datos);
 
 
 

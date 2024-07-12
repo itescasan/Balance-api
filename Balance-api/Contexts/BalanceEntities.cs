@@ -1,4 +1,5 @@
 ﻿using Balance_api.Class.Contabilidad;
+using Balance_api.Controllers.Contabilidad;
 using Balance_api.Models.Banca;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
@@ -64,6 +65,10 @@ namespace Balance_api.Contexts
         public DbSet<AccesoCajaC> AccesoCajaChica { get; set; }
 
         public DbSet<ConfCaja> ConfCaja { get; set; }
+
+        public DbSet<IngresoCaja> IngresoC { get; set; }
+
+        public DbSet<DetalleIngresoCaja> DetIngCaja { get; set; }
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████

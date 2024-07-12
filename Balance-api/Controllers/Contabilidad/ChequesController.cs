@@ -22,7 +22,7 @@ namespace Balance_api.Controllers.Contabilidad
     {
         private readonly BalanceEntities Conexion;
 
-        public ChequesController(BalanceEntities db)
+        public ChequesController(BalanceEntities db) 
         {
             Conexion = db;
         }
@@ -131,17 +131,28 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-                    string sQuery = $"select RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo))Titulo from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where Contabilizado = 0 AND Aplicado = 0 GROUP BY C.Titulo,R.Numero,R.Ccosto order by RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo)) desc\r\n";
+                    //string sQuery = $"select RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo))Titulo from CONESCASAN..Reembolsos R inner join CONESCASAN..tbCostos C on C.Codigo = R.Ccosto where Contabilizado = 0 AND Aplicado = 0 GROUP BY C.Titulo,R.Numero,R.Ccosto order by RTRIM(LTRIM(R.Numero)) + ' - ' + RTRIM(LTRIM(C.Titulo)) desc\r\n";
 
-                    var qReembolso = Conexion.Reembolsos.FromSqlRaw(sQuery).ToList();
+                    //var qReembolso = Conexion.Reembolsos.FromSqlRaw(sQuery).ToList();
 
 
                     //var qReembolso = Conexion.Database.SqlQuery<Reembolsos>($"").ToList();
 
+                    var qReembolsos = (from _q in Conexion.IngresoC
+                                       join _c in Conexion.CatalogoCuenta on _q.Cuenta equals _c.CuentaContable
+                                       where _q.Aplicado == true && _q.Contabilizado == false
+                                       orderby _q.Consecutivo
+                                       select new
+                                       {
+                                           _q.IdIngresoCajaChica,
+                                           Cuenta = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
+                                       }).ToList();
+
+
 
                     datos = new();
                     datos.Nombre = "Reembolso";
-                    datos.d = qReembolso;
+                    datos.d = qReembolsos;
                     lstDatos.Add(datos);
 
 
@@ -317,6 +328,22 @@ namespace Balance_api.Controllers.Contabilidad
                     if (esNuevo) Conexion.Cheque.Add(_Chequ);
 
                     Conexion.SaveChanges();
+
+                    if (_Chequ.IdIngresoCaja > 0)
+                    {
+                        IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == _Chequ.IdIngresoCaja);
+
+                        if (det != null)
+                        {
+                            //Conexion.DetIngCaja.Remove(det!);
+                            det.Aplicado = true;
+                            det.UsuarioModifica = _Chequ.UsuarioReg;
+                            det.FechaModificacion = DateTime.Now;
+                            Conexion.SaveChanges();
+                            Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.IngresosCajaChica SET Contabilizado = 1  WHERE  IdIngresoCajaChica = '{_Chequ.IdIngresoCaja}'");
+                        }
+
+                    }
 
                     if (d.C.ChequeDocumento != null)
                     {
@@ -768,12 +795,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Cheques/GetDetalleReembolso")]
         [HttpGet]
-        public string GetDetalleReembolso(string CC, string Numero)
+        public string GetDetalleReembolso(int id)
         {
-            return V_GetDetalleReembolso(CC, Numero);
+            return V_GetDetalleReembolso(id);
         }
 
-        private string V_GetDetalleReembolso(string CC, string Numero)
+        private string V_GetDetalleReembolso(int id)
         {
             string json = string.Empty;
             try
@@ -782,12 +809,18 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     List<Cls_Datos> lstDatos = new();
 
-                    string sQuery = $"select id,LTRIM(RTRIM(Cuenta)) Cuenta,LTRIM(RTRIM(Referencia)) Referencia,LTRIM(RTRIM(idCC)) idCC,Valor from CONESCASAN..Reembolsos  where Aplicado = 0 and Contabilizado = 0 and Ccosto = '{CC}' and Numero = '{Numero}'";
-
-                    var qReembolsoD = Conexion.ReembolsosD.FromSqlRaw(sQuery).ToList();
-
-
-                    //var qReembolso = Conexion.Database.SqlQuery<Reembolsos>($"").ToList();
+                    var qReembolsoD = (from _q in Conexion.DetIngCaja
+                                       where _q.IdIngresoCajaC == id                                       
+                                       select new
+                                       {
+                                        _q.IdDetalleIngresoCajaChica,
+                                        _q.Cuenta,
+                                        _q.Referencia,
+                                        _q.CentroCosto,
+                                        _q.SubTotal,
+                                        _q.Iva,
+                                        _q.Total
+                                       }).ToList();
 
                     Cls_Datos datos = new();
                     datos = new();

@@ -7,7 +7,8 @@ namespace Balance_api.Models.Contabilidad
     {
         [Key]
         public int IdAcceso { get; set; }
-        public string CuentaContable { get; set; }  
+        public string CuentaContable { get; set; }
+        public string NombreCuenta {  get; set; }
         public string Usuario { get; set; }        
         public bool Activo { get; set; }            
     }
