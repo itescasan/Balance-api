@@ -321,6 +321,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.TotalDolar = d.C.TotalDolar;
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
                     _Chequ.CodProveedor = d.C.CodProveedor;
+                    _Chequ.IdIngresoCaja = d.C.IdIngresoCaja;
 
 
                     _Chequ.UsuarioUpdate = d.C.UsuarioReg;
