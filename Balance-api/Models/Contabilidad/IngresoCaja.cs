@@ -11,7 +11,7 @@ namespace Balance_api.Models.Contabilidad
         public DateTime FechaRegistro { get; set; }
         public string Cuenta { get; set; }
         public int Consecutivo { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public DateTime FechaModificacion { get; set; } 
         public string Usuario { get; set; }
         public string UsuarioModifica { get; set; }
         public Boolean Aplicado { get; set; }

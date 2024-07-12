@@ -10,7 +10,7 @@ namespace Balance_api.Models.Contabilidad
         [Key]
         public int IdDetalleIngresoCajaChica { get; set; }
         public int IdIngresoCajaC { get; set; }
-        public DateTime FechaRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; } 
         public DateTime FechaFactura { get; set; }
         public string Concepto { get; set; }
         public string Referencia { get; set; }
