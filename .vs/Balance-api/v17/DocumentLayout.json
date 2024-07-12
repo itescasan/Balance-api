@@ -1,22 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\",
+  "WorkspaceRootPath": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\models\\contabilidad\\ingresocaja.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\contabilidad\\ingresocaja.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63F00E7B-D73D-488D-9DDC-A097265E8E5B}|Solution Items{63F00E7B-D73D-488D-9DDC-A097265E8E5B}|C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\.editorconfig||{68B46364-D378-42F2-9E72-37D86C5F4468}",
+      "RelativeMoniker": "D:0:0:{63F00E7B-D73D-488D-9DDC-A097265E8E5B}|Solution Items{63F00E7B-D73D-488D-9DDC-A097265E8E5B}|solutionrelative:.editorconfig||{68B46364-D378-42F2-9E72-37D86C5F4468}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\contabilidad\\asientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\asientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\contabilidad\\auxiliarcontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\auxiliarcontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\contexts\\balanceentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\models\\sistema\\bodegaserie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\sistema\\bodegaserie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\jair martinez\\documents\\proyectos\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,19 +38,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -46,59 +50,91 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IngresoCaja.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Contabilidad\\IngresoCaja.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Models\\Contabilidad\\IngresoCaja.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Contabilidad\\IngresoCaja.cs",
-              "RelativeToolTip": "Balance-api\\Models\\Contabilidad\\IngresoCaja.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAqwBQAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-11T21:14:08.941Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Cheques.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Contabilidad\\Cheques.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Models\\Contabilidad\\Cheques.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Contabilidad\\Cheques.cs",
-              "RelativeToolTip": "Balance-api\\Models\\Contabilidad\\Cheques.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAAwDQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-11T16:49:35.972Z",
-              "EditorCaption": ""
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "TransferenciaController.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAwwIcAAABDAAAA",
+              "ViewState": "AQIAAHYAAAAAAAAAAAAswJMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-10T20:34:41.262Z",
+              "WhenOpened": "2024-06-18T16:47:58.863Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ChequesController.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "ViewState": "AQIAAC8BAAAAAAAAAAAhwEQBAAAAAAAA",
+              "Title": "AsientoController.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
+              "ViewState": "AQIAADIBAAAAAAAAAAAswEwBAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-08T16:05:40.584Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-07T20:48:20.096Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuxiliarContableController.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\AuxiliarContableController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAOkAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T20:48:06.126Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": ".editorconfig",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\.editorconfig",
+              "RelativeDocumentMoniker": ".editorconfig",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\.editorconfig",
+              "RelativeToolTip": ".editorconfig",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-07T15:04:07.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BalanceEntities.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Contexts\\BalanceEntities.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Contexts\\BalanceEntities.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Contexts\\BalanceEntities.cs",
+              "RelativeToolTip": "Balance-api\\Contexts\\BalanceEntities.cs",
+              "ViewState": "AQIAADgAAAAAAAAAAAAiwEQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-31T15:11:58.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BodegaSerie.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Models\\Sistema\\BodegaSerie.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Models\\Sistema\\BodegaSerie.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Models\\Sistema\\BodegaSerie.cs",
+              "RelativeToolTip": "Balance-api\\Models\\Sistema\\BodegaSerie.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-31T15:11:43.687Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ServerController.cs",
+              "DocumentMoniker": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ToolTip": "C:\\Users\\Jair Martinez\\Documents\\Proyectos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ViewState": "AQIAANcBAAAAAAAAAAAowOgBAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T01:18:49.109Z"
             }
           ]
         }
