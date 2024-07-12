@@ -235,11 +235,11 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+
+
+
                     
-
-                   
-
-                    d.NoAsiento = string.Concat(d.IdSerie, ConsecutivoSerie);
+                    d.NoAsiento = string.Concat(d.IdSerie, string.Format("{0:yyyyMM}", d.Fecha), "-", ConsecutivoSerie);
 
                 }
 
@@ -330,7 +330,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             Cls_Datos datos = new();
             datos.Nombre = "GUARDAR";
-            datos.d = "Registro Guardado";
+            datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Maestro.NoAsiento}</b></span>";
             lstDatos.Add(datos);
 
 

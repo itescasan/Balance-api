@@ -97,7 +97,7 @@
             this.xrTableCell5.Name = "xrTableCell5";
             this.xrTableCell5.Text = "xrTableCell5";
             this.xrTableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.xrTableCell5.TextFormatString = "{0:###,###,###0.00 ###; - 0. ###; #}";
+            this.xrTableCell5.TextFormatString = "{0:###,###,###0..00; - ###,###,###0..00; #}";
             this.xrTableCell5.Weight = 0.675945705778435D;
             // 
             // TopMargin

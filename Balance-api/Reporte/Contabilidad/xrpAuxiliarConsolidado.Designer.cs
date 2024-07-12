@@ -145,7 +145,7 @@
             this.xrTableCell13.StylePriority.UseTextAlignment = false;
             this.xrTableCell13.Text = "Debe";
             this.xrTableCell13.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.xrTableCell13.TextFormatString = "{0:###,###,###0.. 00; - 0. ##; #}";
+            this.xrTableCell13.TextFormatString = "{0:###,###,###0..00; - ###,###,###0..00; #}";
             this.xrTableCell13.Weight = 1.4999982974920856D;
             // 
             // xrTableCell14
@@ -159,7 +159,7 @@
             this.xrTableCell14.StylePriority.UseTextAlignment = false;
             this.xrTableCell14.Text = "Haber";
             this.xrTableCell14.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.xrTableCell14.TextFormatString = "{0:###,###,###0.. 00; - 0. ##; #}";
+            this.xrTableCell14.TextFormatString = "{0:###,###,###0..00; - ###,###,###0..00; #}";
             this.xrTableCell14.Weight = 1.5000011117965744D;
             // 
             // TopMargin

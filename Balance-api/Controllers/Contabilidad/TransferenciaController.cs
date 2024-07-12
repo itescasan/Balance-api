@@ -6,6 +6,7 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using DevExpress.Charts.Native;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +58,7 @@ namespace Balance_api.Controllers.Contabilidad
                                       _q.Monedas.Moneda,
                                       _q.Bancos.CuentaNuevaC,
                                       _q.Bancos.CuentaNuevaD,
-                                      _q.SerieDocumento.IdSerie,
+                                      IdSerie = "EG",
                                       Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
                                       _q.Activo,
                                       DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
@@ -276,13 +277,13 @@ namespace Balance_api.Controllers.Contabilidad
                     if (_Transf == null)
                     {
 
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.T.IdSerie}'");
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConsecutivoDiario SET Consecutivo += 1  WHERE  IdSerie = '{d.T.IdSerie}' AND Mes = {d.T.Fecha.Month}  AND Anio = {d.T.Fecha.Year}");
                         Conexion.SaveChanges();
 
-                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.T.IdSerie}'").ToList().First();
+                        int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.ConsecutivoDiario WHERE IdSerie = '{d.T.IdSerie}' AND Mes = {d.T.Fecha.Month}  AND Anio = {d.T.Fecha.Year}").ToList().First();
 
-                        d.T.NoTransferencia = string.Concat(d.T.IdSerie, ConsecutivoSerie);
-        
+                        d.T.NoTransferencia = string.Concat(d.T.IdSerie, string.Format("{0:yyyyMM}", d.T.Fecha), "-", ConsecutivoSerie);
+
 
                         d.A.TipoDocOrigen = d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO";
                         d.A.NoDocOrigen = d.T.NoTransferencia;
@@ -521,7 +522,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Cls_Datos datos = new();
                     datos.Nombre = "GUARDAR";
-                    datos.d = "Registro Guardado";
+                    datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
 
 
