@@ -319,7 +319,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.Total = d.T.Total;
                     _Transf.TotalDolar = d.T.TotalDolar;
                     _Transf.TotalCordoba = d.T.TotalCordoba;
-                    _Transf.IdIngresoCaja = d.T.IdIngresoCaja;
+                    _Transf.IdIngresoCajaChica = d.T.IdIngresoCajaChica;
 
 
                     _Transf.UsuarioUpdate = d.T.UsuarioReg;
@@ -328,9 +328,9 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Conexion.SaveChanges();
 
-                    if (_Transf.IdIngresoCaja > 0)
+                    if (_Transf.IdIngresoCajaChica > 0)
                     {
-                        IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == _Transf.IdIngresoCaja);
+                        IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == _Transf.IdIngresoCajaChica);
 
                         if (det != null)
                         {
@@ -339,7 +339,7 @@ namespace Balance_api.Controllers.Contabilidad
                             det.UsuarioModifica = _Transf.UsuarioReg;
                             det.FechaModificacion = DateTime.Now;
                             Conexion.SaveChanges();
-                            Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.IngresosCajaChica SET Contabilizado = 1  WHERE  IdIngresoCajaChica = '{_Transf.IdIngresoCaja}'");
+                            Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.IngresosCajaChica SET Contabilizado = 1  WHERE  IdIngresoCajaChica = '{_Transf.IdIngresoCajaChica}'");
                         }
 
                     }
