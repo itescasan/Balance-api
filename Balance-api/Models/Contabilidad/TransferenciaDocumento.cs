@@ -21,7 +21,7 @@ namespace Balance_api.Models.Contabilidad
         public decimal SaldoAnt { get; set; }
         public decimal SaldoAntML { get; set; }
         public decimal SaldoAntMS { get; set; }
-        public decimal Saldo { get; set; }
+        public decimal Saldo { get; set; } 
         public decimal SaldoDolar { get; set; }
         public decimal SaldoCordoba { get; set; }
         public decimal Importe { get; set; }
