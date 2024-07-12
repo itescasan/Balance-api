@@ -64,3 +64,4 @@
 *.exe
 *.cache
 *.editorconfig
+/Balance-api/obj/Debug/net7.0/Balance-api.AssemblyInfo.cs
