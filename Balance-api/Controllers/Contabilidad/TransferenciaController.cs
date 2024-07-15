@@ -140,8 +140,9 @@ namespace Balance_api.Controllers.Contabilidad
                                        select new
                                        {
                                            _q.IdIngresoCajaChica,
-                                           Cuenta = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
-                                           DetalleCaja = _q.DetalleCaja.ToList()
+                                           _q.Cuenta,
+                                           Key = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
+                                           DetalleCaja = _q.DetalleCaja.ToList(),
                                        }).ToList();
 
 
