@@ -65,3 +65,4 @@
 *.cache
 *.editorconfig
 /Balance-api/obj/Debug/net7.0/Balance-api.AssemblyInfo.cs
+/.vs/Balance-api/v17/DocumentLayout.json
