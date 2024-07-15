@@ -320,6 +320,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.TotalDolar = d.T.TotalDolar;
                     _Transf.TotalCordoba = d.T.TotalCordoba;
                     _Transf.IdIngresoCajaChica = d.T.IdIngresoCajaChica;
+                    _Transf.CuentaCaja = d.T.CuentaCaja;
 
 
                     _Transf.UsuarioUpdate = d.T.UsuarioReg;
@@ -607,6 +608,8 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.TasaCambio,
                                               _q.Concepto,
                                               _q.TipoTransferencia,
+                                              _q.IdIngresoCajaChica,
+                                              _q.CuentaCaja,
                                               _q.Total,
                                               _q.TotalDolar,
                                               _q.TotalCordoba,
@@ -616,6 +619,7 @@ namespace Balance_api.Controllers.Contabilidad
                                               _q.Anulado,
                                               _q.UsuarioReg,
                                               _q.FechaReg
+                                              
                                           }).ToList();
 
 

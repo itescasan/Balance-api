@@ -36,6 +36,7 @@ namespace Balance_api.Models.Contabilidad
         public string? UsuarioAnula { get; set; }
         public DateTime? FechaAnulacion { get; set; }
         public int IdIngresoCajaChica { get; set; }
+        public string CuentaCaja { get; set; }
 
         [ForeignKey("IdCuentaBanco")]
         public CuentaBanco CuentaBanco { get; set; }
