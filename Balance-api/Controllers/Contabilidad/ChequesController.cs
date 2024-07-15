@@ -145,7 +145,9 @@ namespace Balance_api.Controllers.Contabilidad
                                        select new
                                        {
                                            _q.IdIngresoCajaChica,
-                                           Cuenta = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
+                                           _q.Cuenta,
+                                           key = string.Concat(_q.Consecutivo, " ", _c.NombreCuenta),
+                                           NombreCuenta = string.Concat(_q.Consecutivo, " ", _c.NombreCuenta),
                                            DetalleCaja = _q.DetalleCaja.ToList()
                                        }).ToList();
 
@@ -607,7 +609,9 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalCordoba,
                                         _q.Anulado,
                                         _q.UsuarioReg,
-                                        _q.FechaReg
+                                        _q.FechaReg,
+                                        _q.IdIngresoCaja,
+                                        _q.CuentaIngCaja
                                     }).ToList();
 
 

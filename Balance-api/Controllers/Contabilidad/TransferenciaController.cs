@@ -141,7 +141,8 @@ namespace Balance_api.Controllers.Contabilidad
                                        {
                                            _q.IdIngresoCajaChica,
                                            _q.Cuenta,
-                                           Key = string.Concat(_q.Cuenta, " ", _c.NombreCuenta),
+                                           key = string.Concat(_q.Consecutivo, " ", _c.NombreCuenta),
+                                           NombreCuenta = string.Concat(_q.Consecutivo, " ", _c.NombreCuenta),
                                            DetalleCaja = _q.DetalleCaja.ToList(),
                                        }).ToList();
 
