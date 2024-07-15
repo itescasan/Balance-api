@@ -323,7 +323,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
                     _Chequ.CodProveedor = d.C.CodProveedor;
                     _Chequ.IdIngresoCaja = d.C.IdIngresoCaja;
-
+                    _Chequ.CuentaIngCaja = d.C.CuentaIngCaja;
 
                     _Chequ.UsuarioUpdate = d.C.UsuarioReg;
                     _Chequ.FechaUpdate = DateTime.Now;
