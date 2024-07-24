@@ -229,6 +229,15 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qCuentaEmpleado;
                     lstDatos.Add(datos);
 
+                    var qContanbilizado = (from _q in Conexion.IngresoC
+                                           where _q.Cuenta == CuentaPadre && _q.Aplicado == true && _q.Contabilizado == false
+                                           select _q).Count();
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "CONTADOR";
+                    datos.d = qContanbilizado;
+                    lstDatos.Add(datos);
+
 
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);

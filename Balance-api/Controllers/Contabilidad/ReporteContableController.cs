@@ -81,7 +81,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/BalanceGeneral")]
         [HttpGet]
-        public string BalanceGeneral(DateTime Fecha,  bool EsMonedaLocal)
+        public string BalanceGeneral(DateTime Fecha, bool EsMonedaLocal)
         {
             return V_BalanceGeneral(Fecha, EsMonedaLocal);
         }
@@ -96,13 +96,13 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos Datos = new();
 
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    DateTime Fecha2  = Fecha.AddMonths(1).AddDays(-1);
+                    DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-1);
 
-                    string IdMoneda = Conexion.Database.SqlQueryRaw<string>($"SELECT TOP 1 { (EsMonedaLocal ? "MonedaLocal" : "MonedaExtranjera")} FROM SIS.Parametros").ToList().First();
+                    string IdMoneda = Conexion.Database.SqlQueryRaw<string>($"SELECT TOP 1 {(EsMonedaLocal ? "MonedaLocal" : "MonedaExtranjera")} FROM SIS.Parametros").ToList().First();
                     Monedas M = Conexion.Monedas.Find(IdMoneda)!;
 
 
-                    
+
 
 
                     xrpBalanceGeneral rpt = new xrpBalanceGeneral();
@@ -135,7 +135,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource3.Queries["CNT_SP_BalanceGeneral"].Parameters["@P_ES_ML"].Value = EsMonedaLocal;
                     sqlDataSource3.Queries["CNT_SP_BalanceGeneral"].Parameters["@P_GrupoInicio"].Value = 5;
                     sqlDataSource3.Queries["CNT_SP_BalanceGeneral"].Parameters["@P_GrupoFin"].Value = 9;
-   
+
 
 
 
@@ -143,7 +143,7 @@ namespace Balance_api.Controllers.Contabilidad
                     rpt.ExportToPdf(stream, null);
                     stream.Seek(0, SeekOrigin.Begin);
 
-    
+
 
                     Datos.d = stream.ToArray();
                     Datos.Nombre = "Balance General";
@@ -168,12 +168,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/EstadoResultado")]
         [HttpGet]
-        public string EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal)
+        public string EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal,string Sucursal,string CCosto)
         {
-            return V_EstadoResultado(Fecha, Estado, EsMonedaLocal);
+            return V_EstadoResultado(Fecha, Estado, EsMonedaLocal, Sucursal, CCosto);
         }
 
-        private string V_EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal)
+        private string V_EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal, string Sucursal, string CCosto)
         {
             string json = string.Empty;
             try
@@ -195,7 +195,9 @@ namespace Balance_api.Controllers.Contabilidad
 
                     sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_Fecha_Inicial"].Value = Fecha;
                     sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@P_ESTADO"].Value = Estado;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;                    
+                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_SUCURSAL"].Value = Sucursal == null ? "" : Sucursal;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_CCosto"].Value = CCosto == null ? "" : CCosto;
                     sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@P_CUENTA"].Value = "";
 
 
@@ -205,7 +207,7 @@ namespace Balance_api.Controllers.Contabilidad
                     stream.Seek(0, SeekOrigin.Begin);
 
                     Datos.d = stream.ToArray();
-                    Datos.Nombre = "EstadoResultado";
+                    Datos.Nombre = "EstadoResultado";                    
 
 
 
@@ -223,5 +225,62 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+
+        [Route("api/Contabilidad/Reporte/Datos")]
+        [HttpGet]
+        public string Datos()
+        {
+            return V_Datos();
+        }
+
+        private string V_Datos()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+                    Cls_Datos datos = new();
+                    var qCentroCosto = Conexion.CentroCostos.ToList();
+
+
+                    datos = new();
+                    datos.Nombre = "CENTRO COSTO";
+                    datos.d = qCentroCosto;
+                    lstDatos.Add(datos);
+
+
+
+                    var qCuentasC = (from _q in Conexion.CatalogoCuenta
+                                     join _i in Conexion.InformesContables on _q.CuentaContable equals _i.Cuenta
+                                     where _i.IdTipoInforme == 7 && _i.IdSubGrupo == 8 && _i.Cuenta.Contains("4101-01")
+                                     orderby _i.Bodega
+                                     select new
+                                     {
+                                         CuentaContable = _i.Bodega,
+                                         NombreCuenta = String.Concat(_i.Bodega + " " + _q.NombreCuenta)
+
+                                     }).ToList();
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "CUENTAS CAJA";
+                    datos.d = qCuentasC;
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
     }
 }
+
