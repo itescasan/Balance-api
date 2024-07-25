@@ -20,10 +20,10 @@ namespace Balance_api.Controllers.Contabilidad
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, DateTime FechaFinal, string CodBodega, string TipoDocumento, string IdSerie, int Moneda)
         {
-            return _Comprobantes(FechaInicial, FechaFinal, CodBodega, TipoDocumento, IdSerie, Moneda);
+            return V_Comprobantes(FechaInicial, FechaFinal, CodBodega, TipoDocumento, IdSerie, Moneda);
         }
 
-        private string _Comprobantes(DateTime FechaInicial, DateTime FechaFinal, string CodBodega, string TipoDocumento, string IdSerie, int Moneda)
+        private string V_Comprobantes(DateTime FechaInicial, DateTime FechaFinal, string CodBodega, string TipoDocumento, string IdSerie, int Moneda)
         {
             string json = string.Empty;
             try
