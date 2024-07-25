@@ -85,7 +85,7 @@
             this.xrTable2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
             this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-            this.xrTable2.SizeF = new System.Drawing.SizeF(701.8334F, 25.16668F);
+            this.xrTable2.SizeF = new System.Drawing.SizeF(601.0001F, 25.16668F);
             this.xrTable2.StylePriority.UseBorderColor = false;
             this.xrTable2.StylePriority.UseBorders = false;
             this.xrTable2.StylePriority.UseForeColor = false;
@@ -121,7 +121,7 @@
             this.xrTableCell3.StylePriority.UseFont = false;
             this.xrTableCell3.StylePriority.UseTextAlignment = false;
             this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleJustify;
-            this.xrTableCell3.Weight = 5.69914689763894D;
+            this.xrTableCell3.Weight = 4.9843738805184383D;
             // 
             // xrTableCell4
             // 
@@ -134,7 +134,7 @@
             this.xrTableCell4.StylePriority.UseTextAlignment = false;
             this.xrTableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell4.TextFormatString = "{0:N}";
-            this.xrTableCell4.Weight = 2.8757832851203431D;
+            this.xrTableCell4.Weight = 2.1490915166210622D;
             // 
             // TopMargin
             // 
@@ -301,7 +301,7 @@
             this.xrTable4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
             this.xrTable4.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow4});
-            this.xrTable4.SizeF = new System.Drawing.SizeF(500.6667F, 25.16668F);
+            this.xrTable4.SizeF = new System.Drawing.SizeF(450.6667F, 25.16668F);
             this.xrTable4.StylePriority.UseBorderColor = false;
             this.xrTable4.StylePriority.UseBorders = false;
             this.xrTable4.StylePriority.UseForeColor = false;
@@ -367,7 +367,7 @@
             this.xrTableCell2.StylePriority.UseFont = false;
             this.xrTableCell2.StylePriority.UseTextAlignment = false;
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.xrTableCell2.Weight = 4.771526291556194D;
+            this.xrTableCell2.Weight = 4.2950111809179337D;
             // 
             // xrTableCell6
             // 
@@ -382,7 +382,7 @@
             this.xrTableCell6.Summary = xrSummary1;
             this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell6.TextFormatString = "{0:N}";
-            this.xrTableCell6.Weight = 2.3857644545722216D;
+            this.xrTableCell6.Weight = 2.8622795652104815D;
             // 
             // xrpBalanceSituacionFinanciera
             // 

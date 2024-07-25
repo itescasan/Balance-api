@@ -31,6 +31,9 @@
     <Compile Update="Reporte\Contabilidad\xrpCheque.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpComprobantes.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpEstadoResultado.cs">
       <SubType>XtraReport</SubType>
     </Compile>
