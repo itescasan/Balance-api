@@ -290,6 +290,7 @@
             this.groupHeaderBand1.HeightF = 25.16668F;
             this.groupHeaderBand1.Level = 1;
             this.groupHeaderBand1.Name = "groupHeaderBand1";
+            this.groupHeaderBand1.RepeatEveryPage = true;
             // 
             // xrTable4
             // 
@@ -333,6 +334,7 @@
             new DevExpress.XtraReports.UI.GroupField("NomGrupo", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.groupHeaderBand2.HeightF = 25.16668F;
             this.groupHeaderBand2.Name = "groupHeaderBand2";
+            this.groupHeaderBand2.RepeatEveryPage = true;
             // 
             // xrTable3
             // 
