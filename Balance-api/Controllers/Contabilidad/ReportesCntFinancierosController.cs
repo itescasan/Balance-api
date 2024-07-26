@@ -1,6 +1,6 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
-using Balance_api.Models.Sistema;
+using Balance_api.Models.Contabilidad;
 using Balance_api.Reporte.Contabilidad;
 using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.Mvc;
@@ -66,10 +66,10 @@ namespace Balance_api.Controllers.Contabilidad
         [HttpGet]
         public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
         {
-            return _EstadoCambioPatrimonio(FechaInicial, FechaFinal);
+            return V_EstadoCambioPatrimonio(FechaInicial, FechaFinal);
         }
 
-        private string _EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
+        private string V_EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
         {
             string json = string.Empty;
             try
