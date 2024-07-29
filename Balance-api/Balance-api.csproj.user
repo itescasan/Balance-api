@@ -10,6 +10,9 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Reporte\Contabilidad\xrpLibroMayor.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpAuxiliar.cs">
       <SubType>XtraReport</SubType>
     </Compile>
@@ -35,6 +38,9 @@
       <SubType>XtraReport</SubType>
     </Compile>
     <Compile Update="Reporte\Contabilidad\xrpEstadoResultado.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpLibroDiario.cs">
       <SubType>XtraReport</SubType>
     </Compile>
     <Compile Update="Reporte\Contabilidad\xrpLogo.cs">

@@ -288,6 +288,114 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+        [Route("api/Contabilidad/Reporte/LibroDiario")]
+        [HttpGet]
+        public string LibroDiario(DateTime Fecha, bool EsMonedaLocal)
+        {
+            return V_LibroDiario(Fecha, EsMonedaLocal);
+        }
+
+        private string V_LibroDiario(DateTime Fecha, bool EsMonedaLocal)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+
+                    xrpLibroDiario rpt = new xrpLibroDiario();
+                    
+
+                    rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+                   
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_rptLibroDiario"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_rptLibroDiario"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "LibroDiario";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+        [Route("api/Contabilidad/Reporte/LibroMayor")]
+        [HttpGet]
+        public string LibroMayor(DateTime Fecha, bool EsMonedaLocal)
+        {
+            return V_LibroMayor(Fecha, EsMonedaLocal);
+        }
+
+        private string V_LibroMayor(DateTime Fecha, bool EsMonedaLocal)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+
+                    xrpLibroMayor rpt = new xrpLibroMayor();
+
+
+                    rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_rptLibroMayor"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_rptLibroMayor"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "LibroMayor";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
         [Route("api/Contabilidad/Reporte/Datos")]
         [HttpGet]
