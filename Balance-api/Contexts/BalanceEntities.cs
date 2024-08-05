@@ -71,6 +71,7 @@ namespace Balance_api.Contexts
         public DbSet<IngresoCaja> IngresoC { get; set; } 
 
         public DbSet<DetalleIngresoCaja> DetIngCaja { get; set; }
+        
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
