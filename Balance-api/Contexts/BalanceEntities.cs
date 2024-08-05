@@ -74,6 +74,8 @@ namespace Balance_api.Contexts
 
         public DbSet<VentasClientesAlcaldia> VentasClientesAlcaldia { get; set; } 
 
+        public DbSet<TipoComprobanteRpt> TipoComprobanteRep { get; set; }
+
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
