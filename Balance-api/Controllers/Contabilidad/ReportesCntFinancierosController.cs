@@ -28,28 +28,28 @@ namespace Balance_api.Controllers.Contabilidad
             string json = string.Empty;
             try
             {
-                using (Conexion)
-                {
-                    List<Cls_Datos> lstDatos = new();
+                //using (Conexion)
+                //{
+                //    List<Cls_Datos> lstDatos = new();
 
 
-                    var TComprobantes = (from _q in Conexion.TipoComprobanteRep
-                                  select new
-                                  {
-                                      _q.IdTipoComprobanterpt,
-                                      _q.IdSerie,
-                                      _q.TipoComprobante
-                                  }).ToList();
+                //    var TComprobantes = (from _q in Conexion.TipoComprobanteRep
+                //                  select new
+                //                  {
+                //                      _q.IdTipoComprobanterpt,
+                //                      _q.IdSerie,
+                //                      _q.TipoComprobante
+                //                  }).ToList();
 
-                    Cls_Datos datos = new();
-                    datos.Nombre = "TIPO COMPROBANTES";
-                    datos.d = TComprobantes;
+                //    Cls_Datos datos = new();
+                //    datos.Nombre = "TIPO COMPROBANTES";
+                //    datos.d = TComprobantes;
 
-                    lstDatos.Add(datos);
+                //    lstDatos.Add(datos);
 
 
-                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
-                }
+                //    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                //}
 
 
 
