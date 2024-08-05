@@ -351,3 +351,9 @@ C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\refin
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance-api.pdb
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance-api.genruntimeconfig.cache
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\ref\Balance-api.dll
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpBalanceSituacionFinanciera.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpComparativoGastosMensual.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpComprobantes.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpLibroDiario.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpLibroMayor.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpReembolsoCaja.resources
