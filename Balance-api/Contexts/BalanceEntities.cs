@@ -72,8 +72,6 @@ namespace Balance_api.Contexts
 
         public DbSet<DetalleIngresoCaja> DetIngCaja { get; set; }
 
-        public DbSet<TipoComprobanteRpt> TipoComprobanteRep { get; set; }
-
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
         public DbSet<Bodegas> Bodegas { get; set; }
