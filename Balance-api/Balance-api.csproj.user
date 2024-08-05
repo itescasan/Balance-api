@@ -10,7 +10,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Reporte\Contabilidad\xrpClientesImpuestoAlcaldia.cs">
+    <Compile Update="Reporte\Contabilidad\xrpComparativoGastosMensual.cs">
       <SubType>XtraReport</SubType>
     </Compile>
     <Compile Update="Reporte\Contabilidad\xrpLibroMayor.cs">
