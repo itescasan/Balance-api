@@ -62,6 +62,57 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+        [Route("api/Contabilidad/AsientosContables/Get")]
+        [HttpGet]
+        public string AsientosContables(DateTime Fecha)
+        {
+            return V_AsientosContables(Fecha);
+        }
+
+        private string V_AsientosContables(DateTime Fecha)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var TAsientosContables = (from _q in Conexion.AsientosContables
+                                              where _q.Fecha.Month == Fecha.Month
+                                              where _q.Fecha.Year == Fecha.Year
+                                              where _q.Estado != "ANULADO"
+                                         select new
+                                         {
+                                             _q.IdAsiento,
+                                             _q.NoAsiento,
+                                             _q.Fecha,
+                                             _q.Concepto,
+                                             Concep = string.Concat(_q.NoAsiento,", ",_q.Fecha," - ",_q.Concepto)
+                                         }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "Asientos Contables";
+                    datos.d = TAsientosContables;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
         [Route("api/Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, string CodBodega, string TipoDocumento, string NoAsiento, int Moneda)
