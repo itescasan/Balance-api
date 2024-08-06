@@ -416,7 +416,15 @@ namespace Balance_api.Controllers.Contabilidad
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
                     DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
-                    Bodegas? B = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == Sucursal);
+                    var Bodega = "";
+
+                    if (Sucursal is not null)
+                    {
+                        Bodegas? B = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == Sucursal);
+                        Bodega = B.Bodega.ToString();
+                    }
+
+                  
 
                     xrpClientesImpuestoAlcaldia rpt = new xrpClientesImpuestoAlcaldia();
 
@@ -426,7 +434,7 @@ namespace Balance_api.Controllers.Contabilidad
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
                     sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Fecha_Inicial"].Value = Fecha;
-                    sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Sucursal"].Value = B!.Bodega == null ? "" : B!.Bodega;
+                    sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Sucursal"].Value = Bodega == null ? "" : Bodega;
                     sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Municipio"].Value = Municipio == null ? "" : Municipio;
 
 

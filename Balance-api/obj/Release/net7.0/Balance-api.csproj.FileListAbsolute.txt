@@ -357,3 +357,5 @@ C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balan
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpLibroDiario.resources
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpLibroMayor.resources
 C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpReembolsoCaja.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpClientesImpuestoAlcaldia.resources
+C:\Users\ARGUELLOR\Source\Repos\Balance-api\Balance-api\obj\Release\net7.0\Balance_api.Reporte.Contabilidad.xrpVentasconImpuestos.resources
