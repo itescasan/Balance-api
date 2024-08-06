@@ -55,6 +55,9 @@
     <Compile Update="Reporte\Contabilidad\xrpReembolsoCaja.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpVentasconImpuestos.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Reporte\Contabilidad\xrpEstadoResultado.resx">

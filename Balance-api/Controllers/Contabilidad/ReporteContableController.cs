@@ -1,6 +1,7 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
 using DevExpress.DataAccess.DataFederation;
@@ -415,6 +416,8 @@ namespace Balance_api.Controllers.Contabilidad
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
                     DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
+                    Bodegas? B = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == Sucursal);
+
                     xrpClientesImpuestoAlcaldia rpt = new xrpClientesImpuestoAlcaldia();
 
 
@@ -423,7 +426,7 @@ namespace Balance_api.Controllers.Contabilidad
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
                     sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Fecha_Inicial"].Value = Fecha;
-                    sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Sucursal"].Value = Sucursal == null ? "" : Sucursal;
+                    sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Sucursal"].Value = B!.Bodega == null ? "" : B!.Bodega;
                     sqlDataSource.Queries["CNT_SP_rptClientesImpuestoAlcaldia"].Parameters["@P_Municipio"].Value = Municipio == null ? "" : Municipio;
 
 
@@ -434,6 +437,57 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Datos.d = stream.ToArray();
                     Datos.Nombre = "VentasAlcaldia";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+        [Route("api/Contabilidad/Reporte/VentasConImpuestos")]
+        [HttpGet]
+        public string VentasConImpuestos(DateTime FechaI, DateTime FechaF)
+        {
+            return V_VentasConImpuestos(FechaI,  FechaF);
+        }
+
+        private string V_VentasConImpuestos(DateTime FechaI, DateTime FechaF)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();                    
+
+                    xrpVentasconImpuestos rpt = new xrpVentasconImpuestos();
+
+
+                    //rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["FAC_SP_ReporteFinancieroImpuestos"].Parameters["@FECHAINICIAL"].Value = FechaI;
+                    sqlDataSource.Queries["FAC_SP_ReporteFinancieroImpuestos"].Parameters["@FECHAFINAL"].Value = FechaF;                   
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "VentasConImpuestos";
 
 
 
