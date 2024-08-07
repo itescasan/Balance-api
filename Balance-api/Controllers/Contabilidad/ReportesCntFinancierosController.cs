@@ -139,12 +139,60 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@NOASIENTO"].Value = NoAsiento;
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@MONEDA"].Value = Moneda;
 
+                    rpt.xrlVariables.Text = NoAsiento;
+
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
                     stream.Seek(0, SeekOrigin.Begin);
 
                     Datos.d = stream.ToArray();
                     Datos.Nombre = "Comprobantes";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+        [Route("api/Contabilidad/Reporte/Comprobantes2")]
+        [HttpGet]
+        public string Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
+        {
+            return V_Comprobantes2(NoAsiento, FechaInicial, Concepto, Moneda);
+        }
+
+        private string V_Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpComprobantes2 rpt = new xrpComprobantes2();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@NOASIENTO"].Value = NoAsiento;
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@FECHA"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@CONCEPTO"].Value = Concepto;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@MONEDA"].Value = Moneda;
+
+                    rpt.xrlVariables.Text = string.Concat(NoAsiento," - ", Concepto," - ", FechaInicial.ToShortDateString()," - ");
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Comprobantes2";
 
                     json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
                 }
