@@ -83,14 +83,14 @@ namespace Balance_api.Controllers.Contabilidad
                                               where _q.Fecha.Month == Fecha.Month
                                               where _q.Fecha.Year == Fecha.Year
                                               where _q.Estado != "ANULADO"
-                                         select new
-                                         {
-                                             _q.IdAsiento,
-                                             _q.NoAsiento,
-                                             _q.Fecha,
-                                             _q.Concepto,
-                                             Concep = string.Concat(_q.NoAsiento,", ",_q.Fecha," - ",_q.Concepto)
-                                         }).ToList();
+                                              select new
+                                              {
+                                                  _q.IdAsiento,
+                                                  _q.NoAsiento,
+                                                  _q.Fecha,
+                                                  _q.Concepto,
+                                                  Concep = string.Concat(_q.NoAsiento, ", ", _q.Fecha.ToShortDateString(), " - ", _q.Concepto)
+                                              }).ToList();
 
                     Cls_Datos datos = new();
                     datos.Nombre = "Asientos Contables";
@@ -132,8 +132,8 @@ namespace Balance_api.Controllers.Contabilidad
                     xrpComprobantes rpt = new xrpComprobantes();
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
-                    
-                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@FECHAINICIAL"].Value = FechaInicial;                    
+
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@CODBODEGA"].Value = CodBodega;
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@TIPODOCUMENTO"].Value = TipoDocumento;
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@NOASIENTO"].Value = NoAsiento;
