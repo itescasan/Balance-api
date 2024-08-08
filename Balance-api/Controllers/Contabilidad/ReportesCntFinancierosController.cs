@@ -185,7 +185,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@CONCEPTO"].Value = Concepto;                    
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@MONEDA"].Value = Moneda;
 
-                    rpt.xrlVariables.Text = string.Concat(NoAsiento," - ", Concepto," - ", FechaInicial.ToShortDateString()," - ");
+                    rpt.xrlVariables.Text = string.Concat(NoAsiento," - ", Concepto," - ", FechaInicial.ToShortDateString());
 
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
