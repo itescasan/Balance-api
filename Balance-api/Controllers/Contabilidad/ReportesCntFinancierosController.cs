@@ -16,6 +16,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
+
         [Route("api/Contabilidad/TipoComprobante/Get")]
         [HttpGet]
         public string Get()
@@ -61,6 +62,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
         [Route("api/Contabilidad/AsientosContables/Get")]
         [HttpGet]
@@ -113,6 +115,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+
         [Route("api/Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, string CodBodega, string TipoDocumento, string NoAsiento, int Moneda)
@@ -159,6 +162,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
         [Route("api/Contabilidad/Reporte/Comprobantes2")]
         [HttpGet]
