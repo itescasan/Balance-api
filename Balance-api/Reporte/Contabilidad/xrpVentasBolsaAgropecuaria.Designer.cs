@@ -258,7 +258,7 @@
             this.xrlFecha.Multiline = true;
             this.xrlFecha.Name = "xrlFecha";
             this.xrlFecha.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrlFecha.SizeF = new System.Drawing.SizeF(997.9999F, 26F);
+            this.xrlFecha.SizeF = new System.Drawing.SizeF(997.9999F, 26.16673F);
             this.xrlFecha.StylePriority.UseBorders = false;
             this.xrlFecha.StylePriority.UseFont = false;
             this.xrlFecha.StylePriority.UseForeColor = false;
@@ -592,7 +592,7 @@
             this.xrTableCell7.StylePriority.UseBorders = false;
             this.xrTableCell7.StylePriority.UseFont = false;
             this.xrTableCell7.StylePriority.UseTextAlignment = false;
-            this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             this.xrTableCell7.Weight = 0.58113375031899872D;
             // 
             // groupHeaderBand2
@@ -603,6 +603,7 @@
             new DevExpress.XtraReports.UI.GroupField("BODEGA", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.groupHeaderBand2.HeightF = 27.50001F;
             this.groupHeaderBand2.Name = "groupHeaderBand2";
+            this.groupHeaderBand2.RepeatEveryPage = true;
             // 
             // xrTable5
             // 
@@ -610,12 +611,12 @@
             this.xrTable5.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.xrTable5.Font = new System.Drawing.Font("Times New Roman", 8F);
             this.xrTable5.ForeColor = System.Drawing.Color.Black;
-            this.xrTable5.LocationFloat = new DevExpress.Utils.PointFloat(80.64646F, 0F);
+            this.xrTable5.LocationFloat = new DevExpress.Utils.PointFloat(161.2929F, 0F);
             this.xrTable5.Name = "xrTable5";
             this.xrTable5.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
             this.xrTable5.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow5});
-            this.xrTable5.SizeF = new System.Drawing.SizeF(332.6667F, 27.50001F);
+            this.xrTable5.SizeF = new System.Drawing.SizeF(554.4445F, 27.50001F);
             this.xrTable5.StylePriority.UseBorderColor = false;
             this.xrTable5.StylePriority.UseBorders = false;
             this.xrTable5.StylePriority.UseFont = false;
@@ -639,7 +640,7 @@
             this.xrTableCell9.StylePriority.UseBorders = false;
             this.xrTableCell9.StylePriority.UseFont = false;
             this.xrTableCell9.StylePriority.UseTextAlignment = false;
-            this.xrTableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            this.xrTableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             this.xrTableCell9.Weight = 0.58113375031899872D;
             // 
             // xrpVentasBolsaAgropecuaria
