@@ -277,7 +277,7 @@
             this.xrlFecha.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrlFecha.Font = new System.Drawing.Font("Arial", 9F);
             this.xrlFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.xrlFecha.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 126.8333F);
+            this.xrlFecha.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 112.6666F);
             this.xrlFecha.Multiline = true;
             this.xrlFecha.Name = "xrlFecha";
             this.xrlFecha.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -293,7 +293,7 @@
             this.xrlVariables.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrlVariables.Font = new System.Drawing.Font("Arial", 9F);
             this.xrlVariables.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.xrlVariables.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 100.8333F);
+            this.xrlVariables.LocationFloat = new DevExpress.Utils.PointFloat(0F, 86.66659F);
             this.xrlVariables.Multiline = true;
             this.xrlVariables.Name = "xrlVariables";
             this.xrlVariables.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -843,11 +843,11 @@
             // 
             this.xrLabel2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel2.ForeColor = System.Drawing.Color.SeaGreen;
-            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 49.33334F);
+            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 36.83332F);
             this.xrLabel2.Multiline = true;
             this.xrLabel2.Name = "xrLabel2";
             this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-            this.xrLabel2.SizeF = new System.Drawing.SizeF(997.9999F, 21.16658F);
+            this.xrLabel2.SizeF = new System.Drawing.SizeF(997.9999F, 23.66659F);
             this.xrLabel2.StylePriority.UseFont = false;
             this.xrLabel2.StylePriority.UseForeColor = false;
             this.xrLabel2.StylePriority.UseTextAlignment = false;
@@ -858,7 +858,7 @@
             // 
             this.xrLine1.BorderWidth = 1F;
             this.xrLine1.LineWidth = 2F;
-            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 153F);
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 138.8333F);
             this.xrLine1.Name = "xrLine1";
             this.xrLine1.SizeF = new System.Drawing.SizeF(997.9999F, 13F);
             this.xrLine1.StylePriority.UseBorderWidth = false;
