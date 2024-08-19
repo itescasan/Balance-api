@@ -99,6 +99,7 @@
             this.xrPageInfo3 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrPageInfo4 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).BeginInit();
@@ -263,19 +264,20 @@
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLine1,
             this.xrLabel2,
             this.xrlFecha,
             this.xrlVariables,
             this.XrLabel1});
-            this.PageHeader.HeightF = 132.6667F;
+            this.PageHeader.HeightF = 166F;
             this.PageHeader.Name = "PageHeader";
             // 
             // xrlFecha
             // 
             this.xrlFecha.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.xrlFecha.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.xrlFecha.Font = new System.Drawing.Font("Arial", 9F);
             this.xrlFecha.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.xrlFecha.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 96.49992F);
+            this.xrlFecha.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 126.8333F);
             this.xrlFecha.Multiline = true;
             this.xrlFecha.Name = "xrlFecha";
             this.xrlFecha.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -289,9 +291,9 @@
             // xrlVariables
             // 
             this.xrlVariables.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.xrlVariables.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.xrlVariables.Font = new System.Drawing.Font("Arial", 9F);
             this.xrlVariables.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.xrlVariables.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 70.49992F);
+            this.xrlVariables.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 100.8333F);
             this.xrlVariables.Multiline = true;
             this.xrlVariables.Name = "xrlVariables";
             this.xrlVariables.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -852,6 +854,15 @@
             this.xrLabel2.Text = "Kilometro 8 ½ carretera norte, Complejo La Subasta";
             this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
+            // xrLine1
+            // 
+            this.xrLine1.BorderWidth = 1F;
+            this.xrLine1.LineWidth = 2F;
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(0.0001271566F, 153F);
+            this.xrLine1.Name = "xrLine1";
+            this.xrLine1.SizeF = new System.Drawing.SizeF(997.9999F, 13F);
+            this.xrLine1.StylePriority.UseBorderWidth = false;
+            // 
             // xrpVentasBolsaAgropecuaria
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -945,5 +956,6 @@
         private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo4;
         private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo3;
         private DevExpress.XtraReports.UI.XRLabel xrLabel2;
+        private DevExpress.XtraReports.UI.XRLine xrLine1;
     }
 }
