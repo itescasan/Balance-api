@@ -20,7 +20,7 @@ namespace Balance_api.Controllers.Proveedor
         }
 
 
-        [Route("api/Contabilidad/GastosInternos/Get")]
+        [Route("api/Proveedor/GastosInternos/Get")]
         [HttpGet]
         public string Get()
         {
@@ -93,15 +93,17 @@ namespace Balance_api.Controllers.Proveedor
                 {
 
                     bool esNuevo = false;
-                    int Codigo = 1;
+                    
                     CatalogoGastosInternos? _Maestro = Conexion.CatalogoGastosInternos.Find(d.CODIGO);
 
                   
 
                     if (_Maestro == null)
                     {
+                        int Codigo = 1;
                         _Maestro = new CatalogoGastosInternos();
-                        _Maestro.CODIGO =  0;
+                        Codigo = Conexion.CatalogoGastosInternos.Max(m => m.CODIGO);
+                        _Maestro.CODIGO = Codigo + 1;
                         esNuevo = true;
                     }
 
@@ -119,8 +121,7 @@ namespace Balance_api.Controllers.Proveedor
 
                     if (esNuevo)
                     {
-                        Codigo = Conexion.CatalogoGastosInternos.Max(m => m.CODIGO);
-                        _Maestro.CODIGO = Codigo + 1;
+                        
                         Conexion.SaveChanges();
                     }
                         
