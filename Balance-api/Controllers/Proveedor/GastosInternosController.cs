@@ -1,8 +1,10 @@
-﻿using Balance_api.Class;
+﻿
+using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Proveedor;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 
 namespace Balance_api.Controllers.Proveedor
@@ -18,7 +20,7 @@ namespace Balance_api.Controllers.Proveedor
         }
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/Get")]
+        [Route("api/Contabilidad/GastosInternos/Get")]
         [HttpGet]
         public string Get()
         {
