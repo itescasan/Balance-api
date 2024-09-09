@@ -96,15 +96,12 @@ namespace Balance_api.Controllers.Proveedor
                     int Codigo = 1;
                     CatalogoGastosInternos? _Maestro = Conexion.CatalogoGastosInternos.Find(d.CODIGO);
 
-                    Codigo = Conexion.CatalogoGastosInternos.Max(m => m.CODIGO);
-
-
-
+                  
 
                     if (_Maestro == null)
                     {
                         _Maestro = new CatalogoGastosInternos();
-                        _Maestro.CODIGO = Codigo + 1;
+                        _Maestro.CODIGO =  0;
                         esNuevo = true;
                     }
 
@@ -120,9 +117,18 @@ namespace Balance_api.Controllers.Proveedor
                     Conexion.SaveChanges();
 
 
+                    if (esNuevo)
+                    {
+                        Codigo = Conexion.CatalogoGastosInternos.Max(m => m.CODIGO);
+                        _Maestro.CODIGO = Codigo + 1;
+                        Conexion.SaveChanges();
+                    }
+                        
 
 
-         
+
+
+
                     Cls_Datos datos = new();
                     datos.Nombre = "GUARDAR";
                     datos.d = "Registro Guardado";
