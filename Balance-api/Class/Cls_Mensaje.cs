@@ -52,5 +52,22 @@ namespace Balance_api.Class
 
 
 
+        public static string Tojson2(object? o, int Length, string CodError, string Mensaje, bool esError)
+        {
+            Cls_JSON json = new();
+            Cls_Msj msj = new();
+
+            msj.Mensaje = Mensaje;
+            msj.Codigo = CodError;
+
+            json.d = o;
+            json.msj = msj;
+            json.esError = esError ? 1 : 0;
+            json.count = Length;
+
+
+            return JsonConvert.SerializeObject(json);
+        }
+
     }
 }

@@ -2,7 +2,7 @@
 {
     public class Cls_JSON
     {
-        public object d { get; set; }
+        public object? d { get; set; }
         public Cls_Msj msj { get; set; }
         public int count { get; set; }
         public int esError { get; set; }

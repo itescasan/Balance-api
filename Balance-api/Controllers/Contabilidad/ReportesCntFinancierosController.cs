@@ -16,6 +16,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
+
         [Route("api/Contabilidad/TipoComprobante/Get")]
         [HttpGet]
         public string Get()
@@ -61,6 +62,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
         [Route("api/Contabilidad/AsientosContables/Get")]
         [HttpGet]
@@ -113,6 +115,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+
         [Route("api/Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, string CodBodega, string TipoDocumento, string NoAsiento, int Moneda)
@@ -139,6 +142,8 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@NOASIENTO"].Value = NoAsiento;
                     sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales"].Parameters["@MONEDA"].Value = Moneda;
 
+                    rpt.xrlVariables.Text = NoAsiento;
+
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
                     stream.Seek(0, SeekOrigin.Begin);
@@ -157,6 +162,149 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+        [Route("api/Contabilidad/Reporte/Comprobantes2")]
+        [HttpGet]
+        public string Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
+        {
+            return V_Comprobantes2(NoAsiento, FechaInicial, Concepto, Moneda);
+        }
+
+        private string V_Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpComprobantes2 rpt = new xrpComprobantes2();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@NOASIENTO"].Value = NoAsiento;
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@FECHA"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@CONCEPTO"].Value = Concepto;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteComprobanteGenerales2"].Parameters["@MONEDA"].Value = Moneda;
+
+                    rpt.xrlVariables.Text = string.Concat(NoAsiento," - ", Concepto," - ", FechaInicial.ToShortDateString());
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Comprobantes2";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/Reporte/DiferenciasCXCvsCONT")]
+        [HttpGet]
+        public string DiferenciasCXCvsCONT(DateTime FechaInicial, int Moneda)
+        {
+            return V_DiferenciasCXCvsCONT(FechaInicial, Moneda);
+        }
+
+        private string V_DiferenciasCXCvsCONT(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpDiferenciasCXCvsCONT rpt = new xrpDiferenciasCXCvsCONT();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+                                        
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXCvsCONT"].Parameters["@FECHAINICIAL"].Value = FechaInicial;                    
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXCvsCONT"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "Córdobas" : "Dólares";
+
+                    rpt.xrlVariables.Text = "Cortado al "+ FechaInicial.ToShortDateString() + " en " + mnd;
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Diferencias CXC vs CONT";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/Reporte/ReporteVentasBolsaAgropecuaria")]
+        [HttpGet]
+        public string ReporteVentasBolsaAgropecuaria(DateTime FechaInicial, int Moneda)
+        {
+            return V_ReporteVentasBolsaAgropecuaria(FechaInicial, Moneda);
+        }
+
+        private string V_ReporteVentasBolsaAgropecuaria(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpVentasBolsaAgropecuaria rpt = new xrpVentasBolsaAgropecuaria();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteVentasBolsaAgropecuaria"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteVentasBolsaAgropecuaria"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    rpt.xrlVariables.Text = "REPORTE BOLSA AGROPECUARIA EN "+ mnd;                    
+                    rpt.xrlFecha.Text = String.Format("{0:MMMM - yyyy}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Ventas Bolsa Agropecuaria";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
