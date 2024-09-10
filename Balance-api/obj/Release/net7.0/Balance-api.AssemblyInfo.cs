@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Balance-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+684d91f8c4d6665797410eae0600e3d9dd754590")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d7ef2bc2a5807310eff4a3c1509ef2076a68c19")]
 [assembly: System.Reflection.AssemblyProductAttribute("Balance-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Balance-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

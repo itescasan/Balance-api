@@ -1,7 +1,12 @@
 using Balance_api.Contexts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Text;
+
+using Balance_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +39,33 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDbContext<BalanceEntities>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaCnxSqlServer")));
 
+builder.Services.AddScoped<IAutorizacionService, AutorizacionService>();
+
+var key = builder.Configuration.GetValue<string>("Jwt:Key");
+var KeyBytes = Encoding.ASCII.GetBytes(key);
+
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(Config =>
+{
+    Config.RequireHttpsMetadata = false;
+    Config.SaveToken = true;
+    Config.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(KeyBytes),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+
+});
 
 var app = builder.Build();
 

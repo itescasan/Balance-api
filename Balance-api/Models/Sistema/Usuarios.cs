@@ -21,5 +21,7 @@ namespace Balance_api.Models.Sistema
         public bool? ColaImpresionWeb { get; set; }
         public int? IdEmpleado { get; set; }
         public bool Desconectar { get; set; }
+        public int Intento { get; set; }    
+
     }
 }

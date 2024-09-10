@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Balance_api.Models.Custom;
 
 namespace Balance_api.Class
 {
@@ -21,6 +22,26 @@ namespace Balance_api.Class
             }
             else
                 json = string.Concat("{ \"d\":  [{ }],  \"msj\": ", "{\"Codigo\":\"", CodError, "\",\"Mensaje\":\"", Mensaje, "\"}", ", \"count\":", Length, ", \"esError\":", esError, "}");
+
+
+
+
+
+            return json;
+        }
+
+        public static string TojsonT(object o, int Length, string CodError, string Mensaje, int esError, AutorizacionResponse Token)
+        {
+            string json = string.Empty;
+
+
+            if (o != null)
+            {
+                json = JsonConvert.SerializeObject(o);
+                json = string.Concat("{ \"d\": ", json, ",  \"msj\": ", "{\"Codigo\":\"", CodError, "\",\"Mensaje\":\"", Mensaje, "\"}", ", \"count\":", Length, ", \"esError\":", 0, ", \"token\":", JsonConvert.SerializeObject(Token), "}");
+            }
+            else
+                json = string.Concat("{ \"d\":  [{ }],  \"msj\": ", "{\"Codigo\":\"", CodError, "\",\"Mensaje\":\"", Mensaje.Replace("\r\n", " "), "\"}", ", \"count\":", Length, ", \"esError\":", esError, ", \"token\":", JsonConvert.SerializeObject(Token), "}");
 
 
 

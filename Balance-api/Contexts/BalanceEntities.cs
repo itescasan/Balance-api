@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
+using Balance_api.Models.Custom;
 namespace Balance_api.Contexts
 {
     public class BalanceEntities : DbContext
@@ -109,6 +109,8 @@ namespace Balance_api.Contexts
         public DbSet<TipoDocumento> TipoDocumento { get; set; }
         public DbSet<MovimientoDoc> MovimientoDoc { get; set; }
         public DbSet<AccesoWeb> AccesoWeb { get; set; }
+
+        public DbSet<HistorailRefreshToken> HistorailRefreshToken { get; set; }
 
     }
 

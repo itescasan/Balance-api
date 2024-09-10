@@ -2,10 +2,16 @@
 using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Sistema;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
+using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Balance_api.Models.Custom;
+using Balance_api.Services;
+using System.IdentityModel.Tokens.Jwt;
+
 
 namespace Balance_api.Controllers.Sistema
 {
@@ -13,12 +19,16 @@ namespace Balance_api.Controllers.Sistema
     public class ServerController : Controller
     {
 
+        private readonly IAutorizacionService _autorizacionService;
         private readonly BalanceEntities Conexion;
 
-        public ServerController(BalanceEntities db)
+        public ServerController(BalanceEntities db, IAutorizacionService autorizacionService)
         {
             Conexion = db;
+            _autorizacionService = autorizacionService;
         }
+
+        //[Authorize]
         [Route("api/Sistema/Login")]
         [HttpGet]
         public string Login(string user, string pass, string Modulo)
@@ -44,22 +54,17 @@ namespace Balance_api.Controllers.Sistema
                                         Nombre = string.Concat(_q.Nombres, " ", _q.Apellidos),
                                         Pwd = _q.Pass,
                                         Rol = string.Empty,
-                                        FechaLogin =  string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
+                                        FechaLogin = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
                                         Desconectar = !_q.AccesoWeb ? true : _q.Desconectar
                                     }).ToList();
 
 
-                  
+
                     if (qUsuario.Count == 0)
                     {
                         json = Cls_Mensaje.Tojson(null, 0, "1", "Usuario no encontrado.", 1);
                         return json;
                     }
-
-
-
-
-
 
                     string sQuery = $"SELECT [SIS].[Desencriptar](  {"0x"}{BitConverter.ToString(qUsuario[0].Pwd).Replace("-", "")}) AS Pass";
                     string Pwd = Conexion.Database.SqlQueryRaw<string>(sQuery).ToList().First();
@@ -75,10 +80,8 @@ namespace Balance_api.Controllers.Sistema
                     datos.d = qUsuario;
                     lstDatos.Add(datos);
 
-
                     lstDatos.AddRange(V_DatosServidor(user, qUsuario[0].Desconectar, Modulo));
 
-              
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
@@ -106,7 +109,7 @@ namespace Balance_api.Controllers.Sistema
                 {
                     List<Cls_Datos> lstDatos = new();
                     Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
-         
+
 
                     lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : !u.AccesoWeb ? true : u.Desconectar), Modulo));
                     lstDatos.Add(V_TC(DateTime.Now));
@@ -128,8 +131,8 @@ namespace Balance_api.Controllers.Sistema
         }
 
         private Cls_Datos[] V_DatosServidor(string user, bool Desconectar, string Modulo)
-        { 
-     
+        {
+
             Cls_Datos datos = new();
             datos.Nombre = "FECHA SERVIDOR";
             datos.d = string.Format("{0:yyy-MM-dd hh:mm:ss}", DateTime.Now);
@@ -189,7 +192,7 @@ namespace Balance_api.Controllers.Sistema
 
             using (Conexion)
             {
-                
+
                 string sQuery = $"SELECT TasaCambio FROM CON.TasaCambio WHERE fecha = CAST('{string.Format("{0:yyyy-MM-dd}", f)}' AS DATE)";
                 decimal TC = 0;
                 List<decimal> lst = Conexion.Database.SqlQueryRaw<decimal>(sQuery).ToList();
@@ -244,7 +247,7 @@ namespace Balance_api.Controllers.Sistema
                                       ).ToList();
 
                             datos.d = qSerie;
-                         
+
                             break;
 
                         case "Inventario":
@@ -322,7 +325,7 @@ namespace Balance_api.Controllers.Sistema
                         case "Contabilidad":
                             var qCon = (from _q in Conexion.SerieDocumento
                                         where !_q.TipoDocumento.Automatico && _q.Activo
-                                        select  new { _q.IdSerie, _q.DescripcionSerie }
+                                        select new { _q.IdSerie, _q.DescripcionSerie }
                                    ).ToList();
 
                             datos.d = qCon;
@@ -335,7 +338,7 @@ namespace Balance_api.Controllers.Sistema
 
 
             }
-            catch 
+            catch
             {
                 json = Cls_Mensaje.Tojson(null, 0, "-1", string.Empty, 1);
             }
@@ -357,7 +360,7 @@ namespace Balance_api.Controllers.Sistema
 
             Cls_Datos datos = new();
             datos.Nombre = "CONSECUTIVO";
-            
+
 
 
             try
@@ -443,7 +446,7 @@ namespace Balance_api.Controllers.Sistema
 
                             break;
 
-    
+
 
                     }
 
@@ -485,13 +488,13 @@ namespace Balance_api.Controllers.Sistema
                 {
 
                     var qContabilidad = (from _q in Conexion.ConsecutivoDiario
-                                where _q.IdSerie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
-                                select string.Concat(Serie, "$-", _q.Consecutivo + 1)
+                                         where _q.IdSerie == Serie && _q.Mes == Fecha.Month && _q.Anio == Fecha.Year
+                                         select string.Concat(Serie, "$-", _q.Consecutivo + 1)
                               ).FirstOrDefault();
 
 
                     datos.d = qContabilidad;
-    
+
                 }
 
                 json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
@@ -610,11 +613,11 @@ namespace Balance_api.Controllers.Sistema
             try
             {
 
-                        
+
                 using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
                 using (Conexion)
                 {
-                    foreach(AccesoWeb f in d)
+                    foreach (AccesoWeb f in d)
                     {
                         bool esNuevo = false;
                         AccesoWeb? a = Conexion.AccesoWeb.Find(f.IdAcceso);
@@ -638,7 +641,7 @@ namespace Balance_api.Controllers.Sistema
                         Conexion.SaveChanges();
                     }
 
-        
+
 
 
                     Cls_Datos datos = new Cls_Datos();
@@ -647,7 +650,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-                 
+
 
                     scope.Complete();
 
@@ -669,6 +672,37 @@ namespace Balance_api.Controllers.Sistema
 
         }
 
+        [Route("api/Sistema/Auntenticar")]
+        [HttpPost]
+        public async Task<IActionResult> Auntenticar([FromBody] AutorizacionRequest autorizacion)
+        {
+            var resultado_autorizacion = await _autorizacionService.DevolverToken(autorizacion);
+            if (resultado_autorizacion == null)
+                return Unauthorized();
+            return Ok(resultado_autorizacion);
 
+        }
+
+        [Route("api/Sistema/ObtenerRefreshToken")]
+        [HttpPost]
+        public async Task<IActionResult> ObtenerRefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenExpiradoSupuestamente = tokenHandler.ReadJwtToken(request.TokenExpirado);
+
+            if (tokenExpiradoSupuestamente.ValidTo > DateTime.UtcNow)            
+                return BadRequest(new AutorizacionResponse { Resultado = false, Msg = "Token no expirado" });
+
+           string Idusuario = tokenExpiradoSupuestamente.Claims.First(x =>
+           x.Type == JwtRegisteredClaimNames.NameId).Value.ToString();
+
+            var autorizacionResponse = await _autorizacionService.DevolverRefreshToken(request, int.Parse(Idusuario));
+
+            if (autorizacionResponse.Resultado)            
+                return Ok(autorizacionResponse);            
+            else
+                return BadRequest(autorizacionResponse);
+        }
     }
+        
 }
