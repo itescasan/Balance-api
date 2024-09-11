@@ -1,18 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\",
+  "WorkspaceRootPath": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Services\\ValidarTokenHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Balance-api\\Services\\ValidarTokenHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Sistema\\AutorizationController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Balance-api\\Controllers\\Sistema\\AutorizationController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\martinezd\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\reportescntfinancieroscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\reportescntfinancieroscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,9 +13,21 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
+          "DockedWidth": 303,
           "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -33,55 +37,31 @@
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ValidarTokenHandler.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Services\\ValidarTokenHandler.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Services\\ValidarTokenHandler.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Services\\ValidarTokenHandler.cs",
-              "RelativeToolTip": "Balance-api\\Services\\ValidarTokenHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAkAAAAAAAAAA==",
+              "Title": "ReportesCntFinancierosController.cs",
+              "DocumentMoniker": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "ToolTip": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "ViewState": "AgIAAC4BAAAAAAAAAAAgwDIBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T22:44:43.326Z",
+              "WhenOpened": "2024-07-24T17:24:49.136Z",
               "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 53,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServerController.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T21:14:17.045Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AutorizationController.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Sistema\\AutorizationController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\AutorizationController.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Sistema\\AutorizationController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\AutorizationController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAGAAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T20:51:00.93Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             }
           ]
         }

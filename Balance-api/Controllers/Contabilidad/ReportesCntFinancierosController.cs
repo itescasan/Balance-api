@@ -306,6 +306,37 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/Reporte/AuxiliaresContables")]
+        [HttpGet]
+        public string AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto)
+        {
+            return V_AuxiliaresContables(FechaInicial, FechaFinal, CCInicial, CCFinal, CentroCosto);
+        }
+
+        private string V_AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
         public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
