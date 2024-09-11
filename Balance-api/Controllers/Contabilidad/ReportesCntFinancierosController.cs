@@ -319,7 +319,7 @@ namespace Balance_api.Controllers.Contabilidad
             try
             {
                 using (Conexion)
-                {
+                { 
                     Cls_Datos Datos = new();
 
 
