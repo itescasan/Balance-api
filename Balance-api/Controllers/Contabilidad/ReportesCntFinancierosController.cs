@@ -62,7 +62,7 @@ namespace Balance_api.Controllers.Contabilidad
             }
 
             return json;
-        }
+        }        
 
 
         [Route("api/Contabilidad/AsientosContables/Get")]
@@ -106,6 +106,95 @@ namespace Balance_api.Controllers.Contabilidad
                 }
 
 
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/CuentasContables/Get")]
+        [HttpGet]
+        public string CuentasContables()
+        {
+            return V_CuentasContables();
+        }
+
+        private string V_CuentasContables()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var TCuentasContables = (from _q in Conexion.CatalogoCuenta
+                                             select new
+                                             {
+                                                 _q.CuentaContable,
+                                                 Nombre = string.Concat(_q.CuentaContable, "-", _q.NombreCuenta)
+                                             }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "CATALOGO DE CUENTAS";
+                    datos.d = TCuentasContables;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/CentroCosto/Get")]
+        [HttpGet]
+        public string CentroCosto()
+        {
+            return V_CentroCosto();
+        }
+
+        private string V_CentroCosto()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var TCentroCosto = (from _q in Conexion.CentroCostos
+                                             select new
+                                             {
+                                                 _q.IdCentroCosto,
+                                                 _q.Codigo,
+                                                 _q.CentroCosto
+                                             }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "CENTRO COSTO";
+                    datos.d = TCentroCosto;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
 
             }
             catch (Exception ex)
