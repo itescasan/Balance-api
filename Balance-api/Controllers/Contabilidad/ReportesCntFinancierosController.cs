@@ -336,7 +336,7 @@ namespace Balance_api.Controllers.Contabilidad
                      
                     string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
                     rpt.xrlVariables.Text = "TARJETA AUXILIAR EN " + mnd;
-                    rpt.xrlVariables.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
 
                     rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
 

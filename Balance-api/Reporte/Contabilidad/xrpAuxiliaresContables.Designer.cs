@@ -222,7 +222,7 @@
             this.xrPageInfo3.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.xrPageInfo3.Name = "xrPageInfo3";
             this.xrPageInfo3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrPageInfo3.SizeF = new System.Drawing.SizeF(100F, 23F);
+            this.xrPageInfo3.SizeF = new System.Drawing.SizeF(80.00002F, 23F);
             this.xrPageInfo3.TextFormatString = "PAGINA : {0}";
             // 
             // xrPageInfo4
@@ -507,7 +507,7 @@
             this.xrTableCell46.StylePriority.UseBorders = false;
             this.xrTableCell46.StylePriority.UseFont = false;
             this.xrTableCell46.StylePriority.UseTextAlignment = false;
-            this.xrTableCell46.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            this.xrTableCell46.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.xrTableCell46.TextFormatString = "{0:N}";
             this.xrTableCell46.Weight = 0.55187161555192166D;
             // 
