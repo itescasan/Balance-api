@@ -1,6 +1,7 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
 using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.Mvc;
@@ -308,12 +309,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/AuxiliaresContables")]
         [HttpGet]
-        public string AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto)
+        public string AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto, int Moneda)
         {
-            return V_AuxiliaresContables(FechaInicial, FechaFinal, CCInicial, CCFinal, CentroCosto);
+            return V_AuxiliaresContables(FechaInicial, FechaFinal, CCInicial, CCFinal, CentroCosto, Moneda);
         }
 
-        private string V_AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto)
+        private string V_AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto, int Moneda)
         {
             string json = string.Empty;
             try
@@ -322,7 +323,29 @@ namespace Balance_api.Controllers.Contabilidad
                 { 
                     Cls_Datos Datos = new();
 
+                    xrpAuxiliaresContables rpt = new xrpAuxiliaresContables();
 
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@FECHAFINAL"].Value = FechaFinal;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CCINICIAL"].Value = CCInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CCFINAL"].Value = CCFinal;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+                    rpt.xrlVariables.Text = "TARJETA AUXILIAR EN " + mnd;
+                    rpt.xrlVariables.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+
+                    rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Auxiliares Contables";
 
                     json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
                 }
