@@ -333,7 +333,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CCFINAL"].Value = CCFinal;
                     sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
                     sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@MONEDA"].Value = Moneda;
-
+                     
                     string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
                     rpt.xrlVariables.Text = "TARJETA AUXILIAR EN " + mnd;
                     rpt.xrlVariables.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
