@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
+            DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(xrpAuxiliaresContables));
             DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery1 = new DevExpress.DataAccess.Sql.StoredProcQuery();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter1 = new DevExpress.DataAccess.Sql.QueryParameter();
@@ -38,6 +39,13 @@
             DevExpress.DataAccess.Sql.QueryParameter queryParameter4 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter5 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter6 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery2 = new DevExpress.DataAccess.Sql.StoredProcQuery();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter7 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter8 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter9 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter10 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter11 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter12 = new DevExpress.DataAccess.Sql.QueryParameter();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -72,6 +80,7 @@
             this.xrPageInfo4 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrPageInfo3 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
+            this.sqlDataSource2 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -207,12 +216,17 @@
             // xrTableCell19
             // 
             this.xrTableCell19.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.xrTableCell19.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([IdMoneda]=\'COR\',\n  (sumRunningSum([Debito] - Abs([Credito]))/[TasaCambio]),\n" +
+                    "  (sumRunningSum([Debito] - Abs([Credito])))\n )\n")});
             this.xrTableCell19.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell19.Multiline = true;
             this.xrTableCell19.Name = "xrTableCell19";
             this.xrTableCell19.StylePriority.UseBorders = false;
             this.xrTableCell19.StylePriority.UseFont = false;
             this.xrTableCell19.StylePriority.UseTextAlignment = false;
+            xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+            this.xrTableCell19.Summary = xrSummary2;
             this.xrTableCell19.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.xrTableCell19.TextFormatString = "{0:N}";
             this.xrTableCell19.Weight = 0.54183700182194117D;
@@ -329,6 +343,7 @@
             this.XrTable1});
             this.GroupHeader1.HeightF = 24.5002F;
             this.GroupHeader1.Name = "GroupHeader1";
+            this.GroupHeader1.RepeatEveryPage = true;
             // 
             // XrTable1
             // 
@@ -513,6 +528,38 @@
             storedProcQuery1});
             this.sqlDataSource1.ResultSchemaSerializable = resources.GetString("sqlDataSource1.ResultSchemaSerializable");
             // 
+            // sqlDataSource2
+            // 
+            this.sqlDataSource2.ConnectionName = "CadenaCnxSqlServer";
+            this.sqlDataSource2.Name = "sqlDataSource2";
+            storedProcQuery2.Name = "CNT_SP_ReporteAuxiliaresContables";
+            queryParameter7.Name = "@FECHAINICIAL";
+            queryParameter7.Type = typeof(System.DateTime);
+            queryParameter7.ValueInfo = "1753-01-01";
+            queryParameter8.Name = "@FECHAFINAL";
+            queryParameter8.Type = typeof(System.DateTime);
+            queryParameter8.ValueInfo = "1753-01-01";
+            queryParameter9.Name = "@CCINICIAL";
+            queryParameter9.Type = typeof(string);
+            queryParameter10.Name = "@CCFINAL";
+            queryParameter10.Type = typeof(string);
+            queryParameter11.Name = "@CENTROCOSTO";
+            queryParameter11.Type = typeof(string);
+            queryParameter12.Name = "@MONEDA";
+            queryParameter12.Type = typeof(int);
+            queryParameter12.ValueInfo = "0";
+            storedProcQuery2.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
+            queryParameter7,
+            queryParameter8,
+            queryParameter9,
+            queryParameter10,
+            queryParameter11,
+            queryParameter12});
+            storedProcQuery2.StoredProcName = "CNT.SP_ReporteAuxiliaresContables";
+            this.sqlDataSource2.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            storedProcQuery2});
+            this.sqlDataSource2.ResultSchemaSerializable = resources.GetString("sqlDataSource2.ResultSchemaSerializable");
+            // 
             // xrpAuxiliaresContables
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -524,9 +571,10 @@
             this.ReportFooter,
             this.PageFooter});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
-            this.sqlDataSource1});
+            this.sqlDataSource1,
+            this.sqlDataSource2});
             this.DataMember = "CNT_SP_ReporteAuxiliaresContables";
-            this.DataSource = this.sqlDataSource1;
+            this.DataSource = this.sqlDataSource2;
             this.Landscape = true;
             this.Margins = new System.Drawing.Printing.Margins(49, 52, 25, 100);
             this.PageHeight = 850;
@@ -574,5 +622,6 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell17;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell18;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
+        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource2;
     }
 }
