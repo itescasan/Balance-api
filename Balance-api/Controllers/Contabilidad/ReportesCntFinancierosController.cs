@@ -427,7 +427,7 @@ namespace Balance_api.Controllers.Contabilidad
                     rpt.xrlVariables.Text = "TARJETA AUXILIAR EN " + mnd;
                     rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
 
-                    rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
+                    //rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
 
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
