@@ -4,6 +4,7 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
 using DevExpress.DataAccess.Sql;
+using DevExpress.XtraReports.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Balance_api.Controllers.Contabilidad
@@ -428,6 +429,11 @@ namespace Balance_api.Controllers.Contabilidad
                     rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
 
                     //rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
+
+                    if (mnd.Equals("DOLARES")) 
+                    {
+                        rpt.xrTSaldoDolar.Visible = false;
+                    }
 
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);

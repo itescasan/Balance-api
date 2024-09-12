@@ -55,7 +55,7 @@
             this.xrTableCell46 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell17 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell18 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrTableCell19 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.xrTSaldoDolar = new DevExpress.XtraReports.UI.XRTableCell();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
@@ -118,7 +118,7 @@
             this.xrTableCell46,
             this.xrTableCell17,
             this.xrTableCell18,
-            this.xrTableCell19});
+            this.xrTSaldoDolar});
             this.xrTableRow2.Name = "xrTableRow2";
             this.xrTableRow2.Weight = 1D;
             // 
@@ -213,23 +213,23 @@
             this.xrTableCell18.TextFormatString = "{0:N}";
             this.xrTableCell18.Weight = 0.55187192887355752D;
             // 
-            // xrTableCell19
+            // xrTSaldoDolar
             // 
-            this.xrTableCell19.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.xrTableCell19.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            this.xrTSaldoDolar.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.xrTSaldoDolar.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([IdMoneda]=\'COR\',\n  (sumRunningSum([Debito] - Abs([Credito]))/[TasaCambio]),\n" +
                     "  (sumRunningSum([Debito] - Abs([Credito])))\n )\n")});
-            this.xrTableCell19.Font = new System.Drawing.Font("Arial", 8F);
-            this.xrTableCell19.Multiline = true;
-            this.xrTableCell19.Name = "xrTableCell19";
-            this.xrTableCell19.StylePriority.UseBorders = false;
-            this.xrTableCell19.StylePriority.UseFont = false;
-            this.xrTableCell19.StylePriority.UseTextAlignment = false;
+            this.xrTSaldoDolar.Font = new System.Drawing.Font("Arial", 8F);
+            this.xrTSaldoDolar.Multiline = true;
+            this.xrTSaldoDolar.Name = "xrTSaldoDolar";
+            this.xrTSaldoDolar.StylePriority.UseBorders = false;
+            this.xrTSaldoDolar.StylePriority.UseFont = false;
+            this.xrTSaldoDolar.StylePriority.UseTextAlignment = false;
             xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-            this.xrTableCell19.Summary = xrSummary2;
-            this.xrTableCell19.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.xrTableCell19.TextFormatString = "{0:N}";
-            this.xrTableCell19.Weight = 0.54183700182194117D;
+            this.xrTSaldoDolar.Summary = xrSummary2;
+            this.xrTSaldoDolar.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.xrTSaldoDolar.TextFormatString = "{0:N}";
+            this.xrTSaldoDolar.Weight = 0.54183700182194117D;
             // 
             // TopMargin
             // 
@@ -621,7 +621,7 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell46;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell17;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell18;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
         private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource2;
+        public DevExpress.XtraReports.UI.XRTableCell xrTSaldoDolar;
     }
 }
