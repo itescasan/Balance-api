@@ -22,6 +22,9 @@
     <Compile Update="Reporte\Contabilidad\xrpComprobantes2.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpCreditoFiscalIva.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpDiferenciasCXCvsCONT.cs">
       <SubType>XtraReport</SubType>
     </Compile>

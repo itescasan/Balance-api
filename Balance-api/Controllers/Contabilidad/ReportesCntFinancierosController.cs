@@ -455,6 +455,56 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
+        [Route("api/Contabilidad/Reporte/ReporteCreditoFiscalIva")]
+        [HttpGet]
+        public string ReporteCreditoFiscalIva(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
+        {
+            return V_ReporteCreditoFiscalIva(FechaInicial, FechaFinal, Moneda);
+        }
+
+        private string V_ReporteCreditoFiscalIva(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpCreditoFiscalIva rpt = new xrpCreditoFiscalIva();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@FECHAFINAL"].Value = FechaFinal;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    rpt.xrlVariables.Text = "CREDITO FISCAL (IVA) " + mnd;
+                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Credito Fiscal";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
         public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
