@@ -233,7 +233,7 @@
             // 
             this.xrTableCell16.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell16.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[INGRESOS_SIN_IVA]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([INGRESOS_SIN_IVA]!=0,[INGRESOS_SIN_IVA],\'\')\n")});
             this.xrTableCell16.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell16.Multiline = true;
             this.xrTableCell16.Name = "xrTableCell16";
@@ -248,7 +248,8 @@
             // 
             this.xrTableCell17.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell17.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[VALOR_IVA_TRASLADAD_O_AUTRASLACION]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([VALOR_IVA_TRASLADAD_O_AUTRASLACION]!=0,[VALOR_IVA_TRASLADAD_O_AUTRASLACION] " +
+                    ",\'\' )\n")});
             this.xrTableCell17.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell17.Multiline = true;
             this.xrTableCell17.Name = "xrTableCell17";
@@ -277,7 +278,7 @@
             // 
             this.xrTableCell19.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell19.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[PORCENTAJE_ACREDITABLE]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([PORCENTAJE_ACREDITABLE]!=0,[PORCENTAJE_ACREDITABLE],\'\')")});
             this.xrTableCell19.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell19.Multiline = true;
             this.xrTableCell19.Name = "xrTableCell19";
@@ -292,7 +293,7 @@
             // 
             this.xrTableCell20.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell20.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[IVA_100]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([IVA_100]!=0,[IVA_100],\'\')")});
             this.xrTableCell20.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell20.Multiline = true;
             this.xrTableCell20.Name = "xrTableCell20";
@@ -772,7 +773,7 @@
             // 
             this.xrTableCell23.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell23.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[PROPORCION_GASTO]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([PROPORCION_GASTO]!=0,[PROPORCION_GASTO],\'\')")});
             this.xrTableCell23.Font = new System.Drawing.Font("Arial", 8F);
             this.xrTableCell23.Multiline = true;
             this.xrTableCell23.Name = "xrTableCell23";
@@ -998,7 +999,7 @@
             this.DataMember = "CNT_SP_ReporteCreditoFiscalIva";
             this.DataSource = this.sqlDataSource2;
             this.Landscape = true;
-            this.Margins = new System.Drawing.Printing.Margins(50, 49, 26, 100);
+            this.Margins = new System.Drawing.Printing.Margins(50, 48, 26, 100);
             this.PageHeight = 927;
             this.PageWidth = 1500;
             this.PaperKind = System.Drawing.Printing.PaperKind.LegalExtra;
