@@ -482,7 +482,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
 
-                    rpt.xrlVariables.Text = "CREDITO FISCAL (IVA) " + mnd;
+                    rpt.xrlVariables.Text = "CREDITO FISCAL (IVA) EN" + mnd;
                     rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
 
                     MemoryStream stream = new MemoryStream();
