@@ -67,6 +67,9 @@
     <Compile Update="Reporte\Contabilidad\xrpReembolsoCaja.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpReporteRetencionesAlcaldiasF.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpVentasBolsaAgropecuaria.cs">
       <SubType>XtraReport</SubType>
     </Compile>

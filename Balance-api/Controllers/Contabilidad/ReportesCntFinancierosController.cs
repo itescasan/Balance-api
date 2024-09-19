@@ -505,6 +505,55 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
+        [Route("api/Contabilidad/Reporte/ReporteRetencionesAlcaldiasForaneas")]
+        [HttpGet]
+        public string ReporteRetencionesAlcaldiasForaneas(DateTime FechaInicial, int Moneda)
+        {
+            return V_ReporteRetencionesAlcaldiasForaneas(FechaInicial, Moneda);
+        }
+
+        private string V_ReporteRetencionesAlcaldiasForaneas(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpReporteRetencionesAlcaldiasF rpt = new xrpReporteRetencionesAlcaldiasF();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteRetencionesAlcaldiasForaneas"].Parameters["@FECHAINICIAL"].Value = FechaInicial;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteRetencionesAlcaldiasForaneas"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    rpt.xrlVariables.Text = "RETENCIONES 1% DE ALCADIAS EN " + mnd;
+                    rpt.xrlFecha.Text = "MES DE "+ String.Format("{0:Y}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "RETENCIONES ALCADIAS FORANEAS";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
         public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
