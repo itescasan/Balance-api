@@ -598,7 +598,7 @@ namespace Balance_api.Controllers.Contabilidad
                     if (Rubro.Equals("6101-01"))
                     {
                         RubroSeleccion = "GASTOS DE ADMINISTRACION";
-                    } 
+                    }
                     else if (Rubro.Equals("6101-03"))
                     {
                         RubroSeleccion = "GASTOS DE LOGISTICA Y OPERACIONES";
@@ -607,6 +607,7 @@ namespace Balance_api.Controllers.Contabilidad
                     {
                         RubroSeleccion = "GASTOS FINANCIEROS";
                     }
+                    else RubroSeleccion = "GASTOS GENERALES";
 
                     rpt.xrlVariables.Text = RubroSeleccion + " EN " + mnd;
                     rpt.xrlFecha.Text = "AL " + String.Format("{0:D}", FechaInicial).ToUpper();
