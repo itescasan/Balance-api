@@ -607,7 +607,7 @@ namespace Balance_api.Controllers.Contabilidad
                     {
                         RubroSeleccion = "GASTOS FINANCIEROS";
                     }
-                    else RubroSeleccion = "GASTOS GENERALES";
+                    else RubroSeleccion = "GASTOS GENERALES A EXCEPCION DE GASTOS DE VENTAS";
 
                     rpt.xrlVariables.Text = RubroSeleccion + " EN " + mnd;
                     rpt.xrlFecha.Text = "AL " + String.Format("{0:D}", FechaInicial).ToUpper();
