@@ -3,6 +3,7 @@ using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
+using DevExpress.CodeParser;
 using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace Balance_api.Controllers.Contabilidad
         {
             Conexion = db;
         }
+
 
 
         [Route("api/Contabilidad/TipoComprobante/Get")]
@@ -64,6 +66,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }        
+
 
 
         [Route("api/Contabilidad/AsientosContables/Get")]
@@ -118,6 +121,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
         [Route("api/Contabilidad/CuentasContables/Get")]
         [HttpGet]
         public string CuentasContables()
@@ -160,6 +164,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/CentroCosto/Get")]
@@ -205,6 +210,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/Reporte/Comprobantes")]
@@ -255,6 +261,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
         [Route("api/Contabilidad/Reporte/Comprobantes2")]
         [HttpGet]
         public string Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
@@ -300,6 +307,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/Reporte/DiferenciasCXCvsCONT")]
@@ -349,6 +357,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
         [Route("api/Contabilidad/Reporte/ReporteVentasBolsaAgropecuaria")]
         [HttpGet]
         public string ReporteVentasBolsaAgropecuaria(DateTime FechaInicial, int Moneda)
@@ -395,6 +404,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/Reporte/AuxiliaresContables")]
@@ -552,6 +562,74 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+
+        [Route("api/Contabilidad/Reporte/ReporteIntegracionGastosAcumulados")]
+        [HttpGet]
+        public string ReporteIntegracionGastosAcumulados(DateTime FechaInicial, string Rubro, string CuentaContable, string CentroCosto, int Moneda)
+        {
+            return V_ReporteIntegracionGastosAcumulados(FechaInicial, Rubro, CuentaContable, CentroCosto, Moneda);
+        }
+
+        private string V_ReporteIntegracionGastosAcumulados(DateTime FechaInicial, string Rubro, string CuentaContable, string CentroCosto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpReporteIntegracionGastosAcumulados rpt = new xrpReporteIntegracionGastosAcumulados();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@RUBRO"].Value = Rubro;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@CUENTACONTABLE"].Value = CuentaContable;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    string RubroSeleccion = "";
+
+                    if (Rubro.Equals("6101-01"))
+                    {
+                        RubroSeleccion = "GASTOS DE ADMINISTRACION";
+                    } 
+                    else if (Rubro.Equals("6101-03"))
+                    {
+                        RubroSeleccion = "GASTOS DE LOGISTICA Y OPERACIONES";
+                    }
+                    else if (Rubro.Equals("6101-04"))
+                    {
+                        RubroSeleccion = "GASTOS FINANCIEROS";
+                    }
+
+                    rpt.xrlVariables.Text = RubroSeleccion + " EN " + mnd;
+                    rpt.xrlFecha.Text = "AL " + String.Format("{0:D}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "INTEGRACION GASTOS ACUMULADOS";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
