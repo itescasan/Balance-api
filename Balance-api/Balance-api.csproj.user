@@ -22,6 +22,9 @@
     <Compile Update="Reporte\Contabilidad\xrpDiferenciasCXCvsCONT.cs">
       <SubType>XtraReport</SubType>
     </Compile>
+    <Compile Update="Reporte\Contabilidad\xrpFlujoEfectivo.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
     <Compile Update="Reporte\Contabilidad\xrpLibroMayor.cs">
       <SubType>XtraReport</SubType>
     </Compile>
@@ -69,6 +72,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Reporte\Contabilidad\xrpComprobantes.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Reporte\Contabilidad\xrpEstadoResultado.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

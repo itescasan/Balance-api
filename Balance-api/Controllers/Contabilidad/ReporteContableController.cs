@@ -291,12 +291,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/LibroDiario")]
         [HttpGet]
-        public string LibroDiario(DateTime Fecha, bool EsMonedaLocal)
+        public string LibroDiario(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
-            return V_LibroDiario(Fecha, EsMonedaLocal);
+            return V_LibroDiario(Fecha, EsMonedaLocal,Estado);
         }
 
-        private string V_LibroDiario(DateTime Fecha, bool EsMonedaLocal)
+        private string V_LibroDiario(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
             string json = string.Empty;
             try
@@ -316,8 +316,9 @@ namespace Balance_api.Controllers.Contabilidad
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
                     sqlDataSource.Queries["CNT_SP_rptLibroDiario"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_rptLibroDiario"].Parameters["@_Estado"].Value = Estado;
                     sqlDataSource.Queries["CNT_SP_rptLibroDiario"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
-
+                   
 
                     MemoryStream stream = new MemoryStream();
 
@@ -345,12 +346,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/LibroMayor")]
         [HttpGet]
-        public string LibroMayor(DateTime Fecha, bool EsMonedaLocal)
+        public string LibroMayor(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
-            return V_LibroMayor(Fecha, EsMonedaLocal);
+            return V_LibroMayor(Fecha, EsMonedaLocal, Estado);
         }
 
-        private string V_LibroMayor(DateTime Fecha, bool EsMonedaLocal)
+        private string V_LibroMayor(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
             string json = string.Empty;
             try
@@ -371,6 +372,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     sqlDataSource.Queries["CNT_SP_rptLibroMayor"].Parameters["@_Fecha_Inicial"].Value = Fecha;
                     sqlDataSource.Queries["CNT_SP_rptLibroMayor"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+                    sqlDataSource.Queries["CNT_SP_rptLibroMayor"].Parameters["@_Estado"].Value = Estado;
 
 
                     MemoryStream stream = new MemoryStream();
