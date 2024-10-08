@@ -2,7 +2,6 @@ D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.ex
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\appsettings.Development.json
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\appsettings.json
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.dll
-D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.deps.json
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.runtimeconfig.json
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.pdb
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Azure.Core.dll
@@ -24,6 +23,7 @@ D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\DevExpress.Ric
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\DevExpress.RichEdit.v21.2.Export.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\DevExpress.Sparkline.v21.2.Core.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\DevExpress.Xpo.v21.2.dll
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Microsoft.AspNetCore.OpenApi.dll
@@ -85,3 +85,4 @@ D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\runtimes\win\l
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+D:\PROYECTO\Balance-api\Balance-api\obj\Release\net7.0\PubTmp\Out\Balance-api.deps.json

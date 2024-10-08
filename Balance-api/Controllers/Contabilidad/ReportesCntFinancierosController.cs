@@ -1,8 +1,11 @@
 ﻿using Balance_api.Class;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
+using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
+using DevExpress.CodeParser;
 using DevExpress.DataAccess.Sql;
+using DevExpress.XtraReports.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Balance_api.Controllers.Contabilidad
@@ -15,6 +18,7 @@ namespace Balance_api.Controllers.Contabilidad
         {
             Conexion = db;
         }
+
 
 
         [Route("api/Contabilidad/TipoComprobante/Get")]
@@ -61,7 +65,8 @@ namespace Balance_api.Controllers.Contabilidad
             }
 
             return json;
-        }
+        }        
+
 
 
         [Route("api/Contabilidad/AsientosContables/Get")]
@@ -116,6 +121,98 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
+        [Route("api/Contabilidad/CuentasContables/Get")]
+        [HttpGet]
+        public string CuentasContables()
+        {
+            return V_CuentasContables();
+        }
+
+        private string V_CuentasContables()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var TCuentasContables = (from _q in Conexion.CatalogoCuenta
+                                             select new
+                                             {
+                                                 _q.CuentaContable,
+                                                 Nombre = string.Concat(_q.CuentaContable, "-", _q.NombreCuenta)
+                                             }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "CATALOGO DE CUENTAS";
+                    datos.d = TCuentasContables;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/CentroCosto/Get")]
+        [HttpGet]
+        public string CentroCosto()
+        {
+            return V_CentroCosto();
+        }
+
+        private string V_CentroCosto()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var TCentroCosto = (from _q in Conexion.CentroCostos
+                                             select new
+                                             {
+                                                 _q.IdCentroCosto,
+                                                 _q.Codigo,
+                                                 _q.CentroCosto
+                                             }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "CENTRO COSTO";
+                    datos.d = TCentroCosto;
+
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
         [Route("api/Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, string CodBodega, string TipoDocumento, string NoAsiento, int Moneda)
@@ -162,6 +259,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/Reporte/Comprobantes2")]
@@ -211,6 +309,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
         [Route("api/Contabilidad/Reporte/DiferenciasCXCvsCONT")]
         [HttpGet]
         public string DiferenciasCXCvsCONT(DateTime FechaInicial, int Moneda)
@@ -256,6 +355,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
 
         [Route("api/Contabilidad/Reporte/ReporteVentasBolsaAgropecuaria")]
@@ -304,6 +404,233 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+
+        [Route("api/Contabilidad/Reporte/AuxiliaresContables")]
+        [HttpGet]
+        public string AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto, int Moneda)
+        {
+            return V_AuxiliaresContables(FechaInicial, FechaFinal, CCInicial, CCFinal, CentroCosto, Moneda);
+        }
+
+        private string V_AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                { 
+                    Cls_Datos Datos = new();
+
+                    xrpAuxiliaresContables rpt = new xrpAuxiliaresContables();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@FECHAFINAL"].Value = FechaFinal;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CCINICIAL"].Value = CCInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CCFINAL"].Value = CCFinal;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
+                    sqlDataSource.Queries["CNT_SP_ReporteAuxiliaresContables"].Parameters["@MONEDA"].Value = Moneda;
+                     
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+                    rpt.xrlVariables.Text = "TARJETA AUXILIAR EN " + mnd;
+                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+
+                    //rpt.xrTextoSaldo.Text = "Saldo Inicial al " + FechaInicial.ToShortDateString();
+
+                    if (mnd.Equals("DOLARES")) 
+                    {
+                        rpt.xrTSaldoDolar.Visible = false;
+                    }
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Auxiliares Contables";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/Reporte/ReporteCreditoFiscalIva")]
+        [HttpGet]
+        public string ReporteCreditoFiscalIva(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
+        {
+            return V_ReporteCreditoFiscalIva(FechaInicial, FechaFinal, Moneda);
+        }
+
+        private string V_ReporteCreditoFiscalIva(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpCreditoFiscalIva rpt = new xrpCreditoFiscalIva();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@FECHAFINAL"].Value = FechaFinal;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteCreditoFiscalIva"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    rpt.xrlVariables.Text = "CREDITO FISCAL (IVA) EN " + mnd;
+                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Credito Fiscal";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/Reporte/ReporteRetencionesAlcaldiasForaneas")]
+        [HttpGet]
+        public string ReporteRetencionesAlcaldiasForaneas(DateTime FechaInicial, int Moneda)
+        {
+            return V_ReporteRetencionesAlcaldiasForaneas(FechaInicial, Moneda);
+        }
+
+        private string V_ReporteRetencionesAlcaldiasForaneas(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpReporteRetencionesAlcaldiasF rpt = new xrpReporteRetencionesAlcaldiasF();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteRetencionesAlcaldiasForaneas"].Parameters["@FECHAINICIAL"].Value = FechaInicial;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteRetencionesAlcaldiasForaneas"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    rpt.xrlVariables.Text = "RETENCIONES 1% DE ALCADIAS EN " + mnd;
+                    rpt.xrlFecha.Text = "MES DE "+ String.Format("{0:Y}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "RETENCIONES ALCADIAS FORANEAS";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/Reporte/ReporteIntegracionGastosAcumulados")]
+        [HttpGet]
+        public string ReporteIntegracionGastosAcumulados(DateTime FechaInicial, string Rubro, string CuentaContable, string CentroCosto, int Moneda)
+        {
+            return V_ReporteIntegracionGastosAcumulados(FechaInicial, Rubro, CuentaContable, CentroCosto, Moneda);
+        }
+
+        private string V_ReporteIntegracionGastosAcumulados(DateTime FechaInicial, string Rubro, string CuentaContable, string CentroCosto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpReporteIntegracionGastosAcumulados rpt = new xrpReporteIntegracionGastosAcumulados();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@RUBRO"].Value = Rubro;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@CUENTACONTABLE"].Value = CuentaContable;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumulados"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    string RubroSeleccion = "";
+
+                    if (Rubro.Equals("6101-01"))
+                    {
+                        RubroSeleccion = "GASTOS DE ADMINISTRACION";
+                    }
+                    else if (Rubro.Equals("6101-03"))
+                    {
+                        RubroSeleccion = "GASTOS DE LOGISTICA Y OPERACIONES";
+                    }
+                    else if (Rubro.Equals("6101-04"))
+                    {
+                        RubroSeleccion = "GASTOS FINANCIEROS";
+                    }
+                    else RubroSeleccion = "GASTOS GENERALES A EXCEPCION DE GASTOS DE VENTAS";
+
+                    rpt.xrlVariables.Text = RubroSeleccion + " EN " + mnd;
+                    rpt.xrlFecha.Text = "AL " + String.Format("{0:D}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "INTEGRACION GASTOS ACUMULADOS";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]

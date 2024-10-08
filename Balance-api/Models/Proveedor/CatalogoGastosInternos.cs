@@ -19,5 +19,10 @@ namespace Balance_api.Models.Proveedor
         public string TIPO { get; set; }
         [Column(TypeName = "nvarchar(1)")]
         public string ESTADO { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string COD_PROV { get; set; }
+       
+
     }
 }

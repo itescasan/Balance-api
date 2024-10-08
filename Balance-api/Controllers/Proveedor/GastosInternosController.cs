@@ -35,7 +35,19 @@ namespace Balance_api.Controllers.Proveedor
                 using (Conexion)
                 {
 
-                    var qQuery =  Conexion.CatalogoGastosInternos.ToList();
+                    var qQuery = (from _q in Conexion.CatalogoGastosInternos
+                                  join _p in Conexion.Proveedor on _q.COD_PROV equals _p.Codigo
+                                  select new
+                                  {
+                                      _q.CODIGO,
+                                      _q.DESCRIPCION,
+                                      _q.CUENTACONTABLE,
+                                      _q.APLICAREN,
+                                      _q.TIPO,
+                                      _q.ESTADO,
+                                      _q.COD_PROV,
+                                      PROVEEDOR = string.Concat(_q.COD_PROV, " ", _p.Proveedor1)
+                                  }).ToList();
 
 
 
@@ -57,7 +69,74 @@ namespace Balance_api.Controllers.Proveedor
             return json;
         }
 
-    
+
+
+
+        [Route("api/Proveedor/GastosInternos/GetDatos")]
+        [HttpGet]
+        public string GetDatos()
+        {
+            return V_GetDatos();
+        }
+
+        private string V_GetDatos()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    var qCuentas = (from _q in Conexion.CatalogoCuenta
+                                    where _q.ClaseCuenta == "D"
+                                    select new
+                                    {
+                                        _q.CuentaContable,
+                                        _q.NombreCuenta,
+                                        _q.Nivel,
+                                        _q.IdGrupo,
+                                        Grupo = _q.GruposCuentas!.Nombre,
+                                        _q.ClaseCuenta,
+                                        _q.CuentaPadre,
+                                        _q.Naturaleza,
+                                        _q.Bloqueada,
+                                        Filtro = string.Concat(_q.CuentaContable, " ", _q.NombreCuenta)
+                                    }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "CUENTAS";
+                    datos.d = qCuentas;
+                    lstDatos.Add(datos);
+
+
+
+                    var qProv = (from _q in Conexion.Proveedor
+                                    select new
+                                    {
+                                        _q.Codigo,
+                                        _q.Proveedor1
+                                    }).ToList();
+
+                    datos = new();
+                    datos.Nombre = "PROVEEDOR";
+                    datos.d = qProv;
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
 
 
 
@@ -107,7 +186,7 @@ namespace Balance_api.Controllers.Proveedor
                         esNuevo = true;
                     }
 
-                   
+                    _Maestro.COD_PROV = d.COD_PROV;
                     _Maestro.DESCRIPCION = d.DESCRIPCION;
                     _Maestro.CUENTACONTABLE = d.CUENTACONTABLE;
                     _Maestro.APLICAREN = d.APLICAREN;
