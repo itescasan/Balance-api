@@ -4,6 +4,7 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Sistema;
 using Balance_api.Reporte.Contabilidad;
+using DevExpress.CodeParser;
 using DevExpress.DataAccess.DataFederation;
 using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports;
@@ -515,6 +516,77 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+
+        [Route("api/Contabilidad/Reporte/FlujoEfectivo")]
+        [HttpGet]
+        public string FlujoEfectivo(DateTime Fecha, DateTime FechaF, bool EsMonedaLocal, bool Estado)
+        {
+            return V_FlujoEfectivo(Fecha,FechaF ,EsMonedaLocal, Estado);
+        }
+
+        private string V_FlujoEfectivo(DateTime Fecha, DateTime FechaF,bool EsMonedaLocal, bool Estado)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    //Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+
+                    xrpFlujoEfectivo rpt = new xrpFlujoEfectivo();
+
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresaso en Cordobas";
+
+                    if (Fecha.ToString("dd-MM") == "01-01" && FechaF.ToString("dd-MM") == "31-12") 
+                    {
+                        rpt.Parameters["Fecha1"].Value = Fecha.ToString("yyyy");
+                        rpt.Parameters["Fecha2"].Value = FechaF.Year - 1; ;
+                    }
+                    else
+                    {
+                        rpt.Parameters["Fecha1"].Value = "Del " + Fecha.ToString("dd MMM yyyy") + " Al " + FechaF.ToString("dd MMM yyyy");
+                        var FI = Fecha.Date.AddYears(-1);
+                        var FF = FechaF.Date.AddYears(-1);
+                        rpt.Parameters["Fecha2"].Value = "Del " + FI.ToString("dd MMM yyyy") + " Al " + FF.ToString("dd MMM yyyy");
+
+                    }
+
+                    rpt.Parameters["desdehasta"].Value = "Del " + Fecha.ToString("dd-MM-yyyy") + " Al " + FechaF.ToString("dd-MM-yyyy"); 
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_Fecha_Final"].Value = FechaF;
+                    sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_Estado"].Value = Estado;
+                    sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "FlujoEfectivo";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
 
 
         [Route("api/Contabilidad/Reporte/Datos")]
