@@ -72,3 +72,12 @@
 /.gitignore
 /.vs/Balance-api/v17/HierarchyCache.v1.txt
 /.vs/ProjectEvaluation/balance-api.strings.v8.bin
+/Balance-api/Balance-api.csproj.user
+*.resources
+/.vs/Balance-api/v17/DocumentLayout.backup.json
+/Balance-api/obj/Debug/net7.0/Balance-api.MvcApplicationPartsAssemblyInfo.cs
+/Balance-api/obj/Release/net7.0/Balance_api.Reporte.Contabilidad.xrpComprobantes.resources
+/Balance-api/obj/Release/net7.0/Balance-api.AssemblyInfo.cs
+/Balance-api/obj/Release/net7.0/Balance-api.csproj.FileListAbsolute.txt
+/Balance-api/obj/Release/net7.0/Balance-api.sourcelink.json
+/Balance-api/obj/Release/net7.0/PublishOutputs.e5c9903c23.txt
