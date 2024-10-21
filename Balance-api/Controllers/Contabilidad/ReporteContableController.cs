@@ -538,7 +538,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpFlujoEfectivo rpt = new xrpFlujoEfectivo();
 
-                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresaso en Cordobas";
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
 
                     if (Fecha.ToString("dd-MM") == "01-01" && FechaF.ToString("dd-MM") == "31-12") 
                     {
