@@ -632,6 +632,37 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/Reporte/ReporteDiferenciasCXPvsContabilidad")]
+        [HttpGet]
+        public string ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
+        {
+            return V_ReporteDiferenciasCXPvsContabilidad(FechaInicial, Moneda);
+        }
+
+        private string V_ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
