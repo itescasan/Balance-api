@@ -588,6 +588,65 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
+        [Route("api/Contabilidad/Reporte/ComparativoGastosMensual")]
+        [HttpGet]
+        public string CompratativoGastosM(DateTime Fecha, bool Estado, bool EsMonedaLocal,string CuentaSucursalA, string CuentaSucursalG)
+        {
+            return V_CompratativoGastosM(Fecha, Estado, EsMonedaLocal, CuentaSucursalA, CuentaSucursalG);
+        }
+
+        private string V_CompratativoGastosM(DateTime Fecha, bool Estado, bool EsMonedaLocal, string CuentaSucursalA, string CuentaSucursalG)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    //Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+
+                    xrpComparativoGastos rpt = new xrpComparativoGastos();
+
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
+
+                    
+
+                    rpt.Parameters["desdehasta"].Value = "Al " + Fecha.ToString("dd") + " de " + Fecha.ToString("MMMM") + " " +  Fecha.ToString("yyyy");
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@P_ESTADO"].Value = Estado;
+                    sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+                    sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_CUENTA_SUCURSAL"].Value = CuentaSucursalA;
+                    sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_CUENTA_SUCURSALG"].Value = CuentaSucursalA;
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "ComparativoGastos";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
 
         [Route("api/Contabilidad/Reporte/Datos")]
         [HttpGet]
@@ -659,6 +718,23 @@ namespace Balance_api.Controllers.Contabilidad
                     datos = new Cls_Datos();
                     datos.Nombre = "Municipios";
                     datos.d = qMunicipios;
+                    lstDatos.Add(datos);
+
+                    var qCuentaGastos = (from _q in Conexion.CuentasComparativoGastos                                        
+                                       where _q.Activo == true
+                                       orderby _q.CuentaGastosVentas
+                                       select new
+                                       {
+                                           _q.CuentaGastosAdmon,
+                                           _q.CuentaGastosVentas,
+                                           _q.NombreCuenta
+                                       }
+                                      ).ToList();
+
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "CuentasGastos";
+                    datos.d = qCuentaGastos;
                     lstDatos.Add(datos);
 
 
