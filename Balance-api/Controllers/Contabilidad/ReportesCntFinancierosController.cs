@@ -648,7 +648,23 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     Cls_Datos Datos = new();
 
+                    xrpDiferenciasCXPvsCONT rpt = new xrpDiferenciasCXPvsCONT();
 
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXPvsCONT"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXPvsCONT"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "Córdobas" : "Dólares";
+
+                    rpt.xrlVariables.Text = "Cortado al " + FechaInicial.ToShortDateString() + " en " + mnd;
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Diferencias CXP vs CONT";
 
                     json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
                 }
