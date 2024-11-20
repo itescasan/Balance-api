@@ -8,6 +8,7 @@ namespace Balance_api.Models.Sistema
         [Key]
         public int IdAcceso { get; set; }
         public bool EsMenu { get; set; }
+        public bool EsSubMenu { get; set; }
         public string Id { get; set; }
         public string Caption { get; set; }
         public string MenuPadre { get; set; }
