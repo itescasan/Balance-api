@@ -617,6 +617,11 @@ namespace Balance_api.Controllers.Contabilidad
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
+                    if (CuentaSucursalA == null)
+                    {
+                        CuentaSucursalA = "";
+                    }
+
                     sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_Fecha_Inicial"].Value = Fecha;
                     sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@P_ESTADO"].Value = Estado;
                     sqlDataSource.Queries["CNT_SP_ComparativoGastos"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
@@ -647,6 +652,68 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+        [Route("api/Contabilidad/Reporte/BalanceGeneralComparativo")]
+        [HttpGet]
+        public string BalanceGeneralComparativo(DateTime Fecha, bool Estado, bool EsMonedaLocal)
+        {
+            return V_BalanceGeneralComparativo(Fecha, Estado, EsMonedaLocal);
+        }
+
+        private string V_BalanceGeneralComparativo(DateTime Fecha, bool Estado, bool EsMonedaLocal)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    //Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+
+                    xrpBalanceGeneralComparativo rpt = new xrpBalanceGeneralComparativo();
+
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
+
+
+
+                    rpt.Parameters["desdehasta"].Value = "Al " + Fecha.ToString("dd") + " de " + Fecha.ToString("MMMM") + " " + Fecha.ToString("yyyy");
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+
+                    sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@P_ESTADO"].Value = Estado;
+                    sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+       
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "BalanceGeneralComparativo";
+
+
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
 
         [Route("api/Contabilidad/Reporte/Datos")]
         [HttpGet]
