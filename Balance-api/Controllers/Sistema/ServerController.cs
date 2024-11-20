@@ -629,6 +629,7 @@ namespace Balance_api.Controllers.Sistema
                         }
 
                         a.EsMenu = f.EsMenu;
+                        a.EsSubMenu = f.EsSubMenu;
                         a.Id = f.Id;
                         a.Caption = f.Caption;
                         a.MenuPadre = f.MenuPadre;

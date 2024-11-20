@@ -632,6 +632,53 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/Reporte/ReporteDiferenciasCXPvsContabilidad")]
+        [HttpGet]
+        public string ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
+        {
+            return V_ReporteDiferenciasCXPvsContabilidad(FechaInicial, Moneda);
+        }
+
+        private string V_ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpDiferenciasCXPvsCONT rpt = new xrpDiferenciasCXPvsCONT();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXPvsCONT"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_DiferenciasCXPvsCONT"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "Córdobas" : "Dólares";
+
+                    rpt.xrlVariables.Text = "Cortado al " + FechaInicial.ToShortDateString() + " en " + mnd;
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Diferencias CXP vs CONT";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
