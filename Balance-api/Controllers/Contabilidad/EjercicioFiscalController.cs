@@ -151,6 +151,8 @@ namespace Balance_api.Controllers.Contabilidad
                     _Maestro.UsuarioReg = d.UsuarioReg;
 
                     _Maestro.FechaUpdate = DateTime.Now;
+                    _Maestro.UsuarioUpdate = d.UsuarioReg;
+
                     if (esNuevo) Conexion.EjercicioFiscal.Add(_Maestro);
 
                     Conexion.SaveChanges();

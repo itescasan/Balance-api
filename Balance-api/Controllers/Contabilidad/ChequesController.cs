@@ -576,9 +576,10 @@ namespace Balance_api.Controllers.Contabilidad
 
         private string V_Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
         {
-            if (CodBodega == null) CodBodega = string.Empty;
+            CodBodega ??= string.Empty;
 
             string json = string.Empty;
+            
             try
             {
                 using (Conexion)
@@ -587,7 +588,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qCheques = (from _q in Conexion.Cheque
-                                    where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega)
+                                    where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
                                     select new
                                     {
                                         _q.IdCheque,
@@ -610,6 +611,9 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.Anulado,
                                         _q.UsuarioReg,
                                         _q.FechaReg,
+                                        _q.UsuarioUpdate,
+                                        _q.UsuarioAnula,
+                                        _q.FechaAnulacion,
                                         _q.IdIngresoCaja,
                                         _q.CuentaIngCaja
                                     }).ToList();
