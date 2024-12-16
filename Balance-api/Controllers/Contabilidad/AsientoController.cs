@@ -70,7 +70,7 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-                    var qCentroCosto = Conexion.CentroCostos.ToList();
+                    var qCentroCosto = Conexion.CatalogoCentroCostos.ToList();
 
 
                     datos = new();

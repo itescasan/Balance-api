@@ -184,10 +184,10 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
 
-                    var TCentroCosto = (from _q in Conexion.CentroCostos
-                                             select new
+                    var TCentroCosto = (from _q in Conexion.CatalogoCentroCostos
+                                        select new
                                              {
-                                                 _q.IdCentroCosto,
+                                                 _q.IdCatalogoCentroCosto,
                                                  _q.Codigo,
                                                  _q.CentroCosto
                                              }).ToList();

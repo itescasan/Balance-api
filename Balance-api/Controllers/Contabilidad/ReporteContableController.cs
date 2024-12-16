@@ -254,7 +254,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpComparativoGastosMensual rpt = new xrpComparativoGastosMensual();
 
-                    CentroCostos? CC = Conexion.CentroCostos.FirstOrDefault(f => f.Codigo == CCosto);
+                    CatalogoCentroCostos? CC = Conexion.CatalogoCentroCostos.FirstOrDefault(f => f.Codigo == CCosto);
 
                     rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
                     rpt.Parameters["parameter2"].Value = CC?.CentroCosto.ToString();
@@ -731,7 +731,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     List<Cls_Datos> lstDatos = new();
                     Cls_Datos datos = new();
-                    var qCentroCosto = Conexion.CentroCostos.ToList();
+                    var qCentroCosto = Conexion.CatalogoCentroCostos.ToList();
 
 
                     datos = new();

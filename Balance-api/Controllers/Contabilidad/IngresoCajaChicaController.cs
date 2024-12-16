@@ -64,7 +64,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             var qIngresoCaja = (from _q in Conexion.IngresoC
                                 join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
-                                join _c in Conexion.CentroCostos on _d.CentroCosto equals _c.Codigo
+                                join _c in Conexion.CatalogoCentroCostos on _d.CentroCosto equals _c.Codigo
                                 join _e in Conexion.CatalogoCuenta on _d.Cuenta equals _e.CuentaContable
                                 join _ca in Conexion.CatalogoCuenta on _d.CuentaEmpleado equals _ca.CuentaContable into union_ca_d
                                 from _ca_d in union_ca_d.DefaultIfEmpty()
@@ -143,10 +143,10 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qCuentasC;
                     lstDatos.Add(datos);                    
 
-                    var qCentroC = (from _q in Conexion.CentroCostos
+                    var qCentroC = (from _q in Conexion.CatalogoCentroCostos
                                     select new
                                     {
-                                        _q.IdCentroCosto,
+                                        _q.IdCatalogoCentroCosto,
                                         _q.Codigo,
                                         _q.CentroCosto
                                     }).ToList();

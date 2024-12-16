@@ -57,7 +57,9 @@ namespace Balance_api.Contexts
 
         public virtual DbSet<Cheques> Cheque { get; set; }
 
-        public virtual DbSet<CentroCostos> CentroCostos { get; set; }
+        //public virtual DbSet<CentroCostos> CentroCostos { get; set; }
+
+        public virtual DbSet<CatalogoCentroCostos> CatalogoCentroCostos { get; set; }
 
         public virtual DbSet<ChequeRetencion> ChequeRetencion { get; set; }
         public virtual DbSet<CierreMes> CierreMes { get; set; }

@@ -106,7 +106,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var qCentroCosto = Conexion.CentroCostos.ToList();
+                    var qCentroCosto = Conexion.CatalogoCentroCostos.ToList();
 
 
                     datos = new();
