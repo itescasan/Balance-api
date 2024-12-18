@@ -98,6 +98,7 @@ namespace Balance_api.Contexts
         public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Retenciones> Retenciones { get; set; }
         public DbSet<CatalogoGastosInternos> CatalogoGastosInternos { get; set; }
+        public DbSet<Articulo> Articulos { get; set; }
 
         //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
 
