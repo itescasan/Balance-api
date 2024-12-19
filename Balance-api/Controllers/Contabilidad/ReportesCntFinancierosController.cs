@@ -632,6 +632,57 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/Reporte/ReporteIntegracionGastosAcumuladosVentas")]
+        [HttpGet]
+        public string ReporteIntegracionGastosAcumuladosVentas(DateTime FechaInicial, string CentroCosto, int Moneda)
+        {
+            return V_ReporteIntegracionGastosAcumuladosVentas(FechaInicial, CentroCosto, Moneda);
+        }
+
+        private string V_ReporteIntegracionGastosAcumuladosVentas(DateTime FechaInicial, string CentroCosto, int Moneda)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpReporteIntegracionGastosAcumuladosVentas rpt = new xrpReporteIntegracionGastosAcumuladosVentas();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumuladosVentas"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumuladosVentas"].Parameters["@CENTROCOSTO"].Value = CentroCosto;
+                    sqlDataSource.Queries["CNT_SP_ReporteIntegracionGastosAcumuladosVentas"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+
+                    string RubroSeleccion = "GASTOS DE VENTAS";                    
+
+                    rpt.xrlVariables.Text = RubroSeleccion + " EN " + mnd;
+                    rpt.xrlFecha.Text = "AL " + String.Format("{0:D}", FechaInicial).ToUpper();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "INTEGRACION GASTOS ACUMULADOS VENTAS";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
         [Route("api/Contabilidad/Reporte/ReporteDiferenciasCXPvsContabilidad")]
         [HttpGet]
         public string ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
