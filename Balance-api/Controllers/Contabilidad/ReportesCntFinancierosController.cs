@@ -733,12 +733,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
-        public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
+        public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
         {
-            return V_EstadoCambioPatrimonio(FechaInicial, FechaFinal);
+            return V_EstadoCambioPatrimonio(FechaInicial, FechaFinal, Moneda);
         }
 
-        private string V_EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal)
+        private string V_EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
         {
             string json = string.Empty;
             try
@@ -747,7 +747,24 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     Cls_Datos Datos = new();
 
+                    xrpEstadoCambioPatrimonio rpt = new xrpEstadoCambioPatrimonio();
 
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteEstadoCambioPatrimonio"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
+                    sqlDataSource.Queries["CNT_SP_ReporteEstadoCambioPatrimonio"].Parameters["@FECHAFINAL"].Value = FechaFinal;                    
+                    sqlDataSource.Queries["CNT_SP_ReporteEstadoCambioPatrimonio"].Parameters["@MONEDA"].Value = Moneda;
+
+                    string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
+                    rpt.xrlVariables.Text = "ESTADO DE CAMBIOS EN EL PATRIMONIO EN " + mnd;
+                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Estado Cambio Patrimonio";
 
                     json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
                 }
