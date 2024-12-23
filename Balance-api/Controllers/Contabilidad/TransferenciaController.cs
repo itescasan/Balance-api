@@ -228,9 +228,11 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = Doc;
                     lstDatos.Add(datos);
 
+                    string[] TipoDoc = new string[] { "GASTO_CRE", "GASTO_CON", "GASTO_REN" };
+
                     var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto
                                       join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
-                                      where _q.OrdenCompra.CodigoProveedor == CodProveedor && _q.OrdenCompra.Estado == "Aprovado"
+                                      where _q.OrdenCompra.CodigoProveedor == CodProveedor && _q.OrdenCompra.Estado == "Aprovado" && TipoDoc.Contains(_d.TipoDocumento)
                                       select new
                                       {
                                           _q.NoDocOrigen,
