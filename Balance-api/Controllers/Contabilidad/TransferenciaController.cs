@@ -241,7 +241,8 @@ namespace Balance_api.Controllers.Contabilidad
                                           _q.Participacion1,
                                           _q.Participacion2,
                                           _q.CuentaContable,
-                                          _q.Bodega
+                                          _q.Bodega,
+                                          _q.CentroCosto
                                       }).ToList();
 
 
