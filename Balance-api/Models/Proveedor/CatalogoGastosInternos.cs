@@ -1,5 +1,4 @@
-﻿using Balance_api.Models.Contabilidad;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Balance_api.Models.Proveedor
