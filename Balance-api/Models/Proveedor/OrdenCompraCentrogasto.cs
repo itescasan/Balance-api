@@ -20,7 +20,7 @@ namespace Balance_api.Models.Proveedor
         public string CentroCosto { get; set; }
         [Column(TypeName = "decimal(18,4)")]
         public decimal Participacion2 { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
         public int IdUsuarioCreacion { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
@@ -34,7 +34,5 @@ namespace Balance_api.Models.Proveedor
         public string ProvieneDe { get; set; }
 
 
-        [ForeignKey("IdOrdenCompra")]
-        public OrdenCompra OrdenCompra { get; set; }
     }
 }

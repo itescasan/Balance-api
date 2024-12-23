@@ -14,9 +14,9 @@ namespace Balance_api.Models.Proveedor
         public string CodigoProveedor { get; set; }
         [Column(TypeName = "nvarchar(50)")]
         public string Estado { get; set; }
-        
 
         [ForeignKey("IdOrdenCompra")]
         public ICollection<OrdenCompraCentrogasto> OrdenCompraCentrogasto { get; set; }
+
     }
 }

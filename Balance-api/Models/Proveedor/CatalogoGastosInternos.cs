@@ -21,7 +21,12 @@ namespace Balance_api.Models.Proveedor
 
         [Column(TypeName = "nvarchar(50)")]
         public string COD_PROV { get; set; }
-       
+
+
+
+        [ForeignKey("IdOrdenCompra")]
+        public ICollection<OrdenCompra>  OrdenCompra { get; set; }
+
 
     }
 }
