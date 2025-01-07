@@ -190,6 +190,8 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     var qDoc = Conexion.MovimientoDoc.Where(w => w.CodigoCliente == CodProveedor && w.Activo && w.Esquema == "CXP").ToList();
 
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+
                     List<TransferenciaDocumento> qDocumentos = (from _q in qDoc
                                        where _q.Activo
                                        group _q by new
@@ -224,10 +226,36 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos  datos = new();
                     datos.Nombre = "DOC PROVEEDOR";
                     datos.d = Doc;
-               
+                    lstDatos.Add(datos);
+
+                    string[] TipoDoc = new string[] { "GASTO_CRE", "GASTO_CON", "GASTO_REN" };
+
+                    var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
+                                      join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                                      join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO"
+                                      select new
+                                      {
+                                          _q.NoDocOrigen,
+                                          _q.TipoDocOrigen,
+                                          _q.Participacion1,
+                                          _q.Participacion2,
+                                          _q.CuentaContable,
+                                          _q.Bodega,
+                                          _q.CentroCosto
+                                      }).ToList();
 
 
-                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+                     datos = new();
+                    datos.Nombre = "DOC ORDEN COMPRA";
+                    datos.d = qOrdenComp;
+                    lstDatos.Add(datos);
+
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
 

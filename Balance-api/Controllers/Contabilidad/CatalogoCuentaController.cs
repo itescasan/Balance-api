@@ -185,7 +185,7 @@ namespace Balance_api.Controllers.Contabilidad
                             case 6:
 
                                 numero += 1;
-                                _C[_C.Length - 1] = numero.ToString().PadLeft(2, '0');
+                                _C[_C.Length - 1] = numero.ToString().PadLeft(4, '0');
                                 Cuenta = _C[_C.Length - 1];
 
                                 break;
