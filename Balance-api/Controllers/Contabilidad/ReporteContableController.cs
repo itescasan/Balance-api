@@ -186,7 +186,8 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos Datos = new();
 
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
                     xrpEstadoResultado rpt = new xrpEstadoResultado();
 
@@ -307,7 +308,8 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos Datos = new();
 
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
 
                     xrpLibroDiario rpt = new xrpLibroDiario();
                     
@@ -362,7 +364,8 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos Datos = new();
 
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
 
                     xrpLibroMayor rpt = new xrpLibroMayor();
 
@@ -417,7 +420,8 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos Datos = new();
 
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
-                    DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
+                    DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
 
                     var Bodega = "";
 
@@ -532,13 +536,14 @@ namespace Balance_api.Controllers.Contabilidad
                 using (Conexion)
                 {
                     Cls_Datos Datos = new();
+                    Conexion.Database.SetCommandTimeout(6000);
 
                     //Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
                     //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
                     xrpFlujoEfectivo rpt = new xrpFlujoEfectivo();
 
-                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == false ? "Expresado en Dolares" : "Expresado en Cordobas";
 
                     if (Fecha.ToString("dd-MM") == "01-01" && FechaF.ToString("dd-MM") == "31-12") 
                     {
@@ -563,8 +568,12 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_Estado"].Value = Estado;
                     sqlDataSource.Queries["CNT_SP_rptFlujoEfectivo"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
 
+                    
+                    
+
 
                     MemoryStream stream = new MemoryStream();
+
 
                     rpt.ExportToPdf(stream, null);
                     stream.Seek(0, SeekOrigin.Begin);
@@ -580,7 +589,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
             }
-            catch (Exception ex)
+             catch (Exception ex)
             {
                 json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
             }
@@ -609,7 +618,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpComparativoGastos rpt = new xrpComparativoGastos();
 
-                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == false ? "Expresado en Dolares" : "Expresado en Cordobas";
 
                     
 
@@ -674,7 +683,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpBalanceGeneralComparativo rpt = new xrpBalanceGeneralComparativo();
 
-                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == true ? "Expresado en Dolares" : "Expresado en Cordobas";
+                    rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == false ? "Expresado en Dolares" : "Expresado en Cordobas";
 
 
 
@@ -686,7 +695,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@_Fecha_Inicial"].Value = Fecha;
                     sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@P_ESTADO"].Value = Estado;
                     sqlDataSource.Queries["CNT_SP_BalanceGeneralComparativo"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
-       
+                    
 
 
                     MemoryStream stream = new MemoryStream();
