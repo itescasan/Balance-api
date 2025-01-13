@@ -366,6 +366,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Transf.Comision = d.T.Comision;
                     _Transf.ComisionDolar = d.T.ComisionDolar;
                     _Transf.ComisionCordoba = d.T.ComisionCordoba;
+                    _Transf.CentroCosto = d.T.CentroCosto;
                     _Transf.Total = d.T.Total;
                     _Transf.TotalDolar = d.T.TotalDolar;
                     _Transf.TotalCordoba = d.T.TotalCordoba;
