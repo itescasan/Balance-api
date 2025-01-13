@@ -11,9 +11,6 @@ namespace Balance_api.Models.Proveedor
         [Column(TypeName = "nvarchar(50)")]
         public string NoOrdenCompra { get; set; }
 
-        [Column(TypeName = "nvarchar(50)")]
-        public string NoSolicitud { get; set; }
-
 
         [Column(TypeName = "nvarchar(50)")]
         public string TipoDocOrigen { get; set; }
@@ -38,6 +35,10 @@ namespace Balance_api.Models.Proveedor
         
         [ForeignKey("IdOrdenCompra")]
         public ICollection<OrdenCompraCentrogasto> OrdenCompraCentrogasto { get; set; }
+
+
+        [ForeignKey("IdOrdenCompra")]
+        public CuentaXPagar CuentaXPagar { get; set; }
 
     }
 }

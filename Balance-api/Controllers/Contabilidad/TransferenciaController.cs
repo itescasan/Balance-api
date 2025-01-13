@@ -233,11 +233,11 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qOrdenComp = (from _q in  Conexion.OrdenCompra.ToList() 
-                                      join _d in qDocumentos on new { DOC = _q.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      join _d in qDocumentos on new { DOC = _q.CuentaXPagar.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO"
                                       select new
                                       {
-                                          NoDocOrigen = _q.NoSolicitud,
+                                          NoDocOrigen = _q.CuentaXPagar.NoSolicitud,
                                           TipoDocOrigen = _q.TipoDocOrigen,
                                           Participacion1 = 100,
                                           Participacion2 = 100,
