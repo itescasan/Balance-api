@@ -10,13 +10,35 @@ namespace Balance_api.Models.Proveedor
         public int IdOrdenCompra { get; set; }
         [Column(TypeName = "nvarchar(50)")]
         public string NoOrdenCompra { get; set; }
+
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string TipoDocOrigen { get; set; }
+
         [Column(TypeName = "nvarchar(50)")]
         public string CodigoProveedor { get; set; }
+
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string CuentaContableSolicitante { get; set; }
+
+        [Column(TypeName = "nvarchar(10)")]
+        public string CodigoBodega { get; set; }
+
+
+        
         [Column(TypeName = "nvarchar(50)")]
         public string Estado { get; set; }
 
+   
+
+        
         [ForeignKey("IdOrdenCompra")]
         public ICollection<OrdenCompraCentrogasto> OrdenCompraCentrogasto { get; set; }
+
+
+        [ForeignKey("IdOrdenCompra")]
+        public CuentaXPagar CuentaXPagar { get; set; }
 
     }
 }

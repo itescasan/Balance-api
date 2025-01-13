@@ -228,26 +228,46 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = Doc;
                     lstDatos.Add(datos);
 
-                    string[] TipoDoc = new string[] { "GASTO_CRE", "GASTO_CON", "GASTO_REN" };
+                    string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA" };
 
-                    var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
-                                      join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
-                                      join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
-                                      where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO"
+
+
+                    var qOrdenComp = (from _q in  Conexion.OrdenCompra.ToList() 
+                                      join _i in Conexion.CuentaXPagar on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                                      join _d in qDocumentos on new { DOC = _i.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO"
                                       select new
                                       {
-                                          _q.NoDocOrigen,
-                                          _q.TipoDocOrigen,
-                                          _q.Participacion1,
-                                          _q.Participacion2,
-                                          _q.CuentaContable,
-                                          _q.Bodega,
-                                          _q.CentroCosto
+                                          NoDocOrigen = _i.NoSolicitud,
+                                          TipoDocOrigen = _q.TipoDocOrigen,
+                                          Participacion1 = 100,
+                                          Participacion2 = 100,
+                                          CuentaContable = _q.CuentaContableSolicitante,
+                                          Bodega = _q.CodigoBodega,
+                                          CentroCosto = string.Empty
                                       }).ToList();
 
 
 
-                     datos = new();
+
+                    //var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
+                    //                  join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                    //                  join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                    //                  where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO"
+                    //                  select new
+                    //                  {
+                    //                      _q.NoDocOrigen,
+                    //                      _q.TipoDocOrigen,
+                    //                      _q.Participacion1,
+                    //                      _q.Participacion2,
+                    //                      _q.CuentaContable,
+                    //                      _q.Bodega,
+                    //                      _q.CentroCosto
+                    //                  }).ToList();
+
+
+
+                    datos = new();
                     datos.Nombre = "DOC ORDEN COMPRA";
                     datos.d = qOrdenComp;
                     lstDatos.Add(datos);
