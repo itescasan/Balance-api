@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\reportecontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\reportecontablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\arguellor\\source\\repos\\balance-api\\balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\contabilidad\\cheques.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,6 +43,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ChequesController.cs",
+              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
+              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAADgv70AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T02:11:53.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Cheques.cs",
               "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Models\\Contabilidad\\Cheques.cs",
               "RelativeDocumentMoniker": "Balance-api\\Models\\Contabilidad\\Cheques.cs",
@@ -51,19 +64,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-07T23:22:29.571Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReporteContableController.cs",
-              "DocumentMoniker": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReporteContableController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ReporteContableController.cs",
-              "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReporteContableController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ReporteContableController.cs",
-              "ViewState": "AgIAAGkCAAAAAAAAAAArwH4CAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T21:02:18.738Z",
               "EditorCaption": ""
             }
           ]

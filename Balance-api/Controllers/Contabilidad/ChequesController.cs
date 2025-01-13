@@ -320,6 +320,9 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.Concepto = d.C.Concepto;
                     _Chequ.TipoCheque = d.C.TipoCheque;
                     _Chequ.CodBodega = d.C.CodBodega;
+                    _Chequ.Comision = d.C.Comision;
+                    _Chequ.ComisionDolar = d.C.ComisionDolar;
+                    _Chequ.ComisionlCordoba = d.C.ComisionlCordoba;
                     _Chequ.Total = d.C.Total;
                     _Chequ.TotalDolar = d.C.TotalDolar;
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
