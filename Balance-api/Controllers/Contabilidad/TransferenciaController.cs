@@ -228,7 +228,7 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = Doc;
                     lstDatos.Add(datos);
 
-                    string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA", };
+                    string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA" };
 
 
 
