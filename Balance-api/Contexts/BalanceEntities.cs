@@ -20,7 +20,7 @@ namespace Balance_api.Contexts
         }
 
 
-        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
 
              modelBuilder.Entity<GruposCuentas>()
@@ -29,7 +29,17 @@ namespace Balance_api.Contexts
                  .HasForeignKey(e => e.IdGrupo);
 
 
-         }*/
+            modelBuilder.Entity<SerieDocumento>()
+                .HasOne(e => e.TipoDocumento)
+                .WithMany()
+                .HasForeignKey(e => e.IdTipoDocumento);
+
+
+
+        }
+
+
+
 
 
 
