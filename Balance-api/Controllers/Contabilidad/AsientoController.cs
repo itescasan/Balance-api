@@ -335,6 +335,8 @@ namespace Balance_api.Controllers.Contabilidad
             xrpAsientoContable rpt = new xrpAsientoContable();
 
             SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+            sqlDataSource.Connection.ConnectionString = _Conexion.Database.GetConnectionString();
+
 
             sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Maestro.IdAsiento;
             sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Maestro.IdMoneda;
@@ -509,12 +511,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AsientoContable/GetReporte")]
         [HttpGet]
-        public string DaGetReportetos(int IdAsiento, string IdMoneda)
+        public string DaGetReportetos(int IdAsiento, string IdMoneda, bool Exportar)
         {
-            return V_GetReporte(IdAsiento, IdMoneda);
+            return V_GetReporte(IdAsiento, IdMoneda, Exportar);
         }
 
-        private string V_GetReporte(int IdAsiento, string IdMoneda)
+        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar)
         {
             string json = string.Empty;
             if (IdMoneda == null) IdMoneda = string.Empty;
@@ -531,7 +533,16 @@ namespace Balance_api.Controllers.Contabilidad
               
                 MemoryStream stream = new MemoryStream();
 
-                rpt.ExportToPdf(stream, null);
+                if(Exportar)
+                {
+                    rpt.ExportToXlsx(stream, null);
+                }
+                else
+                {
+                    rpt.ExportToPdf(stream, null);
+                    
+                }
+
                 stream.Seek(0, SeekOrigin.Begin);
 
 

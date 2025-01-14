@@ -7,6 +7,13 @@ namespace Balance_api.Models.Sistema
     [Table("SerieDocumentos", Schema = "CNT")]
     public class SerieDocumento
     {
+
+        public SerieDocumento()
+        {
+            this.TipoDocumento = new TipoDocumento();
+        }
+
+
         [Key]
         public string IdSerie { get; set; }
         public string DescripcionSerie { get; set; }
