@@ -331,10 +331,36 @@ namespace Balance_api.Controllers.Contabilidad
             List<Cls_Datos> lstDatos = new();
 
 
+
+            xrpAsientoContable rpt = new xrpAsientoContable();
+
+            SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+            sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Maestro.IdAsiento;
+            sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Maestro.IdMoneda;
+
+            MemoryStream stream = new MemoryStream();
+
+            rpt.ExportToPdf(stream, null);
+            stream.Seek(0, SeekOrigin.Begin);
+
             Cls_Datos datos = new();
+            datos.d = stream.ToArray();
+            datos.Nombre = "REPORTE ASIENTO";
+            lstDatos.Add(datos);
+
+
+
+             datos = new();
             datos.Nombre = "GUARDAR";
             datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Maestro.NoAsiento}</b></span>";
             lstDatos.Add(datos);
+
+
+
+
+
+
 
 
             json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
