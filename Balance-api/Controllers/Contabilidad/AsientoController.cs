@@ -3,6 +3,9 @@ using Balance_api.Contexts;
 using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
+using Balance_api.Reporte.Contabilidad;
+using DevExpress.DataAccess.Sql;
+using DevExpress.Text.Interop;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -475,5 +478,55 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+
+        [Route("api/Contabilidad/AsientoContable/GetReporte")]
+        [HttpGet]
+        public string DaGetReportetos(int IdAsiento, string IdMoneda)
+        {
+            return V_GetReporte(IdAsiento, IdMoneda);
+        }
+
+        private string V_GetReporte(int IdAsiento, string IdMoneda)
+        {
+            string json = string.Empty;
+            if (IdMoneda == null) IdMoneda = string.Empty;
+            try
+            {
+                Cls_Datos Datos = new();
+
+                xrpAsientoContable rpt = new xrpAsientoContable();
+
+                SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
+                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
+
+
+                MemoryStream stream = new MemoryStream();
+
+                rpt.ExportToPdf(stream, null);
+                stream.Seek(0, SeekOrigin.Begin);
+
+
+                Datos.d = stream.ToArray();
+                Datos.Nombre = "REPORTE ASIENTO";
+
+                json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
     }
 }
