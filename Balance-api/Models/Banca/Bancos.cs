@@ -10,6 +10,7 @@ namespace Balance_api.Models.Banca
         public int IdBanco { get; set; }
         public string Banco { get; set; }
         public string CuentaNuevaC { get; set; }
-        public string CuentaNuevaD { get; set; }
+        public string CuentaNuevaD { get; set; } 
+
     }
 }

@@ -57,7 +57,7 @@ namespace Balance_api.Controllers.Contabilidad
                                                _q.Bancos.CuentaNuevaC,
                                                _q.Bancos.CuentaNuevaD,
                                                _q.SerieDocumento.IdSerie,
-                                               Consecutivo = string.Concat(_q.IdSerie, _q.SerieDocumento.Consecutivo + 1),
+                                               Consecutivo = _q.Consecutivo + 1,
                                                _q.Activo,
                                                DisplayKey = string.Concat(_q.Bancos.Banco, " ", _q.NombreCuenta, " ", _q.Monedas.Simbolo, " ", _q.CuentaBancaria),
                                            }).ToList();
@@ -207,35 +207,36 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     var qDoc = Conexion.MovimientoDoc.Where(w => w.CodigoCliente == CodProveedor && w.Activo && w.Esquema == "CXP").ToList();
 
-                    List<ChequeDocumento> qDocumentos = (from _q in qDoc
-                                                         where _q.Activo
-                                                         group _q by new
-                                                         {
-                                                             NoDococumento = (_q.NoDocEnlace == null ? _q.NoDocOrigen : _q.NoDocEnlace),
-                                                             Serie = (_q.NoDocEnlace == null ? _q.SerieOrigen : _q.SerieEnlace),
-                                                             TipoDocumento = (_q.NoDocEnlace == null ? _q.TipoDocumentoOrigen : _q.TipoDocumentoEnlace),
-                                                         } into grupo
-                                                         select new ChequeDocumento
-                                                         {
-                                                             IdDetChequeDoc = new Guid(),
-                                                             Index = 0,
-                                                             Documento = grupo.Key.NoDococumento,
-                                                             Serie = grupo.Key.Serie,
-                                                             TipoDocumento = grupo.Key.TipoDocumento,
-                                                             Fecha = (DateTime)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.FechaDocumento.Date!,
-                                                             IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
-                                                             TasaCambioDoc = (decimal)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.TasaCambio!,
-                                                             SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
-                                                             SaldoDolar = grupo.Sum(s => s.TotalDolar)
-                                                         }).ToList();
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+
+                    List<TransferenciaDocumento> qDocumentos = (from _q in qDoc
+                                                                where _q.Activo
+                                                                group _q by new
+                                                                {
+                                                                    NoDococumento = (_q.NoDocEnlace == null ? _q.NoDocOrigen : _q.NoDocEnlace),
+                                                                    Serie = (_q.NoDocEnlace == null ? _q.SerieOrigen : _q.SerieEnlace),
+                                                                    TipoDocumento = (_q.NoDocEnlace == null ? _q.TipoDocumentoOrigen : _q.TipoDocumentoEnlace),
+                                                                } into grupo
+                                                                select new TransferenciaDocumento
+                                                                {
+                                                                    IdDetTrasnfDoc = new Guid(),
+                                                                    Index = 0,
+                                                                    Documento = grupo.Key.NoDococumento,
+                                                                    Serie = grupo.Key.Serie,
+                                                                    TipoDocumento = grupo.Key.TipoDocumento,
+                                                                    Fecha = (DateTime)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.FechaDocumento.Date!,
+                                                                    IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
+                                                                    TasaCambioDoc = (decimal)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.TasaCambio!,
+                                                                    SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
+                                                                    SaldoDolar = grupo.Sum(s => s.TotalDolar)
+                                                                }).ToList();
 
 
                     qDocumentos = qDocumentos.Where(w => w.SaldoCordoba > 0).ToList();
 
 
 
-                    var Doc = qDocumentos.Select((file, index) => new
-                    {
+                    var Doc = qDocumentos.Select((file, index) => new {
                         Index = index,
                         file.Documento,
                         file.Serie,
@@ -250,10 +251,56 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos datos = new();
                     datos.Nombre = "DOC PROVEEDOR";
                     datos.d = Doc;
+                    lstDatos.Add(datos);
+
+                    string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA" };
 
 
 
-                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+                    var qOrdenComp = (from _q in Conexion.OrdenCompra.ToList()
+                                      join _i in Conexion.CuentaXPagar on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                                      join _d in qDocumentos on new { DOC = _i.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO"
+                                      select new
+                                      {
+                                          NoDocOrigen = _i.NoSolicitud,
+                                          TipoDocOrigen = _q.TipoDocOrigen,
+                                          Participacion1 = 100,
+                                          Participacion2 = 100,
+                                          CuentaContable = _q.CuentaContableSolicitante,
+                                          Bodega = _q.CodigoBodega,
+                                          CentroCosto = string.Empty
+                                      }).ToList();
+
+
+
+
+                    //var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
+                    //                  join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                    //                  join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                    //                  where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO"
+                    //                  select new
+                    //                  {
+                    //                      _q.NoDocOrigen,
+                    //                      _q.TipoDocOrigen,
+                    //                      _q.Participacion1,
+                    //                      _q.Participacion2,
+                    //                      _q.CuentaContable,
+                    //                      _q.Bodega,
+                    //                      _q.CentroCosto
+                    //                  }).ToList();
+
+
+
+                    datos = new();
+                    datos.Nombre = "DOC ORDEN COMPRA";
+                    datos.d = qOrdenComp;
+                    lstDatos.Add(datos);
+
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
 
 
@@ -266,6 +313,7 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
 
         private string V_Guardar(Cls_Datos_Cheque d)
         {
@@ -288,9 +336,14 @@ namespace Balance_api.Controllers.Contabilidad
                         Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.SerieDocumentos SET Consecutivo += 1  WHERE  IdSerie = '{d.C.IdSerie}'");
                         Conexion.SaveChanges();
 
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE BAN.CuentaBanco SET Consecutivo += 1  WHERE  IdCuentaBanco = '{d.C.IdCuentaBanco}'");
+                        Conexion.SaveChanges();
+
                         int ConsecutivoSerie = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM CNT.SerieDocumentos WHERE IdSerie = '{d.C.IdSerie}'").ToList().First();
 
-                        d.C.NoCheque = string.Concat(d.C.IdSerie, ConsecutivoSerie);
+                        int ConsecutivoCheque = Conexion.Database.SqlQueryRaw<int>($"SELECT Consecutivo FROM BAN.CuentaBanco WHERE IdCuentaBanco = '{d.C.IdCuentaBanco}'").ToList().First();
+
+                        d.C.NoCheque = string.Concat(d.C.IdSerie, ConsecutivoCheque);
 
 
                         d.A.TipoDocOrigen = d.C.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO";
@@ -322,7 +375,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.CodBodega = d.C.CodBodega;
                     _Chequ.Comision = d.C.Comision;
                     _Chequ.ComisionDolar = d.C.ComisionDolar;
-                    _Chequ.ComisionlCordoba = d.C.ComisionlCordoba;
+                    _Chequ.ComisionCordoba = d.C.ComisionCordoba;
                     _Chequ.Total = d.C.Total;
                     _Chequ.TotalDolar = d.C.TotalDolar;
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
@@ -544,7 +597,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     Cls_Datos datos = new();
                     datos.Nombre = "GUARDAR";
-                    datos.d = "Registro Guardado";
+                    //datos.d = "Registro Guardado";
+                    datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Chequ.NoCheque}</b></span>";
                     lstDatos.Add(datos);
 
 

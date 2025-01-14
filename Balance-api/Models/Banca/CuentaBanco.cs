@@ -19,6 +19,7 @@ namespace Balance_api.Models.Banca
         public string Tipo { get; set; }
 
         public bool Activo { get; set; }
+        public int Consecutivo {  get; set; }
 
         [ForeignKey("IdBanco")]
         public Bancos Bancos { get; set; }

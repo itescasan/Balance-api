@@ -26,7 +26,7 @@ namespace Balance_api.Models.Contabilidad
         public string TipoCheque { get; set; }
         public decimal Comision { get; set; }
         public decimal ComisionDolar { get; set; }
-        public decimal ComisionlCordoba { get; set; }
+        public decimal ComisionCordoba { get; set; }
         public decimal Total { get; set; }
         public decimal TotalDolar { get; set; }
         public decimal TotalCordoba { get; set; }
