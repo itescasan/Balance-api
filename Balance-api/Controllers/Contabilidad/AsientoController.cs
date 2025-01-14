@@ -497,13 +497,12 @@ namespace Balance_api.Controllers.Contabilidad
                 Cls_Datos Datos = new();
 
                 xrpAsientoContable rpt = new xrpAsientoContable();
-
+                
                 SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
-
-
+              
                 MemoryStream stream = new MemoryStream();
 
                 rpt.ExportToPdf(stream, null);
