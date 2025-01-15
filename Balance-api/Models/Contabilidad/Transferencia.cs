@@ -51,10 +51,9 @@ namespace Balance_api.Models.Contabilidad
         [ForeignKey("IdCuentaBanco")]
         public CuentaBanco CuentaBanco { get; set; }
 
-        [ForeignKey("IdTransferencia")]
+
         public ICollection<TransferenciaDocumento> TransferenciaDocumento { get; set; }
 
-        [ForeignKey("IdTransferencia")]
         public ICollection<TranferenciaRetencion> TranferenciaRetencion { get; set; }
 
     }

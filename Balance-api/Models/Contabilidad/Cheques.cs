@@ -48,13 +48,10 @@ namespace Balance_api.Models.Contabilidad
         [ForeignKey("IdCuentaBanco")]
         public CuentaBanco CuentaBanco { get; set; }
 
-        //[ForeignKey("CuentaContable")]
-        //public CatalogoCuenta CatalogoCuenta { get => catalogoCuenta; set => catalogoCuenta = value; }
-
-        [ForeignKey("IdCheque")]
+ 
         public ICollection<ChequeDocumento> ChequeDocumento { get; set; } 
 
-        [ForeignKey("IdCheque")]
+
         public ICollection<ChequeRetencion> ChequeRetencion { get; set; }
     }
 }

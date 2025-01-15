@@ -39,7 +39,6 @@ namespace Balance_api.Models.Contabilidad
         public DateTime? FechaUpdate { get; set; }
         public string? UsuarioUpdate { get; set; }
 
-        [ForeignKey("IdAsiento")]
         public ICollection<AsientoDetalle> AsientosContablesDetalle { get; set; }
 
 
