@@ -767,11 +767,38 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var qDocumentos = (from _q in Conexion.Transferencia
+                    var qDocumentos = (from _q in Conexion.TransferenciaDocumento
                                        where _q.IdTransferencia == IdTransferencia
-                                       select _q.TransferenciaDocumento).First();
+                                       select new {
 
+                                           _q.IdDetTrasnfDoc,
+                                           _q.IdTransferencia,
+                                           _q.Index,
+                                           _q.Operacion,
+                                           _q.Documento,
+                                           _q.Serie,
+                                           _q.TipoDocumento,
+                                           _q.Fecha,
+                                           _q.IdMoneda,
+                                           _q.TasaCambioDoc,
+                                           _q.SaldoAnt,
+                                           _q.SaldoAntML,
+                                           _q.SaldoAntMS,
+                                           _q.Saldo,
+                                           _q.SaldoDolar,
+                                           _q.SaldoCordoba,
+                                           _q.Importe,
+                                           _q.ImporteML,
+                                           _q.ImporteMS,
+                                           _q.NuevoSaldo,
+                                           _q.NuevoSaldoML,
+                                           _q.NuevoSaldoMS,
+                                           _q.DiferencialML,
+                                           _q.DiferencialMS,
+                                           _q.Retenido
+                                       }).ToList();
 
+                     
 
 
 
@@ -782,9 +809,27 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var qRetenciones = (from _q in Conexion.Transferencia
+                    var qRetenciones = (from _q in Conexion.TranferenciaRetencion
                                        where _q.IdTransferencia == IdTransferencia
-                                       select _q.TranferenciaRetencion).First();
+                                       select new {
+                                           _q.IdDetRetencion,
+                                           _q.IdTransferencia,
+                                           _q.Index,
+                                           _q.Retencion,
+                                           _q.Porcentaje,
+                                           _q.Documento,
+                                           _q.Serie,
+                                           _q.TipoDocumento,
+                                           _q.IdMoneda,
+                                           _q.TasaCambio,
+                                           _q.Monto,
+                                           _q.MontoMS,
+                                           _q.MontoML,
+                                           _q.PorcImpuesto,
+                                           _q.TieneImpuesto,
+                                           _q.CuentaContable
+
+                                       }).ToList();
 
 
 
@@ -832,9 +877,29 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-                    var D = (from _q in Conexion.AsientosContables
-                             where _q.NoDocOrigen == T.NoTransferencia && _q.IdSerieDocOrigen == T.IdSerie && _q.TipoDocOrigen == "TRANSFERENCIA A DOCUMENTO"
-                             select _q.AsientosContablesDetalle).ToList();
+                    var D = (from _q in Conexion.AsientosContablesDetalle
+                             where _q.Asiento!.NoDocOrigen == T.NoTransferencia && _q.Asiento.IdSerieDocOrigen == T.IdSerie && _q.Asiento.TipoDocOrigen == "TRANSFERENCIA A DOCUMENTO"
+                             select new {
+
+                                 _q.IdDetalleAsiento,
+                                 _q.IdAsiento,
+                                 _q.NoLinea,
+                                 _q.CuentaContable,
+                                 _q.Debito,
+                                 _q.DebitoML,
+                                 _q.DebitoMS,
+                                 _q.Credito,
+                                 _q.CreditoML,
+                                 _q.CreditoMS,
+                                 _q.Modulo,
+                                 _q.Descripcion,
+                                 _q.Referencia,
+                                 _q.Naturaleza,
+                                 _q.CentroCosto,
+                                 _q.NoDocumento,
+                                 _q.TipoDocumento,
+
+                             }).ToList();
 
 
 

@@ -52,9 +52,9 @@ namespace Balance_api.Models.Contabilidad
         public CuentaBanco CuentaBanco { get; set; }
 
 
-        public ICollection<TransferenciaDocumento> TransferenciaDocumento { get; set; }
+        public ICollection<TransferenciaDocumento>? TransferenciaDocumento { get; set; }
 
-        public ICollection<TranferenciaRetencion> TranferenciaRetencion { get; set; }
+        public ICollection<TranferenciaRetencion>? TranferenciaRetencion { get; set; }
 
     }
 }

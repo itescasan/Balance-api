@@ -30,8 +30,8 @@ namespace Balance_api.Contexts
             .HasMany(e => e.AsientosContablesDetalle)
             .WithOne(e => e.Asiento)
             .HasForeignKey(e => e.IdAsiento);
-            modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContables"));
-            modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContablesDetalle"));
+            modelBuilder.Entity<Asiento>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContables"));
+            modelBuilder.Entity<AsientoDetalle>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContablesDetalle"));
             //FIN
 
 

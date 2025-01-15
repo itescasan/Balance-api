@@ -28,7 +28,7 @@ namespace Balance_api.Models.Contabilidad
 
 
         [ForeignKey("IdAsiento")]
-        public Asiento Asiento { get; set; }
+        public Asiento? Asiento { get; set; }
 
     }
 }
