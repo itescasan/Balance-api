@@ -72,6 +72,21 @@ namespace Balance_api.Contexts
             //FIM
 
 
+            //CHEQUES
+            modelBuilder.Entity<Cheques>()
+               .HasMany(e => e.ChequeDocumento)
+               .WithOne(e => e.cheques)
+               .HasForeignKey(e => e.IdCheque);
+
+            modelBuilder.Entity<Cheques>()
+              .HasMany(e => e.ChequeRetencion)
+              .WithOne(e => e.cheques)
+              .HasForeignKey(e => e.IdCheque); 
+
+            modelBuilder.Entity<Cheques>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_Cheques"));
+            //FIM
+
+
 
 
 

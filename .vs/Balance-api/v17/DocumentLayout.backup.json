@@ -54,8 +54,7 @@
               "RelativeToolTip": "Balance-api\\Models\\Contabilidad\\Cheques.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAA3wBwAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T21:50:12.809Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-14T21:50:12.809Z"
             },
             {
               "$type": "Document",
@@ -65,10 +64,9 @@
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
               "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "ViewState": "AgIAADICAAAAAAAAAADgv08CAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwGEDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T02:11:53.592Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T02:11:53.592Z"
             },
             {
               "$type": "Document",
@@ -78,7 +76,7 @@
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "ToolTip": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ViewState": "AgIAAAoCAAAAAAAAAADgvxYCAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAADUCAAAAAAAAAADgv1QCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-14T19:02:41.898Z",
               "EditorCaption": ""
