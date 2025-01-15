@@ -34,5 +34,11 @@ namespace Balance_api.Models.Contabilidad
         public decimal DiferencialMS { get; set; }
         public bool Retenido { get; set; }
 
+
+
+        [ForeignKey("IdTransferencia")]
+        public Transferencia Transferencia { get; set; }
+
+
     }
 }

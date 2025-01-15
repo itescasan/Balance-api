@@ -6,6 +6,14 @@ namespace Balance_api.Models.Contabilidad
     [Table("AsientosContables", Schema = "CNT")]
     public class Asiento
     {
+
+        public Asiento()
+        {
+            this.AsientosContablesDetalle = new HashSet<AsientoDetalle>();
+        }
+
+
+
         [Key]
         public int IdAsiento { get; set; }
         public int IdPeriodo { get; set; }

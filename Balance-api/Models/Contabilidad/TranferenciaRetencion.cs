@@ -27,5 +27,10 @@ namespace Balance_api.Models.Contabilidad
         public bool TieneImpuesto { get; set; }
         public string CuentaContable { get; set; }
 
+
+
+        [ForeignKey("IdTransferencia")]
+        public Transferencia Transferencia { get; set; }
+
     }
 }

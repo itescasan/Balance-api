@@ -7,6 +7,15 @@ namespace Balance_api.Models.Contabilidad
     [Table("Transferencia", Schema = "CNT")]
     public class Transferencia
     {
+
+        public Transferencia()
+        {
+            this.TransferenciaDocumento = new HashSet<TransferenciaDocumento>();
+            this.TranferenciaRetencion = new HashSet<TranferenciaRetencion>();
+        }
+
+
+
         [Key]
         public Guid IdTransferencia { get; set; }
         public int IdCuentaBanco { get; set; }

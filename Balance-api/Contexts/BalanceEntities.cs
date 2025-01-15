@@ -23,16 +23,64 @@ namespace Balance_api.Contexts
          protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
 
-             modelBuilder.Entity<GruposCuentas>()
+
+            //ASIENTO CONTABLE
+
+            modelBuilder.Entity<Asiento>()
+            .HasMany(e => e.AsientosContablesDetalle)
+            .WithOne(e => e.Asiento)
+            .HasForeignKey(e => e.IdAsiento);
+            modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContables"));
+            modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_AsientosContablesDetalle"));
+            //FIN
+
+
+
+            //GURPO CUENTAS
+            modelBuilder.Entity<GruposCuentas>()
                  .HasMany(e => e.CatalogoCuenta)
                  .WithOne(e => e.GruposCuentas)
                  .HasForeignKey(e => e.IdGrupo);
 
 
+
+            //SERIES
             modelBuilder.Entity<SerieDocumento>()
                 .HasOne(e => e.TipoDocumento)
                 .WithMany()
                 .HasForeignKey(e => e.IdTipoDocumento);
+            //
+
+
+
+
+
+
+
+            //TRANSFERENCIA
+            modelBuilder.Entity<Transferencia>()
+               .HasMany(e => e.TransferenciaDocumento)
+               .WithOne(e => e.Transferencia)
+               .HasForeignKey(e => e.IdTransferencia);
+
+            modelBuilder.Entity<Transferencia>()
+              .HasMany(e => e.TranferenciaRetencion)
+              .WithOne(e => e.Transferencia)
+              .HasForeignKey(e => e.IdTransferencia);
+
+            modelBuilder.Entity<Transferencia>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_Transferencia"));
+            //FIM
+
+
+
+
+
+
+            //MOVIMIENTO DOC
+            modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("SIS.TR_AUDITORIA_SIS_MovimientoDoc"));
+            //FIN
+
+
 
 
 
