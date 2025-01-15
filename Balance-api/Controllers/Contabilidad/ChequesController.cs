@@ -769,9 +769,37 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var qDocumentos = (from _q in Conexion.Cheque
+                    var qDocumentos = (from _q in Conexion.ChequeDocumento
                                        where _q.IdCheque == Idcheque
-                                       select _q.ChequeDocumento).First();
+                                       select new
+                                       {
+
+                                           _q.IdDetChequeDoc,
+                                           _q.IdCheque,
+                                           _q.Index,
+                                           _q.Operacion,
+                                           _q.Documento,
+                                           _q.Serie,
+                                           _q.TipoDocumento,
+                                           _q.Fecha,
+                                           _q.IdMoneda,
+                                           _q.TasaCambioDoc,
+                                           _q.SaldoAnt,
+                                           _q.SaldoAntML,
+                                           _q.SaldoAntMS,
+                                           _q.Saldo,
+                                           _q.SaldoDolar,
+                                           _q.SaldoCordoba,
+                                           _q.Importe,
+                                           _q.ImporteML,
+                                           _q.ImporteMS,
+                                           _q.NuevoSaldo,
+                                           _q.NuevoSaldoML,
+                                           _q.NuevoSaldoMS,
+                                           _q.DiferencialML,
+                                           _q.DiferencialMS,
+                                           _q.Retenido
+                                       }).ToList();
 
 
 
@@ -783,9 +811,28 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
 
-                    var qRetenciones = (from _q in Conexion.Cheque
+                    var qRetenciones = (from _q in Conexion.ChequeRetencion
                                         where _q.IdCheque == Idcheque
-                                        select _q.ChequeRetencion).First();
+                                        select new
+                                        {
+                                            _q.IdDetRetencionCk,
+                                            _q.IdCheque,
+                                            _q.Index,
+                                            _q.Retencion,
+                                            _q.Porcentaje,
+                                            _q.Documento,
+                                            _q.Serie,
+                                            _q.TipoDocumento,
+                                            _q.IdMoneda,
+                                            _q.TasaCambio,
+                                            _q.Monto,
+                                            _q.MontoMS,
+                                            _q.MontoML,
+                                            _q.PorcImpuesto,
+                                            _q.TieneImpuesto,
+                                            _q.CuentaContable
+
+                                        }).ToList();
 
 
 
@@ -832,9 +879,32 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var D = (from _q in Conexion.AsientosContables
-                             where _q.NoDocOrigen == C.NoCheque && _q.IdSerieDocOrigen == C.IdSerie && _q.TipoDocOrigen == "CHEQUE A DOCUMENTO"
-                             select _q.AsientosContablesDetalle).ToList();
+
+                    var D = (from _q in Conexion.AsientosContablesDetalle
+                             where _q.Asiento!.NoDocOrigen == C.NoCheque && _q.Asiento.IdSerieDocOrigen == C.IdSerie && _q.Asiento.TipoDocOrigen == "CHEQUE A DOCUMENTO"
+                             select new
+                             {
+
+                                 _q.IdDetalleAsiento,
+                                 _q.IdAsiento,
+                                 _q.NoLinea,
+                                 _q.CuentaContable,
+                                 _q.Debito,
+                                 _q.DebitoML,
+                                 _q.DebitoMS,
+                                 _q.Credito,
+                                 _q.CreditoML,
+                                 _q.CreditoMS,
+                                 _q.Modulo,
+                                 _q.Descripcion,
+                                 _q.Referencia,
+                                 _q.Naturaleza,
+                                 _q.CentroCosto,
+                                 _q.NoDocumento,
+                                 _q.TipoDocumento,
+
+                             }).ToList();
+
 
 
 
