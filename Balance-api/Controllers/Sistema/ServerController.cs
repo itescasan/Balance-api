@@ -96,16 +96,16 @@ namespace Balance_api.Controllers.Sistema
 
               
 
-                    if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                  /*  if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                     {
                         _u.CON_Mail_Web_Date = null;
                         qUsuario[0].CON_CodMail = string.Empty;
-                    }
+                    }*/
 
 
 
-                    if (_u.CON_Mail_Web_Date == null)
-                    {
+                   // if (_u.CON_Mail_Web_Date == null)
+                   // {
 
 
                         Random ran = new Random();
@@ -165,7 +165,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-                    }
+                  //  }
             
                     
 
