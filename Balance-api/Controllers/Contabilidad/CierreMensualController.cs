@@ -56,12 +56,9 @@ namespace Balance_api.Controllers.Contabilidad
                     string Sql1 = $"";
                     string Sql2 = $"";
 
-
-                   // Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
-                   // Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
-
-
-
+                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+                    Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                    Conexion.SaveChanges();
 
 
 
@@ -92,17 +89,19 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     CierreMes Cierre = Conexion.CierreMes.FromSqlRaw(Sql1).ToList().First();
+                    Conexion.SaveChanges();
 
                     CierreMes Cierre2 = Conexion.CierreMes.FromSqlRaw(Sql2).ToList().First();
+                    Conexion.SaveChanges();
 
-                   // Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
-                   // Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
+                    Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                    Conexion.SaveChanges();
 
 
 
                     if (Cierre.p_Retorno == 0 && Cierre2.p_Retorno == 0)
                     {
-                        Conexion.SaveChanges();
                         scope.Complete();
                         
                     }
