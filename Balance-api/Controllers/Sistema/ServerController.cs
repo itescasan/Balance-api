@@ -685,7 +685,7 @@ namespace Balance_api.Controllers.Sistema
             if (ModelState.IsValid)
             {
 
-                return Ok(V_CerrarSession(d));
+                return Ok(V_CerrarSession(user));
 
             }
             else
@@ -721,7 +721,7 @@ namespace Balance_api.Controllers.Sistema
 
                     Cls_Datos datos = new Cls_Datos();
                     datos.Nombre = "CERRAR";
-                    datos.d = "Session Cerrada;
+                    datos.d = "Session Cerrada";
 
 
 
