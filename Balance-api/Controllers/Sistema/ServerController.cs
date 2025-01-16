@@ -677,6 +677,80 @@ namespace Balance_api.Controllers.Sistema
 
 
 
+        [Route("api/Sistema/CerrarSession")]
+        [HttpPost]
+        public IActionResult CerrarSession(string user)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                return Ok(V_CerrarSession(d));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        private string V_CerrarSession(string user)
+        {
+
+            string json = string.Empty;
+
+            try
+            {
+
+
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    Usuarios? _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user);
+
+                    if(_u != null)
+                    {
+                        _u.CON_CodMail = string.Empty;
+                        _u.CON_Mail_Web = string.Empty;
+                        _u.CON_Mail_Web_Date = null;
+                        Conexion.SaveChanges();
+                    }
+                  
+
+                    Cls_Datos datos = new Cls_Datos();
+                    datos.Nombre = "CERRAR";
+                    datos.d = "Session Cerrada;
+
+
+
+
+
+                    scope.Complete();
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
+
+
+
+
+
         [Route("api/Sistema/AccesoWeb")]
         [HttpGet]
         public string AccesoWeb(string user)
