@@ -107,9 +107,11 @@ namespace Balance_api.Controllers.Sistema
                     if (_u.CON_Mail_Web_Date == null)
                     {
 
+
                         Random ran = new Random();
 
-                        string b = "abcdefghijklmnopqrstuvwxyz";
+                        string b = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        string sc = "!@#$%^&*~";
 
                         int length = 6;
 
@@ -117,12 +119,17 @@ namespace Balance_api.Controllers.Sistema
 
                         for (int i = 0; i < length; i++)
                         {
-                            int a = ran.Next(26);
+                            int a = ran.Next(b.Length); //string.Lenght gets the size of string
                             random = random + b.ElementAt(a);
-
-
-
                         }
+                       /* for (int j = 0; j < 2; j++)
+                        {
+                            int sz = ran.Next(sc.Length);
+                            random = random + sc.ElementAt(sz);
+                        }*/
+
+
+
                         _u.CON_Mail_Web = random.ToUpper();
                         _u.CON_Mail_Web_Date = DateTime.Now;
                         _u.CON_CodMail = string.Empty;
