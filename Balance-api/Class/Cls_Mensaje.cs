@@ -30,7 +30,7 @@ namespace Balance_api.Class
             return json;
         }
 
-        public static string TojsonT(object o, int Length, string CodError, string Mensaje, int esError, AutorizacionResponse Token)
+        public static string TojsonT(object? o, int Length, string CodError, string Mensaje, int esError, AutorizacionResponse? Token)
         {
             string json = string.Empty;
 

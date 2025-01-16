@@ -21,7 +21,9 @@ namespace Balance_api.Models.Sistema
         public bool? ColaImpresionWeb { get; set; }
         public int? IdEmpleado { get; set; }
         public bool Desconectar { get; set; }
-        public int Intento { get; set; }    
-
+        public int Intento { get; set; }
+        public string? CON_Mail_Web { get; set; }
+        public DateTime? CON_Mail_Web_Date { get; set; }
+        public string? CON_CodMail { get; set; }
     }
 }

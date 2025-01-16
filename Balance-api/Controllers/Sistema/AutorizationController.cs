@@ -24,7 +24,7 @@ namespace Balance_api.Services
         //[Authorize]
         [Route("api/Sistema/Autorization")]
         [HttpGet]
-        public IActionResult Autorize(string user, string pass, string Modulo)
+        public IActionResult Autorize(string user, string pass,  string Modulo)
         {
             return Ok(v_Autorize(user, pass));
         }
@@ -49,6 +49,7 @@ namespace Balance_api.Services
                                         Rol = string.Empty,
                                         FechaLogin = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
                                         Desconectar = !_q.AccesoWeb ? true : _q.Desconectar,
+                                        _q.CON_Mail_Web,
                                         Token = new AutorizacionResponse()
                                     }).ToList();
 
@@ -64,7 +65,7 @@ namespace Balance_api.Services
 
                     if (!Pwd.Equals(pass))
                     {
-                        if (_u.Intento == null) _u.Intento = 0;
+                        if (_u?.Intento == null) _u.Intento = 0;
                         _u.Intento += 1;
                         Conexion.SaveChanges();
 
@@ -82,12 +83,15 @@ namespace Balance_api.Services
 
                     if (_u.Intento >= 3)
                     {
-                        if (_u.Intento == null) _u.Intento = 0;
+                        if (_u?.Intento == null) _u.Intento = 0;
 
 
                         json = Cls_Mensaje.TojsonT(null, 0, string.Empty, "<b>Usuario Bloqueado.</b>", 1, null);
                         return json;
                     }
+
+                
+
 
 
                     _u.Intento = 0;

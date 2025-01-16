@@ -11,7 +11,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Balance_api.Models.Custom;
 using Balance_api.Services;
 using System.IdentityModel.Tokens.Jwt;
-
+using System.Net.Mail;
+using DevExpress.ClipboardSource.SpreadsheetML;
+using System.Net;
+using DevExpress.Pdf.Native.BouncyCastle.Utilities.Net;
 
 namespace Balance_api.Controllers.Sistema
 {
@@ -46,16 +49,17 @@ namespace Balance_api.Controllers.Sistema
                     List<Cls_Datos> lstDatos = new();
 
 
-                    var qUsuario = (from _q in Conexion.Usuarios
+                    List<Cls_Usuario> qUsuario = (from _q in Conexion.Usuarios
                                     where _q.Activo == true && _q.Usuario.Equals(user)
-                                    select new
+                                    select new Cls_Usuario()
                                     {
                                         User = _q.Usuario,
                                         Nombre = string.Concat(_q.Nombres, " ", _q.Apellidos),
                                         Pwd = _q.Pass,
                                         Rol = string.Empty,
                                         FechaLogin = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
-                                        Desconectar = !_q.AccesoWeb ? true : _q.Desconectar
+                                        Desconectar = !_q.AccesoWeb ? true : _q.Desconectar,
+                                        CON_CodMail = _q.CON_CodMail
                                     }).ToList();
 
 
@@ -74,6 +78,89 @@ namespace Balance_api.Controllers.Sistema
                         json = Cls_Mensaje.Tojson(null, 0, string.Empty, "Contraseña Incorrecta.", 1);
                         return json;
                     }
+
+
+               
+
+
+
+
+                    Usuarios _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == qUsuario[0].User)!;
+
+                    if (_u.Correo == null || _u.Correo == string.Empty)
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, "El usuario no tiene asignado un correo electronico.", 1);
+                        return json;
+                    }
+
+
+              
+
+                    if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                    {
+                        _u.CON_Mail_Web_Date = null;
+                        qUsuario[0].CON_CodMail = string.Empty;
+                    }
+
+
+
+                    if (_u.CON_Mail_Web_Date == null)
+                    {
+
+                        Random ran = new Random();
+
+                        string b = "abcdefghijklmnopqrstuvwxyz";
+
+                        int length = 6;
+
+                        string random = "";
+
+                        for (int i = 0; i < length; i++)
+                        {
+                            int a = ran.Next(26);
+                            random = random + b.ElementAt(a);
+
+
+
+                        }
+                        _u.CON_Mail_Web = random.ToUpper();
+                        _u.CON_Mail_Web_Date = DateTime.Now;
+                        _u.CON_CodMail = string.Empty;
+
+                        string Correo = _u.Correo == null ? string.Empty : _u.Correo;
+
+
+                        MailMessage mail = new MailMessage();
+                        mail.From = new MailAddress("info@escasan.com.ni");
+                        mail.Subject = $"ESCASAN ACCESO";
+                        mail.Body = $"Codigo Acceso Modulo Contable <br><div style='width:100%;text-aling:center'><b style='font-size: 18px'>{_u.CON_Mail_Web}<b></div>";
+                        mail.IsBodyHtml = true;
+                        mail.To.Add(Correo);
+
+                        SmtpClient smtpClient = new SmtpClient("smtp.office365.com");
+                        NetworkCredential nameAndPassword = new NetworkCredential("info@escasan.com.ni", "8hSTdrupcEsassfuPYuTS8x4X");
+
+                        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                        smtpClient.Port = 587;
+                        smtpClient.Credentials = nameAndPassword;
+                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        smtpClient.EnableSsl = true;
+                        smtpClient.Send(mail);
+
+
+
+
+
+
+                        Conexion.SaveChanges();
+
+
+
+
+
+                    }
+            
+                    
 
                     Cls_Datos datos = new();
                     datos.Nombre = "USUARIO";
@@ -96,6 +183,77 @@ namespace Balance_api.Controllers.Sistema
 
             return json;
         }
+
+
+        //[Authorize]
+        [Route("api/Sistema/ValidarCodigo")]
+        [HttpGet]
+        public string ValidarCodigo(string user,  string cod)
+        {
+            return V_ValidarCodigo(user,  cod);
+        }
+
+
+        private string V_ValidarCodigo(string user,  string cod)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+       
+                    Usuarios _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user)!;
+
+                    if(_u  == null)
+                    {
+                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Usuario no valido.</span>", 1, null);
+                        return json;
+                    }
+
+
+                    if (_u.CON_Mail_Web != cod)
+                    {
+
+                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Codigo Invalido.</span>", 1, null);
+                        return json;
+                    }
+
+
+                    if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                    {
+
+                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Codigo Expirado.</span>", 1, null);
+                        return json;
+                    }
+
+
+                    _u.CON_CodMail = cod;
+                    Conexion.SaveChanges();
+
+
+
+
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "COD";
+                    datos.d = cod;
+      
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
 
         [Route("api/Sistema/DatosServidor")]
