@@ -685,9 +685,9 @@ namespace Balance_api.Controllers.Contabilidad
 
                     rpt.Parameters["valorExpresado"].Value = EsMonedaLocal == false ? "Expresado en Dolares" : "Expresado en Cordobas";
 
+                    DateTime ultimoDiaDelMes = new DateTime(Fecha.Year, Fecha.Month, DateTime.DaysInMonth(Fecha.Year, Fecha.Month));
 
-
-                    rpt.Parameters["desdehasta"].Value = "Al " + Fecha.ToString("dd") + " de " + Fecha.ToString("MMMM") + " " + Fecha.ToString("yyyy");
+                    rpt.Parameters["desdehasta"].Value = "Al " + ultimoDiaDelMes.ToString("dd") + " de " + Fecha.ToString("MMMM") + " " + Fecha.ToString("yyyy");
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 

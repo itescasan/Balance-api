@@ -39,7 +39,7 @@ namespace Balance_api.Models.Contabilidad
         public string UsuarioReg { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioUpdate { get; set; }
-        public DateTime FechaUpdate { get; set; }
+        public DateTime FechaUpdate { get; set; } 
         public string? UsuarioAnula { get; set; }
         public DateTime? FechaAnulacion { get; set; }
         public int? IdIngresoCaja { get; set; }
