@@ -906,7 +906,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     datos = new();
                     datos.Nombre = "DETALLE ASIENTO";
-                    datos.d = D.First();
+                    datos.d = D;
 
                     lstDatos.Add(datos);
 

@@ -13,7 +13,7 @@ namespace Balance_api.Class
         public static string Tojson(object? o, int Length, string CodError, string Mensaje, int esError)
         {
             string json = string.Empty;
-
+            Mensaje = Mensaje.Replace("\"", string.Empty);
 
             if (o != null)
             {
@@ -30,10 +30,10 @@ namespace Balance_api.Class
             return json;
         }
 
-        public static string TojsonT(object o, int Length, string CodError, string Mensaje, int esError, AutorizacionResponse Token)
+        public static string TojsonT(object? o, int Length, string CodError, string Mensaje, int esError, AutorizacionResponse? Token)
         {
             string json = string.Empty;
-
+            Mensaje = Mensaje.Replace("\"", string.Empty);
 
             if (o != null)
             {
@@ -54,6 +54,7 @@ namespace Balance_api.Class
 
         public static string Tojson2(object? o, int Length, string CodError, string Mensaje, bool esError)
         {
+            Mensaje = Mensaje.Replace("\"", string.Empty);
             Cls_JSON json = new();
             Cls_Msj msj = new();
 
@@ -68,6 +69,9 @@ namespace Balance_api.Class
 
             return JsonConvert.SerializeObject(json);
         }
+
+
+
 
     }
 }
