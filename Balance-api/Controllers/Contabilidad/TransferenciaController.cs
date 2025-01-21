@@ -6,7 +6,9 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using Balance_api.Reporte.Contabilidad;
 using DevExpress.Charts.Native;
+using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -589,7 +591,30 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
 
+
+
+                    xrpAsientoContable rpt = new xrpAsientoContable();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+                    sqlDataSource.Connection.ConnectionString = Conexion.Database.GetConnectionString();
+
+
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
                     Cls_Datos datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "REPORTE ASIENTO";
+                    lstDatos.Add(datos);
+
+
+
+                     datos = new();
                     datos.Nombre = "GUARDAR";
                     datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
