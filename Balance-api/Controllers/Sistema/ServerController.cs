@@ -47,6 +47,7 @@ namespace Balance_api.Controllers.Sistema
                 using (Conexion)
                 {
                     List<Cls_Datos> lstDatos = new();
+                    Usuarios? _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.TrimStart().TrimEnd() == user);
 
 
                     List<Cls_Usuario> qUsuario = (from _q in Conexion.Usuarios
@@ -75,19 +76,44 @@ namespace Balance_api.Controllers.Sistema
 
                     if (!Pwd.Equals(pass))
                     {
-                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, "Contraseña Incorrecta.", 1);
+
+
+                        if (_u?.Intento == null) _u!.Intento = 0;
+                        _u.Intento += 1;
+                        Conexion.SaveChanges();
+
+
+
+                        if (_u.Intento >= 3)
+                        {
+                            json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<b>Usuario Bloqueado</b>", 1);
+                            return json;
+                        }
+
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Contraseña Incorrecta. <br>Intento Restante: <b>{(3 - _u.Intento).ToString()}</b</span>", 1);
                         return json;
                     }
 
 
-               
 
 
 
+                    if (_u?.Intento >= 3)
+                    {
+                        if (_u.Intento == null) _u.Intento = 0;
 
-                    Usuarios _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == qUsuario[0].User)!;
 
-                    if (_u.Correo == null || _u.Correo == string.Empty)
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, "<b>Usuario Bloqueado.</b>", 1);
+                        return json;
+                    }
+
+
+                    _u!.Intento = 0;
+                    Conexion.SaveChanges();
+
+
+
+                    if (_u?.Correo == null || _u.Correo == string.Empty)
                     {
                         json = Cls_Mensaje.Tojson(null, 0, string.Empty, "El usuario no tiene asignado un correo electronico.", 1);
                         return json;
@@ -856,10 +882,20 @@ namespace Balance_api.Controllers.Sistema
                 using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
                 using (Conexion)
                 {
+                    int i = 0;
                     foreach (AccesoWeb f in d)
                     {
                         bool esNuevo = false;
                         AccesoWeb? a = Conexion.AccesoWeb.Find(f.IdAcceso);
+
+
+                        if (i == 0)
+                        {
+                            Usuarios u = Conexion.Usuarios.FirstOrDefault(w => w.Usuario == f.Usuario)!;
+                            u.Intento = 0;
+                            Conexion.SaveChanges();
+                        }
+
 
                         if (a == null)
                         {
@@ -879,6 +915,8 @@ namespace Balance_api.Controllers.Sistema
 
                         if (esNuevo) Conexion.AccesoWeb.Add(a);
                         Conexion.SaveChanges();
+
+                        i++;
                     }
 
 
