@@ -213,7 +213,8 @@ namespace Balance_api.Controllers.Contabilidad
                                            IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
                                            TasaCambioDoc = (decimal)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.TasaCambio!,
                                            SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
-                                           SaldoDolar = grupo.Sum(s => s.TotalDolar)
+                                           SaldoDolar = grupo.Sum(s => s.TotalDolar),
+                                           Seleccionar = false
                                        }).ToList();
 
 
@@ -222,7 +223,8 @@ namespace Balance_api.Controllers.Contabilidad
                  
 
                     var Doc = qDocumentos.Select((file, index) => new { Index = index,  file.Documento,  file.Serie,file.TipoDocumento,
-                         file.Fecha,  file.IdMoneda, file.TasaCambioDoc,  file.SaldoDolar,  file.SaldoCordoba
+                         file.Fecha,  file.IdMoneda, file.TasaCambioDoc,  file.SaldoDolar,  file.SaldoCordoba,
+                        file.Seleccionar
                     }).ToList();
 
                     Cls_Datos  datos = new();
@@ -795,7 +797,7 @@ namespace Balance_api.Controllers.Contabilidad
                     var qDocumentos = (from _q in Conexion.TransferenciaDocumento
                                        where _q.IdTransferencia == IdTransferencia
                                        select new {
-
+                                           Seleccionar = false,
                                            _q.IdDetTrasnfDoc,
                                            _q.IdTransferencia,
                                            _q.Index,
@@ -956,12 +958,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Transferencia/BuscarTiposRetenciones")]
         [HttpGet]
-        public string BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        public string BuscarTiposRetenciones(string NoDocumento)
         {
-            return V_BuscarTiposRetenciones(NoDocumento, TipoDocumento);
+            return V_BuscarTiposRetenciones(NoDocumento);
         }
 
-        private string V_BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        private string V_BuscarTiposRetenciones(string NoDocumento)
         {
 
             string json = string.Empty;
@@ -980,7 +982,8 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = R;
                     lstDatos.Add(datos);
 
-                    MovimientoDoc M = Conexion.MovimientoDoc.FirstOrDefault(w => w.NoDocOrigen == NoDocumento  && w.TipoDocumentoOrigen == TipoDocumento && w.Esquema == "CXP")!;
+                    string[] Docs = NoDocumento.Split(';');
+                    List<MovimientoDoc> M = Conexion.MovimientoDoc.Where(w => Docs.Contains(string.Concat(w.NoDocOrigen, w.TipoDocumentoOrigen)) &&   w.Esquema == "CXP").ToList();
 
            
                     datos = new();
