@@ -550,6 +550,7 @@ namespace Balance_api.Controllers.Contabilidad
                             ret.PorcImpuesto = doc.PorcImpuesto;
                             ret.TieneImpuesto = doc.TieneImpuesto;
                             ret.CuentaContable = doc.CuentaContable;
+                            ret.RetManual = doc.RetManual;
 
 
                             if (esNuevoDet) Conexion.TranferenciaRetencion.Add(ret);
@@ -854,7 +855,8 @@ namespace Balance_api.Controllers.Contabilidad
                                            _q.MontoML,
                                            _q.PorcImpuesto,
                                            _q.TieneImpuesto,
-                                           _q.CuentaContable
+                                           _q.CuentaContable,
+                                           _q.RetManual
 
                                        }).ToList();
 
