@@ -25,6 +25,7 @@ namespace Balance_api.Models.Contabilidad
         public DateTime Fecha { get; set; }
         public string Beneficiario { get; set; }
         public string? CodProveedor { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambio { get; set; }
         public string Concepto { get; set; }
         public string TipoCheque { get; set; }
@@ -44,6 +45,8 @@ namespace Balance_api.Models.Contabilidad
         public DateTime? FechaAnulacion { get; set; }
         public int? IdIngresoCaja { get; set; }
         public string? CuentaIngCaja {get; set; }
+
+        public decimal ValorCheque { get; set; }
 
         [ForeignKey("IdCuentaBanco")]
         public CuentaBanco CuentaBanco { get; set; }

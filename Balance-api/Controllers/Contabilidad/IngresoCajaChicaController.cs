@@ -229,14 +229,23 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qCuentaEmpleado;
                     lstDatos.Add(datos);
 
-                    var qContanbilizado = (from _q in Conexion.IngresoC
-                                           where _q.Cuenta == CuentaPadre && _q.Aplicado == true && _q.Contabilizado == false
-                                           select _q).Count();
+                    //var qEnviadoCorregido = (from _q in Conexion.IngresoC
+                    //                       where _q.Cuenta == CuentaPadre
+                    //                       select _q).Count();
 
-                    datos = new Cls_Datos();
-                    datos.Nombre = "CONTADOR";
-                    datos.d = qContanbilizado;
-                    lstDatos.Add(datos);
+                    //datos = new Cls_Datos();
+                    //datos.Nombre = "VALIDACION";
+                    //datos.d = qEnviadoCorregido;
+                    //lstDatos.Add(datos);
+
+                    //var qContanbilizado = (from _q in Conexion.IngresoC
+                    //                       where _q.Cuenta == CuentaPadre && _q.Aplicado == true && _q.Contabilizado == false
+                    //                       select _q).Count();
+
+                    //datos = new Cls_Datos();
+                    //datos.Nombre = "CONTADOR";
+                    //datos.d = qContanbilizado;
+                    //lstDatos.Add(datos);
 
 
 
@@ -549,6 +558,8 @@ namespace Balance_api.Controllers.Contabilidad
                                                 Cuenta = string.Concat(_d.CuentaContable, " ", _d.NombreCuenta),
                                                _q.Consecutivo,                                                                                              
                                                _q.Usuario,
+                                               _q.Enviado,
+                                               _q.Corregir,
                                                _q.Aplicado,
                                                _q.Contabilizado,                                               
                                            }).ToList();
@@ -572,6 +583,212 @@ namespace Balance_api.Controllers.Contabilidad
             }
 
             return json;
+        }
+
+
+
+        [Route("api/Contabilidad/IngresoCajaChica/Registro2")]
+        [HttpGet]
+
+        public IActionResult Registro2()
+        {
+            if (ModelState.IsValid)
+            {
+
+                return Ok(_Registro2());
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        private string _Registro2()
+        {
+            string json = string.Empty;
+            try
+            {
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    Cls_Datos datos = new Cls_Datos();
+
+
+                    var qRegistroIngCaja2 = (from _q in Conexion.IngresoC
+                                            join _d in Conexion.CatalogoCuenta on _q.Cuenta equals _d.CuentaContable
+                                            where _q.Enviado == true && _q.Aplicado == false && _q.Contabilizado == false
+                                            orderby _q.Consecutivo descending
+                                            select new
+                                            {
+                                                _q.IdIngresoCajaChica,
+                                                _q.FechaRegistro,
+                                                Cuenta = string.Concat(_d.CuentaContable, " ", _d.NombreCuenta),
+                                                _q.Consecutivo,
+                                                _q.Usuario,
+                                                _q.Enviado,
+                                                _q.Aplicado,                                               
+                                                _q.Corregir,
+                                                _q.Contabilizado,
+                                                
+                                            }).ToList();
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "REGISTRO2";
+                    datos.d = qRegistroIngCaja2;
+                    lstDatos.Add(datos);
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+        [Route("api/Contabilidad/IngresoCajaChica/Enviar")]
+        [HttpPost]
+        public IActionResult Enviar(int IdIngresoCaja, string user)
+        {
+            if (ModelState.IsValid)
+            {
+
+                return Ok(_Enviar(IdIngresoCaja, user));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        private string _Enviar(int IdIngresoCaja, string user)
+        {
+            string json = string.Empty;
+
+            try
+            {
+
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == IdIngresoCaja);
+
+                    if (det != null)
+                    {
+                        //Conexion.DetIngCaja.Remove(det!);
+                        det.Enviado = true;
+                        det.UsuarioModifica = user;
+                        det.FechaModificacion = DateTime.Now;
+                        Conexion.SaveChanges();
+                        //Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConfCajaChica SET Consecutivo += 1  WHERE  CuentaContable = '{det.Cuenta}'");
+                    }
+
+
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    Cls_Datos datos = new Cls_Datos();
+                    datos.Nombre = "Enviar";
+                    datos.d = "Registro Enviado a revisión";
+                    lstDatos.Add(datos);
+
+                    //FIN 
+                    scope.Complete();
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
+
+
+        [Route("api/Contabilidad/IngresoCajaChica/Corregir")]
+        [HttpPost]
+        public IActionResult Corregir(int IdIngresoCaja, string user)
+        {
+            if (ModelState.IsValid)
+            {
+
+                return Ok(_Corregir(IdIngresoCaja, user));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        private string _Corregir(int IdIngresoCaja, string user)
+        {
+            string json = string.Empty;
+
+            try
+            {
+
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == IdIngresoCaja);
+
+                    if (det != null)
+                    {
+                        //Conexion.DetIngCaja.Remove(det!);
+                        det.Corregir = true;
+                        det.UsuarioModifica = user;
+                        det.FechaModificacion = DateTime.Now;
+                        Conexion.SaveChanges();
+                        //Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConfCajaChica SET Consecutivo += 1  WHERE  CuentaContable = '{det.Cuenta}'");
+                    }
+
+
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    Cls_Datos datos = new Cls_Datos();
+                    datos.Nombre = "Corregir";
+                    datos.d = "Registro Enviado para su Correccion";
+                    lstDatos.Add(datos);
+
+                    //FIN 
+                    scope.Complete();
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
         }
 
 
@@ -640,6 +857,53 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
 
         }
+
+
+        [Route("api/Contabilidad/IngresoCajaChica/ValidarCaja")]
+        [HttpGet]
+        public string GetDatosCaja(int Consecutivo, string CuentaPadre)
+        {
+            return V_GetDatosCaja(Consecutivo, CuentaPadre);
+        }
+
+        private string V_GetDatosCaja(int Consecutivo, string CuentaPadre)
+        {
+            string json = string.Empty;
+            try
+            {
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    List<Cls_Datos> lstDatos = new List<Cls_Datos>();
+                    Cls_Datos datos = new Cls_Datos();
+
+
+
+                    var qEnviadoCorregido = (from _q in Conexion.IngresoC
+                                             where _q.Cuenta == CuentaPadre && _q.Consecutivo == Consecutivo
+                                             select _q).ToList();
+
+                    datos = new Cls_Datos();
+                    datos.Nombre = "VALIDACION";
+                    datos.d = qEnviadoCorregido;
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
     }
     
 }

@@ -255,6 +255,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Chequ.Total = d.C.Total;
                     _Chequ.TotalDolar = d.C.TotalDolar;
                     _Chequ.TotalCordoba = d.C.TotalCordoba;
+                    _Chequ.ValorCheque = d.C.ValorCheque;
                     _Chequ.CodProveedor = d.C.CodProveedor;
                     _Chequ.IdIngresoCaja = d.C.IdIngresoCaja;
                     _Chequ.CuentaIngCaja = d.C.CuentaIngCaja;
@@ -913,7 +914,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     datos = new();
                     datos.Nombre = "DETALLE ASIENTO";
-                    datos.d = D.First();
+                    datos.d = D;
 
                     lstDatos.Add(datos);
 

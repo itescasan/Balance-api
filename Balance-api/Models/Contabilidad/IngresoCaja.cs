@@ -14,8 +14,10 @@ namespace Balance_api.Models.Contabilidad
         public DateTime FechaModificacion { get; set; } 
         public string Usuario { get; set; }
         public string UsuarioModifica { get; set; }
+        public Boolean Enviado {  get; set; }
         public Boolean Aplicado { get; set; }
         public Boolean Contabilizado { get; set; }
+        public Boolean Corregir { get; set; }
 
         [ForeignKey("IdIngresoCajaC")]
         public ICollection<DetalleIngresoCaja> DetalleCaja { get; set; } 
