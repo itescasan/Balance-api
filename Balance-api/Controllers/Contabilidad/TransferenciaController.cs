@@ -592,11 +592,10 @@ namespace Balance_api.Controllers.Contabilidad
                     if (reponse.esError == 1) return json;
 
 
+                    _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+
+
                     List<Cls_Datos> lstDatos = new();
-
-
-
-                    scope.Complete();
 
 
 
@@ -609,6 +608,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
 
                     MemoryStream stream = new MemoryStream();
 
@@ -622,10 +622,15 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    datos = new();
+                     datos = new();
                     datos.Nombre = "GUARDAR";
                     datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
+
+
+
+
+                    scope.Complete();
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
 
