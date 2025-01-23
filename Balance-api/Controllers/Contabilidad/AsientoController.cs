@@ -491,7 +491,7 @@ namespace Balance_api.Controllers.Contabilidad
                     Cls_Datos datos = new();
                     datos.Nombre = "ASIENTO";
                     List<AsientoDetalle> lst = Conexion.AsientosContablesDetalle.Where(W => W.IdAsiento == IdAsiento).ToList();
-                    lst = lst.Where(w => w.Debito + w.Credito > 0).ToList().OrderByDescending(o => o.Debito).ThenByDescending( o => o.Credito).ToList();
+                    lst = lst.Where(w => w.Debito + w.Credito > 0).ToList();
                     datos.d = lst;
 
                     json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
