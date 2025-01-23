@@ -6,7 +6,9 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using Balance_api.Reporte.Contabilidad;
 using DevExpress.Charts.Native;
+using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -211,7 +213,8 @@ namespace Balance_api.Controllers.Contabilidad
                                            IdMoneda = qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.IdMoneda!,
                                            TasaCambioDoc = (decimal)qDoc.FirstOrDefault(f => f.NoDocOrigen == grupo.Key.NoDococumento)?.TasaCambio!,
                                            SaldoCordoba = grupo.Sum(s => s.TotalCordoba),
-                                           SaldoDolar = grupo.Sum(s => s.TotalDolar)
+                                           SaldoDolar = grupo.Sum(s => s.TotalDolar),
+                                           Seleccionar = false
                                        }).ToList();
 
 
@@ -220,7 +223,8 @@ namespace Balance_api.Controllers.Contabilidad
                  
 
                     var Doc = qDocumentos.Select((file, index) => new { Index = index,  file.Documento,  file.Serie,file.TipoDocumento,
-                         file.Fecha,  file.IdMoneda, file.TasaCambioDoc,  file.SaldoDolar,  file.SaldoCordoba
+                         file.Fecha,  file.IdMoneda, file.TasaCambioDoc,  file.SaldoDolar,  file.SaldoCordoba,
+                        file.Seleccionar
                     }).ToList();
 
                     Cls_Datos  datos = new();
@@ -440,6 +444,7 @@ namespace Balance_api.Controllers.Contabilidad
                             det.DiferencialML = doc.DiferencialML;
                             det.DiferencialMS = doc.DiferencialMS;
                             det.Retenido = doc.Retenido;
+                            det.Seleccionar = false;
 
 
                             if (esNuevoDet) Conexion.TransferenciaDocumento.Add(det);
@@ -546,6 +551,7 @@ namespace Balance_api.Controllers.Contabilidad
                             ret.PorcImpuesto = doc.PorcImpuesto;
                             ret.TieneImpuesto = doc.TieneImpuesto;
                             ret.CuentaContable = doc.CuentaContable;
+                            ret.RetManual = doc.RetManual;
 
 
                             if (esNuevoDet) Conexion.TranferenciaRetencion.Add(ret);
@@ -586,10 +592,37 @@ namespace Balance_api.Controllers.Contabilidad
                     if (reponse.esError == 1) return json;
 
 
+                    _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+
+
                     List<Cls_Datos> lstDatos = new();
 
 
+
+
+                    xrpAsientoContable rpt = new xrpAsientoContable();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+                    sqlDataSource.Connection.ConnectionString = Conexion.Database.GetConnectionString();
+
+
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
                     Cls_Datos datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "REPORTE ASIENTO";
+                    lstDatos.Add(datos);
+
+
+
+                     datos = new();
                     datos.Nombre = "GUARDAR";
                     datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
@@ -643,7 +676,7 @@ namespace Balance_api.Controllers.Contabilidad
                                           join _p in Conexion.Proveedor on _q.CodProveedor equals _p.Codigo into _q_p
                                           from u in _q_p.DefaultIfEmpty()
                                           where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
-                                          orderby _q.NoTransferencia descending
+                                          orderby _q.FechaReg descending
                                           select new
                                           {
                                               _q.IdTransferencia,
@@ -770,7 +803,7 @@ namespace Balance_api.Controllers.Contabilidad
                     var qDocumentos = (from _q in Conexion.TransferenciaDocumento
                                        where _q.IdTransferencia == IdTransferencia
                                        select new {
-
+                                           Seleccionar = false,
                                            _q.IdDetTrasnfDoc,
                                            _q.IdTransferencia,
                                            _q.Index,
@@ -827,7 +860,8 @@ namespace Balance_api.Controllers.Contabilidad
                                            _q.MontoML,
                                            _q.PorcImpuesto,
                                            _q.TieneImpuesto,
-                                           _q.CuentaContable
+                                           _q.CuentaContable,
+                                           _q.RetManual
 
                                        }).ToList();
 
@@ -931,12 +965,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Transferencia/BuscarTiposRetenciones")]
         [HttpGet]
-        public string BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        public string BuscarTiposRetenciones(string NoDocumento)
         {
-            return V_BuscarTiposRetenciones(NoDocumento, TipoDocumento);
+            return V_BuscarTiposRetenciones(NoDocumento);
         }
 
-        private string V_BuscarTiposRetenciones(string NoDocumento, string TipoDocumento)
+        private string V_BuscarTiposRetenciones(string NoDocumento)
         {
 
             string json = string.Empty;
@@ -955,7 +989,8 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = R;
                     lstDatos.Add(datos);
 
-                    MovimientoDoc M = Conexion.MovimientoDoc.FirstOrDefault(w => w.NoDocOrigen == NoDocumento  && w.TipoDocumentoOrigen == TipoDocumento && w.Esquema == "CXP")!;
+                    string[] Docs = NoDocumento.Split(';');
+                    List<MovimientoDoc> M = Conexion.MovimientoDoc.Where(w => Docs.Contains(string.Concat(w.NoDocOrigen, w.TipoDocumentoOrigen)) &&   w.Esquema == "CXP").ToList();
 
            
                     datos = new();
@@ -977,6 +1012,68 @@ namespace Balance_api.Controllers.Contabilidad
 
             return json;
         }
+
+
+
+
+        [Route("api/Contabilidad/Transferencia/GetReporteAsiento")]
+        [HttpGet]
+        public string GetReporteAsiento(Guid IdTransferencia)
+        {
+            return V_GetReporteAsiento(IdTransferencia);
+        }
+
+        private string V_GetReporteAsiento(Guid IdTransferencia)
+        {
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                  
+                    Transferencia T = Conexion.Transferencia.Find(IdTransferencia)!;
+
+                    Asiento _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == T.NoTransferencia && f.IdSerieDocOrigen == T.IdSerie && f.TipoDocOrigen == (T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"))!;
+
+
+
+                    xrpAsientoContable rpt = new xrpAsientoContable();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+                    sqlDataSource.Connection.ConnectionString = Conexion.Database.GetConnectionString();
+
+
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Cls_Datos datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "REPORTE ASIENTO";
+     
+
+
+
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
 
     }
 }
