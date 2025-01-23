@@ -444,6 +444,7 @@ namespace Balance_api.Controllers.Contabilidad
                             det.DiferencialML = doc.DiferencialML;
                             det.DiferencialMS = doc.DiferencialMS;
                             det.Retenido = doc.Retenido;
+                            det.Seleccionar = false;
 
 
                             if (esNuevoDet) Conexion.TransferenciaDocumento.Add(det);
@@ -595,6 +596,10 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+                    scope.Complete();
+
+
+
 
                     xrpAsientoContable rpt = new xrpAsientoContable();
 
@@ -617,15 +622,10 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                     datos = new();
+                    datos = new();
                     datos.Nombre = "GUARDAR";
                     datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Transf.NoTransferencia}</b></span>";
                     lstDatos.Add(datos);
-
-
-
-
-                    scope.Complete();
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
 
@@ -671,7 +671,7 @@ namespace Balance_api.Controllers.Contabilidad
                                           join _p in Conexion.Proveedor on _q.CodProveedor equals _p.Codigo into _q_p
                                           from u in _q_p.DefaultIfEmpty()
                                           where _q.CodBodega == (CodBodega == string.Empty ? _q.CodBodega : CodBodega) && _q.Fecha.Date >= Fecha1.Date && _q.Fecha <= Fecha2.Date
-                                          orderby _q.NoTransferencia descending
+                                          orderby _q.FechaReg descending
                                           select new
                                           {
                                               _q.IdTransferencia,
