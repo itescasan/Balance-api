@@ -512,12 +512,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AsientoContable/GetReporte")]
         [HttpGet]
-        public string DaGetReportetos(int IdAsiento, string IdMoneda, bool Exportar)
+        public string DaGetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado)
         {
-            return V_GetReporte(IdAsiento, IdMoneda, Exportar);
+            return V_GetReporte(IdAsiento, IdMoneda, Exportar, Consolidado);
         }
 
-        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar)
+        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado)
         {
             string json = string.Empty;
             if (IdMoneda == null) IdMoneda = string.Empty;
@@ -531,7 +531,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
-              
+                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = Consolidado;
+                
                 MemoryStream stream = new MemoryStream();
 
                 if(Exportar)
