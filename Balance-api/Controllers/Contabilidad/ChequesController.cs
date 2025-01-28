@@ -6,8 +6,10 @@ using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Inventario;
 using Balance_api.Models.Proveedor;
 using Balance_api.Models.Sistema;
+using Balance_api.Reporte.Contabilidad;
 using DevExpress.Charts.Native;
 using DevExpress.CodeParser;
+using DevExpress.DataAccess.Sql;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -472,20 +474,39 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
 
+                    xrpCheque rpt = new xrpCheque();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+                    sqlDataSource.Connection.ConnectionString = Conexion.Database.GetConnectionString();
+
+
+                    sqlDataSource.Queries["CNT_XRP_Cheques"].Parameters["@_NoAsiento"].Value = _Chequ.NoCheque;
+                    //sqlDataSource.Queries["CNT_XRP_Cheques"].Parameters["@P_IdMoneda"].Value = _Chequ.IdMoneda;
+
+                    MemoryStream stream = new MemoryStream();
+
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
                     Cls_Datos datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "REPORTE CHEQUE";
+                    lstDatos.Add(datos);
+
+
+                    datos = new();
                     datos.Nombre = "GUARDAR";
                     //datos.d = "Registro Guardado";
                     datos.d = $"<span>Registro Guardado <br> <b style='color:red'>{_Chequ.NoCheque}</b></span>";
                     lstDatos.Add(datos);
 
-
-
+                   
 
                     scope.Complete();
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
 
-
+                    return json;
 
                 }
 
@@ -497,7 +518,7 @@ namespace Balance_api.Controllers.Contabilidad
                 json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
             }
 
-            return json;
+           return json;
 
         }
 

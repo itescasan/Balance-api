@@ -35,7 +35,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
 
-                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.IdRol == 1 & f.AccesoWeb);
+                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.AccesoWeb);
 
                     if (Usuario == null)
                     {

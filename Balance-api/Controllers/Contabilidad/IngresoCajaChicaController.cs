@@ -116,7 +116,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
 
-                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.IdRol == 1 & f.AccesoWeb);
+                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user &&  f.AccesoWeb);
 
                     if (Usuario == null)
                     {
@@ -381,6 +381,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Maestro.UsuarioModifica = d.I.UsuarioModifica;
                     _Maestro.Aplicado = d.I.Aplicado;
                     _Maestro.Contabilizado = d.I.Contabilizado;
+                    _Maestro.Corregir = d.I.Corregir;
                     
 
                     _Maestro.FechaModificacion = DateTime.Now;
@@ -692,6 +693,10 @@ namespace Balance_api.Controllers.Contabilidad
                     {
                         //Conexion.DetIngCaja.Remove(det!);
                         det.Enviado = true;
+                        if (det.Corregir == "Pendiente")
+                        {
+                            det.Corregir = "Completado";
+                        }
                         det.UsuarioModifica = user;
                         det.FechaModificacion = DateTime.Now;
                         Conexion.SaveChanges();
@@ -758,7 +763,7 @@ namespace Balance_api.Controllers.Contabilidad
                     if (det != null)
                     {
                         //Conexion.DetIngCaja.Remove(det!);
-                        det.Corregir = true;
+                        det.Corregir = "Pendiente";
                         det.UsuarioModifica = user;
                         det.FechaModificacion = DateTime.Now;
                         Conexion.SaveChanges();
