@@ -16,13 +16,26 @@ namespace Balance_api.Contexts
     {
         public BalanceEntities(DbContextOptions<BalanceEntities> options) : base(options)
         {
+           
+        }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(options => options.CommandTimeout(30)); // Timeout de consulta en segundos);
 
         }
 
 
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
-         {
+        public BalanceEntities()
+        {
+            
+        }
+           
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+         {
+           
 
             //ASIENTO CONTABLE
 
@@ -94,7 +107,6 @@ namespace Balance_api.Contexts
             //MOVIMIENTO DOC
             modelBuilder.Entity<MovimientoDoc>().ToTable(tb => tb.HasTrigger("SIS.TR_AUDITORIA_SIS_MovimientoDoc"));
             //FIN
-
 
 
 
