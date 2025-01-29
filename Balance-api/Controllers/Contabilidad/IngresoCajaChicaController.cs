@@ -834,7 +834,7 @@ namespace Balance_api.Controllers.Contabilidad
                         det.UsuarioModifica = user;
                         det.FechaModificacion = DateTime.Now;
                         Conexion.SaveChanges();
-                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConfCajaChica SET Consecutivo += 1  WHERE  CuentaContable = '{det.Cuenta}'");
+                       
                     }
 
 
