@@ -232,7 +232,7 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = Doc;
                     lstDatos.Add(datos);
 
-                    string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA" };
+                    string[] TipoDoc = new string[] { "GASTO_ANT", };
 
 
 
@@ -257,14 +257,14 @@ namespace Balance_api.Controllers.Contabilidad
                     var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
                                       join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
                                       join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
-                                      where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO"
+                                      where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO" && TipoDoc.Contains(_q.TipoDocOrigen)
                                       select new
                                       {
                                           _q.NoDocOrigen,
                                           _q.TipoDocOrigen,
                                           _q.Participacion1,
                                           _q.Participacion2,
-                                          _q.CuentaContable,
+                                          CuentaContable = _i.CuentaContableSolicitante,
                                           _q.Bodega,
                                           _q.CentroCosto
                                       }).ToList();

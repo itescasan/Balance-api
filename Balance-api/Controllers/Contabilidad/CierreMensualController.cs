@@ -91,7 +91,7 @@ namespace Balance_api.Controllers.Contabilidad
                             break;
                     }
 
-                    Conexion.Database.SetCommandTimeout(TimeSpan.FromMinutes(8));
+                   // Conexion.Database.SetCommandTimeout(TimeSpan.FromMinutes(8));
                     CierreMes Cierre = Conexion.CierreMes.FromSqlRaw(Sql1).ToList().First();
                     Conexion.SaveChanges();
 
