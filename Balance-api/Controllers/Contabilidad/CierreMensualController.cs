@@ -75,19 +75,15 @@ namespace Balance_api.Controllers.Contabilidad
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCXC] {Fecha.Year}, {Fecha.Month}, 'CXC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCXC] {Fecha.Year}, {Fecha.Month}, 'CXC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             break;
-                        case "04"://Cuentas por Pagar
-                            break;
-                        case "05"://Nomina
-                            break;
-                        case "06"://Caja
+                        case "04"://Caja
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCAJ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCAJ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             break;
-                        case "07"://Importaciones
+                        case "05"://Importaciones
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterLIQ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveLIQ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             break;
-                        case "08"://Costos
+                        case "06"://Costos
                             break;
                     }
 
