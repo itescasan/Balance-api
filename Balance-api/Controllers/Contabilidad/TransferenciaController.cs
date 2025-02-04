@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Transactions;
@@ -255,23 +256,25 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    var qOrdenComp = (from _q in Conexion.OrdenCompraCentrogasto.ToList()
-                                      join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
-                                      join _d in qDocumentos on new { DOC = _i.NoOrdenCompra, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
-                                      where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO" && _q.TipoDocOrigen == "GASTO_ANT"
+                    var qOrdenComp = (from _q in Conexion.OrdenCompra.ToList()
+                                      join _d in qDocumentos on new { DOC = _q.NoOrdenCompra, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      join _i in Conexion.OrdenCompraCentrogasto.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra into _q_i
+                                      from u in _q_i.DefaultIfEmpty()
+                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO" && _q.TipoDocOrigen == "GASTO_ANT"
                                       select new
                                       {
-                                          NoDocOrigen = _i.NoOrdenCompra,
+                                          NoDocOrigen = _q.NoOrdenCompra,
                                           _q.TipoDocOrigen,
-                                          _q.Participacion1,
-                                          _q.Participacion2,
-                                          _i.CuentaContableSolicitante,
-                                          _q.CuentaContable,
-                                          _q.Bodega,
-                                          _q.CentroCosto,
-                                          _i.SubTotal,
-                                          _i.SubTotalDolar,
-                                          _i.SubTotalCordoba
+                                          Participacion1 = u == null ? 0 : u.Participacion1,
+                                          Participacion2 = u == null ? 0 :  u.Participacion2,
+                                          _q.CuentaContableSolicitante,
+                                          CuentaContable = u == null? string.Empty : u.CuentaContable,
+                                          Bodega = u == null ? string.Empty : u.Bodega,
+                                          CentroCosto = u == null ? string.Empty : u.CentroCosto,
+                                          _q.SubTotal,
+                                          _q.SubTotalDolar,
+                                          _q.SubTotalCordoba,
+                                          PuedeCancelar = u == null ? false: true
                                       }).Union(
 
                         from _q in Conexion.OrdenCompraCentrogasto.ToList()
@@ -284,13 +287,14 @@ namespace Balance_api.Controllers.Contabilidad
                             _q.TipoDocOrigen,
                             _q.Participacion1,
                             _q.Participacion2,
-                            i.CuentaContableSolicitante,
+                            _i.CuentaContableSolicitante,
                             CuentaContable = string.Empty,
                             _q.Bodega,
                             _q.CentroCosto,
                             _i.SubTotal,
                             _i.SubTotalDolar,
-                            _i.SubTotalCordoba
+                            _i.SubTotalCordoba,
+                            PuedeCancelar = false
                         }
 
 
