@@ -14,5 +14,7 @@ namespace Balance_api.Models.Proveedor
         public decimal? Porcentaje { get; set; }
         public string? CuentaContable { get; set; }
         public bool? AplicaEnCXC { get; set; }
+        public string? Naturaleza { get; set; }
+        public bool? AplicarAutomatico { get; set; }
     }
 }

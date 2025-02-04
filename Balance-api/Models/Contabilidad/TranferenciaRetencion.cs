@@ -19,6 +19,9 @@ namespace Balance_api.Models.Contabilidad
         public string IdMoneda { get; set; }
         [Column(TypeName = "decimal(8, 4)")]
         public decimal TasaCambio { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal SubTotalMS { get; set; }
+        public decimal SubTotalML { get; set; }
         public decimal Monto { get; set; }
         public decimal MontoMS { get; set; }
         public decimal MontoML { get; set; }
@@ -28,7 +31,7 @@ namespace Balance_api.Models.Contabilidad
         public string CuentaContable { get; set; }
 
         public bool RetManual { get; set; }
-        
+        public string Naturaleza { get; set; }
 
         [ForeignKey("IdTransferencia")]
         public Transferencia Transferencia { get; set; }
