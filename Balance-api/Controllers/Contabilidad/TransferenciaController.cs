@@ -284,7 +284,7 @@ namespace Balance_api.Controllers.Contabilidad
                             _q.TipoDocOrigen,
                             _q.Participacion1,
                             _q.Participacion2,
-                            CuentaContableSolicitante = _i.CuentaContableSolicitante,
+                            i.CuentaContableSolicitante,
                             CuentaContable = string.Empty,
                             _q.Bodega,
                             _q.CentroCosto,
