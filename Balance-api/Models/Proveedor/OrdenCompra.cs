@@ -30,9 +30,14 @@ namespace Balance_api.Models.Proveedor
         [Column(TypeName = "nvarchar(50)")]
         public string Estado { get; set; }
 
-   
 
-        
+        public decimal SubTotal { get; set; }
+        public decimal SubTotalCordoba { get; set; }
+        public decimal SubTotalDolar { get; set; }
+
+
+
+
         [ForeignKey("IdOrdenCompra")]
         public ICollection<OrdenCompraCentrogasto> OrdenCompraCentrogasto { get; set; }
 

@@ -268,7 +268,10 @@ namespace Balance_api.Controllers.Contabilidad
                                           _i.CuentaContableSolicitante,
                                           _q.CuentaContable,
                                           _q.Bodega,
-                                          _q.CentroCosto
+                                          _q.CentroCosto,
+                                          _i.SubTotal,
+                                          _i.SubTotalDolar,
+                                          _i.SubTotalCordoba
                                       }).Union(
 
                         from _q in Conexion.OrdenCompraCentrogasto.ToList()
@@ -284,7 +287,10 @@ namespace Balance_api.Controllers.Contabilidad
                             CuentaContableSolicitante = _i.CuentaContableSolicitante,
                             CuentaContable = string.Empty,
                             _q.Bodega,
-                            _q.CentroCosto
+                            _q.CentroCosto,
+                            _i.SubTotal,
+                            _i.SubTotalDolar,
+                            _i.SubTotalCordoba
                         }
 
 
