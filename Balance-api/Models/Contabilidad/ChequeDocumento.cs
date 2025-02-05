@@ -33,6 +33,7 @@ namespace Balance_api.Models.Contabilidad
         public decimal DiferencialML { get; set; }
         public decimal DiferencialMS { get; set; }
         public bool Retenido { get; set; }
+        public bool Seleccionar { get; set; }
 
         [ForeignKey("IdCheque")]
         public Cheques cheques { get; set; }
