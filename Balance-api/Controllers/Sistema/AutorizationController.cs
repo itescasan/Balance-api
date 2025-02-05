@@ -71,11 +71,11 @@ namespace Balance_api.Services
 
                         if (_u.Intento >= 3)
                         {
-                            json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<b>Usuario Bloqueado</b>", 1, null);
+                            json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<b>Usuario Bloqueado</b>", 1, null);
                             return json;
                         }
 
-                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Contraseña Incorrecta. <br>Intento Restante: <b>{(3 - _u.Intento).ToString()}</b</span>", 1, null);
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Contraseña Incorrecta. <br>Intento Restante: <b>{(3 - _u.Intento).ToString()}</b</span>", 1, null);
                         return json;
 
                     }
@@ -86,7 +86,7 @@ namespace Balance_api.Services
                         if (_u?.Intento == null) _u.Intento = 0;
 
 
-                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, "<b>Usuario Bloqueado.</b>", 1, null);
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, "<b>Usuario Bloqueado.</b>", 1, null);
                         return json;
                     }
 
