@@ -239,7 +239,7 @@ namespace Balance_api.Controllers.Sistema
 
                     if(_u  == null)
                     {
-                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Usuario no valido.</span>", 1, null);
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Usuario no valido.</span>", 1, null);
                         return json;
                     }
 
@@ -247,7 +247,7 @@ namespace Balance_api.Controllers.Sistema
                     if (_u.CON_Mail_Web != cod)
                     {
 
-                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Codigo Invalido.</span>", 1, null);
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Invalido.</span>", 1, null);
                         return json;
                     }
 
@@ -255,7 +255,7 @@ namespace Balance_api.Controllers.Sistema
                     if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                     {
 
-                        json = Cls_Mensaje.TojsonT(null, 0, string.Empty, $"<span>Codigo Expirado.</span>", 1, null);
+                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Expirado.</span>", 1, null);
                         return json;
                     }
 
