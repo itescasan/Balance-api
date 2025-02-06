@@ -165,8 +165,26 @@ namespace Balance_api.Controllers.Sistema
 
                         MailMessage mail = new MailMessage();
                         mail.From = new MailAddress("info@escasan.com.ni");
-                        mail.Subject = $"ESCASAN ACCESO";
-                        mail.Body = $"Codigo Acceso Modulo Contable <br><div style='width:100%;text-aling:center'><b style='font-size: 18px'>{_u.CON_Mail_Web}<b></div>";
+                        
+
+
+                    switch(Modulo)
+                    {
+                        case "CON":
+                            mail.Subject = $"ESCASAN ACCESO CONTABILIDAD";
+                            mail.Body = $"Codigo Acceso Modulo Contable <br><div style='width:100%;text-aling:center'><b style='font-size: 18px'>{_u.CON_Mail_Web}<b></div>";
+                            break;
+
+                        default:
+                            json = Cls_Mensaje.Tojson(null, 0, string.Empty, "Modulo no configurado.", 1);
+                            return json;
+                    }
+
+
+
+
+
+                       
                         mail.IsBodyHtml = true;
                         mail.To.Add(Correo);
 
@@ -221,13 +239,13 @@ namespace Balance_api.Controllers.Sistema
         //[Authorize]
         [Route("api/Sistema/ValidarCodigo")]
         [HttpGet]
-        public string ValidarCodigo(string user,  string cod)
+        public string ValidarCodigo(string user,  string cod, string Modulo)
         {
-            return V_ValidarCodigo(user,  cod);
+            return V_ValidarCodigo(user,  cod, Modulo);
         }
 
 
-        private string V_ValidarCodigo(string user,  string cod)
+        private string V_ValidarCodigo(string user,  string cod, string Modulo)
         {
             string json = string.Empty;
             try
@@ -244,25 +262,42 @@ namespace Balance_api.Controllers.Sistema
                     }
 
 
-                    if (_u.CON_Mail_Web != cod)
+                    switch (Modulo)
                     {
+                        case "CON":
 
-                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Invalido.</span>", 1, null);
-                        return json;
+                            if (_u.CON_Mail_Web != cod)
+                            {
+
+                                json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Invalido.</span>", 1, null);
+                                return json;
+                            }
+
+
+                            if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                            {
+
+                                json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Expirado.</span>", 1, null);
+                                return json;
+                            }
+
+
+                            _u.CON_CodMail = cod;
+                            Conexion.SaveChanges();
+
+
+                            break;
+
+                        default:
+                            json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Modulo no configurado.</span>", 1, null);
+                            return json;
                     }
 
 
-                    if (_u.CON_Mail_Web_Date != Convert.ToDateTime(DateTime.Now.ToShortDateString()))
-                    {
-
-                        json = Cls_Mensaje.Tojson(null, 0, string.Empty, $"<span>Codigo Expirado.</span>", 1, null);
-                        return json;
-                    }
+                   
 
 
-                    _u.CON_CodMail = cod;
-                    Conexion.SaveChanges();
-
+                   
 
 
 
