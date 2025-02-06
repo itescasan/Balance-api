@@ -1058,7 +1058,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/BuscarTiposRetenciones")]
+        [Route("api/Contabilidad/Cheques/BuscarTiposRetenciones")]
         [HttpGet]
         public string BuscarTiposRetenciones(string NoDocumento)
         {
