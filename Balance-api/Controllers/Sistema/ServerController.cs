@@ -51,7 +51,7 @@ namespace Balance_api.Controllers.Sistema
 
 
                     List<Cls_Usuario> qUsuario = (from _q in Conexion.Usuarios
-                                    where _q.Activo == true && _q.Usuario.Equals(user)
+                                    where _q.Activo == true && _q.AccesoWeb == true && _q.Usuario.Equals(user)
                                     select new Cls_Usuario()
                                     {
                                         User = _q.Usuario,
