@@ -921,7 +921,7 @@ namespace Balance_api.Controllers.Sistema
                     foreach (AccesoWeb f in d)
                     {
                         bool esNuevo = false;
-                        AccesoWeb? a = Conexion.AccesoWeb.Find(f.IdAcceso);
+                        AccesoWeb? a = Conexion.AccesoWeb.FirstOrDefault(w => w.Id == f.Id && w.Modulo == f.Modulo);
 
 
                         if (i == 0)
