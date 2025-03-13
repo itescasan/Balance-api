@@ -32,6 +32,7 @@ namespace Balance_api.Models.Contabilidad
 
         public bool RetManual { get; set; }
         public string Naturaleza { get; set; }
+        public bool AplicarAutomatico { get; set; }
 
         [ForeignKey("IdTransferencia")]
         public Transferencia Transferencia { get; set; }
