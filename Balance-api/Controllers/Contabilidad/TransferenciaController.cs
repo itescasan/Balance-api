@@ -676,6 +676,7 @@ namespace Balance_api.Controllers.Contabilidad
                             ret.CuentaContable = doc.CuentaContable;
                             ret.RetManual = doc.RetManual;
                             ret.Naturaleza = doc.Naturaleza;
+                            ret.AplicarAutomatico = doc.AplicarAutomatico;
 
 
                             if (esNuevoDet) Conexion.TranferenciaRetencion.Add(ret);
@@ -989,8 +990,8 @@ namespace Balance_api.Controllers.Contabilidad
                                            _q.TieneImpuesto,
                                            _q.CuentaContable,
                                            _q.RetManual,
-                                           _q.Naturaleza
-
+                                           _q.Naturaleza,
+                                           _q.AplicarAutomatico
                                        }).ToList();
 
 

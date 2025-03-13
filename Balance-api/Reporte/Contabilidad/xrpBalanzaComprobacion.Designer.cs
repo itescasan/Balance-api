@@ -281,7 +281,7 @@
             this.xrLabel5.StylePriority.UseFont = false;
             this.xrLabel5.StylePriority.UseForeColor = false;
             this.xrLabel5.StylePriority.UseTextAlignment = false;
-            this.xrLabel5.Text = "ESCALANTES SANCHEZ ALVARADO, S.A";
+            this.xrLabel5.Text = "ESCALANTE SANCHEZ ALVARADO, S.A";
             this.xrLabel5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             // 
             // xrTable2
