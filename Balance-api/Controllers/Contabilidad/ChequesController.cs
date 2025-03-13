@@ -314,7 +314,7 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qAnticipos;
                     lstDatos.Add(datos);
 
-                    List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXP == false && w.AplicarAutomatico == true).ToList();
+                    List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXP == true && w.AplicarAutomatico == true).ToList();
                     List<TranferenciaRetencion> lstRetenciones = new();
 
                     int index = 0;
@@ -1076,7 +1076,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     List<Cls_Datos> lstDatos = new();
 
-                    List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXP == false).ToList();
+                    List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXP == true).ToList();
 
                     Cls_Datos datos = new();
                     datos = new();
