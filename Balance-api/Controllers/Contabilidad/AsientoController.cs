@@ -292,6 +292,11 @@ namespace Balance_api.Controllers.Contabilidad
                     esNuevoDet = true;
                     _det = new AsientoDetalle();
                 }
+                if (detalle.NoDocumento == string.Empty || detalle.NoDocumento == null)
+                {
+                    detalle.NoDocumento = _Maestro.NoAsiento;
+                    detalle.TipoDocumento = _Maestro.TipoDocOrigen;
+                }
 
                 _det.IdAsiento = _Maestro.IdAsiento;
                 _det.NoLinea = x;
