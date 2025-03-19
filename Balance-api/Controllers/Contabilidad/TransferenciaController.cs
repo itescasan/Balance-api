@@ -432,7 +432,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        private string V_Guardar(Cls_Datos_TransferenciaCuenta d)
+        private  string V_Guardar(Cls_Datos_TransferenciaCuenta d)
         {
 
             string json = string.Empty;
@@ -702,14 +702,32 @@ namespace Balance_api.Controllers.Contabilidad
                     }
                     else
                     {
-                        _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+                        _Asiento  =  Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
+                        d.A.IdAsiento = _Asiento.IdAsiento;
+                        d.A.NoAsiento = _Asiento.NoAsiento;
 
-                        _Asiento!.AsientosContablesDetalle = d.A.AsientosContablesDetalle;
+                        Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToList().ForEach(f =>
+                        {
+                           
+                            AsientoDetalle? de = d.A.AsientosContablesDetalle.FirstOrDefault(w => w.NoLinea == f.NoLinea);
+
+                            if(de != null)
+                            {
+                                de.IdAsiento = _Asiento.IdAsiento;
+                                de.IdDetalleAsiento = f.IdDetalleAsiento;
+                            }
+
+
+                        });
+
+                      
+
+
 
                     }
 
                     AsientoController _Controller = new(Conexion);
-                    json = _Controller.V_Guardar(_Asiento!, Conexion, false);
+                    json = _Controller.V_Guardar(d.A!, Conexion, false);
 
                     Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
 

@@ -285,18 +285,14 @@ namespace Balance_api.Controllers.Contabilidad
             {
                 bool esNuevoDet = false;
 
-                AsientoDetalle? _det = _Conexion.AsientosContablesDetalle.Find(detalle.IdDetalleAsiento);
+                AsientoDetalle? _det = _Conexion.AsientosContablesDetalle.FirstOrDefault(w => w.IdDetalleAsiento == detalle.IdDetalleAsiento);
 
                 if (_det == null)
                 {
                     esNuevoDet = true;
                     _det = new AsientoDetalle();
                 }
-                if (detalle.NoDocumento == string.Empty || detalle.NoDocumento == null)
-                {
-                    detalle.NoDocumento = _Maestro.NoAsiento;
-                    detalle.TipoDocumento = _Maestro.TipoDocOrigen;
-                }
+                
 
                 _det.IdAsiento = _Maestro.IdAsiento;
                 _det.NoLinea = x;
@@ -315,18 +311,24 @@ namespace Balance_api.Controllers.Contabilidad
                 _det.NoDocumento = detalle.NoDocumento;
                 _det.TipoDocumento = detalle.TipoDocumento;
 
+                if (_det.NoDocumento == string.Empty || _det.NoDocumento == null)
+                {
+                    _det.NoDocumento = _Maestro.NoAsiento;
+                    _det.TipoDocumento = _Maestro.TipoDocOrigen;
+                }
+
                 TotalDebito += _det.Debito;
                 TotalCredito += _det.Credito;
 
 
                 if (esNuevoDet) _Conexion.AsientosContablesDetalle.Add(_det);
+               
 
                 x++;
             }
             _Conexion.SaveChanges();
 
-
-            if(TotalDebito - TotalCredito != 0 || TotalDebito == 0 && TotalCredito == 0)
+            if (TotalDebito - TotalCredito != 0 || TotalDebito == 0 && TotalCredito == 0)
             {
                 _Maestro.Estado = "DESCUADRADO";
                 _Conexion.SaveChanges();
@@ -517,12 +519,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AsientoContable/GetReporte")]
         [HttpGet]
-        public string DaGetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado)
+        public string DaGetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado)
         {
-            return V_GetReporte(IdAsiento, IdMoneda, Exportar, Consolidado);
+            return V_GetReporte(IdAsiento, IdMoneda, Exportar, Consolidado, Unificado);
         }
 
-        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado)
+        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado)
         {
             string json = string.Empty;
             if (IdMoneda == null) IdMoneda = string.Empty;
@@ -537,6 +539,8 @@ namespace Balance_api.Controllers.Contabilidad
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
                 sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = Consolidado;
+                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = Unificado;
+
                 
                 MemoryStream stream = new MemoryStream();
 
