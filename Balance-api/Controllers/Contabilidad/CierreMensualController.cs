@@ -94,9 +94,17 @@ namespace Balance_api.Controllers.Contabilidad
                     CierreMes Cierre2 = Conexion.CierreMes.FromSqlRaw(Sql2).ToList().First();
                     Conexion.SaveChanges();
 
-                   
+
+                    Conexion.Database.ExecuteSqlRaw($"EXEC CNT.CierreMes_Merge");
+
+
+            
+
                     Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
                     Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
+                  
+                    
+                    
                     Conexion.SaveChanges();
 
 
