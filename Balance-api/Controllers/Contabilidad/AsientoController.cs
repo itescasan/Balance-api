@@ -252,6 +252,8 @@ namespace Balance_api.Controllers.Contabilidad
                 _Maestro = new Asiento();
                 _Maestro.FechaReg = DateTime.Now;
                 _Maestro.UsuarioReg = d.UsuarioReg;
+                _Maestro.Revisado = false;
+                _Maestro.Automatico = false;
                 esNuevo = true;
             }
 
@@ -453,6 +455,8 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
+                                        _q.Automatico,
+                                        _q.Revisado
 
                                     }).ToList();
 
@@ -575,5 +579,70 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+
+
+
+
+        [Route("api/Contabilidad/AsientoContable/RevisarAsiento")]
+        [HttpPost]
+        public IActionResult RevisarAsiento([FromBody] Asiento d)
+        {
+            if (ModelState.IsValid)
+            {
+
+                return Ok(V_RevisarAsiento(d));
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        public string V_RevisarAsiento(Asiento d)
+        {
+
+
+
+            string json = string.Empty;
+
+            try
+            {
+                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+                using (Conexion)
+                {
+
+                    Asiento A = Conexion.AsientosContables.Find(d.IdAsiento)!;
+                    A.Revisado = d.Revisado;
+
+                    Conexion.SaveChanges();
+
+
+                    scope.Complete();
+
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "REVISADO";
+                    datos.d = A.Revisado;
+
+
+
+                    json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+
+                    return json;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+
+        }
     }
 }

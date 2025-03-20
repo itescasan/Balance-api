@@ -38,6 +38,8 @@ namespace Balance_api.Models.Contabilidad
         public string UsuarioReg { get; set; }
         public DateTime? FechaUpdate { get; set; }
         public string? UsuarioUpdate { get; set; }
+        public bool? Automatico { get; set; }
+        public bool? Revisado { get; set; }
 
         public ICollection<AsientoDetalle> AsientosContablesDetalle { get; set; }
 
