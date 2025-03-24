@@ -13,6 +13,7 @@ namespace Balance_api.Class.Contabilidad
         public string? Serie { get; set; }
         public string? NoDoc { get; set; }
         public string? Cuenta { get; set; }
+        public string? NombreCuenta { get; set; }
         public string? Concepto { get; set; }
         public string? Referencia { get; set; }
         public decimal? DEBE_ML { get; set; }

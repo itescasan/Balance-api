@@ -50,22 +50,26 @@ namespace Balance_api.Controllers.Contabilidad
 
                    
                     xrpAuxiliar rpt = new xrpAuxiliar();
+                   
+
                     rpt.Parameters["P_Fecha1"].Value = Fecha1;
                     rpt.Parameters["P_Fecha2"].Value = Fecha2;
                     rpt.Parameters["P_Cuenta"].Value = Cuenta;
                     rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty: string.Concat(bo.Codigo, " - ", bo.Bodega));
 
 
-
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
-            
+
+
+
 
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@CUENTA"].Value = Cuenta;
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@BODEGA"].Value = CodBodega;
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@FECHA_1"].Value = Fecha1;
                     sqlDataSource.Queries["CNT_SP_AuxiliarCuenta"].Parameters["@FECHA_2"].Value = Fecha2;
 
-         
+
+
                     MemoryStream stream = new MemoryStream();
 
                     rpt.ExportToPdf(stream, null);
@@ -86,6 +90,7 @@ namespace Balance_api.Controllers.Contabilidad
                                          Serie = _q["Serie"].ToString(),
                                          NoDoc = _q["NoDoc"].ToString(),
                                          Cuenta = _q["Cuenta"].ToString(),
+                                         NombreCuenta = _q["NombreCuenta"].ToString(),
                                          Concepto = _q["Concepto"].ToString(),
                                          Referencia = _q["Referencia"].ToString(),
                                          DEBE_ML = Convert.ToDecimal(_q["DEBE_ML"]),
@@ -142,6 +147,7 @@ namespace Balance_api.Controllers.Contabilidad
                                                    Serie = string.Empty,
                                                    NoDoc = string.Empty,
                                                    Cuenta = x.First().Serie == "INI" ?  "SALDO" : ct.CuentaContable,
+                                                   NombreCuenta = x.First().Serie == "INI" ? "" : ct.NombreCuenta,
                                                    Concepto = x.First().Serie == "INI" ? "INICIAL" : ct.NombreCuenta,
                                                    Referencia = string.Empty,
                                                    DEBE_ML = x.Sum(s => s.DEBE_ML),
@@ -201,12 +207,36 @@ namespace Balance_api.Controllers.Contabilidad
                                */
 
 
-                  
 
 
 
 
-                
+                    xrpAuxiliarExcel rptExcel = new xrpAuxiliarExcel();
+                    rptExcel.Parameters["P_Fecha1"].Value = Fecha1;
+                    rptExcel.Parameters["P_Fecha2"].Value = Fecha2;
+                    rptExcel.Parameters["P_Cuenta"].Value = Cuenta;
+                    rptExcel.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
+
+                    rptExcel.DataSource = sqlDataSource;
+
+
+                     stream = new MemoryStream();
+
+                    rptExcel.ExportToXlsx(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+
+
+
+                    datos = new();
+                    datos.d = stream.ToArray();
+                    datos.Nombre = "xrpAuxiliarExcel";
+                    lstDatos.Add(datos);
+
+
+
+
+
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
                 }
