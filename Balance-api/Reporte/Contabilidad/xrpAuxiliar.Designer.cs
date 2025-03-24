@@ -654,8 +654,8 @@
         internal DevExpress.XtraReports.UI.XRLabel xrLabel5;
         internal DevExpress.XtraReports.UI.XRLabel xrLabel1;
         private DevExpress.XtraReports.UI.XRPictureBox xrPictureBox1;
-        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
         private DevExpress.XtraReports.UI.XRLabel xrLabel8;
         private DevExpress.XtraReports.UI.XRLabel xrLabel7;
+        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
     }
 }

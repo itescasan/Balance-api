@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(xrpAuxiliarExcel));
+            DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
+            DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery1 = new DevExpress.DataAccess.Sql.StoredProcQuery();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter1 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter2 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter3 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter4 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
-            DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -73,7 +73,6 @@
             this.xrLabel5 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
-            this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
             this.xrTable3 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -92,6 +91,7 @@
             this.P_Fecha2 = new DevExpress.XtraReports.Parameters.Parameter();
             this.P_Cuenta = new DevExpress.XtraReports.Parameters.Parameter();
             this.P_Bodega = new DevExpress.XtraReports.Parameters.Parameter();
+            this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).BeginInit();
@@ -175,7 +175,7 @@
             // 
             this.xrTableCell18.CanGrow = false;
             this.xrTableCell18.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Modulo]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[TipoDocumento]")});
             this.xrTableCell18.Font = new System.Drawing.Font("Arial", 9.75F);
             this.xrTableCell18.Name = "xrTableCell18";
             this.xrTableCell18.StylePriority.UseFont = false;
@@ -366,7 +366,7 @@
             this.xrTableCell17.Name = "xrTableCell17";
             this.xrTableCell17.StylePriority.UseFont = false;
             this.xrTableCell17.StylePriority.UseTextAlignment = false;
-            this.xrTableCell17.Text = "Modulo";
+            this.xrTableCell17.Text = "Tipo";
             this.xrTableCell17.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
             this.xrTableCell17.Weight = 0.97042749408634887D;
             // 
@@ -531,31 +531,6 @@
             this.xrPictureBox1.Name = "xrPictureBox1";
             this.xrPictureBox1.SizeF = new System.Drawing.SizeF(140.8333F, 68.16666F);
             this.xrPictureBox1.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
-            // 
-            // sqlDataSource1
-            // 
-            this.sqlDataSource1.ConnectionName = "CadenaCnxSqlServer";
-            this.sqlDataSource1.Name = "sqlDataSource1";
-            storedProcQuery1.Name = "CNT_SP_AuxiliarCuenta";
-            queryParameter1.Name = "@CUENTA";
-            queryParameter1.Type = typeof(string);
-            queryParameter2.Name = "@BODEGA";
-            queryParameter2.Type = typeof(string);
-            queryParameter3.Name = "@FECHA_1";
-            queryParameter3.Type = typeof(System.DateTime);
-            queryParameter3.ValueInfo = "1753-01-01";
-            queryParameter4.Name = "@FECHA_2";
-            queryParameter4.Type = typeof(System.DateTime);
-            queryParameter4.ValueInfo = "1753-01-01";
-            storedProcQuery1.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
-            queryParameter1,
-            queryParameter2,
-            queryParameter3,
-            queryParameter4});
-            storedProcQuery1.StoredProcName = "CNT.SP_AuxiliarCuenta";
-            this.sqlDataSource1.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
-            storedProcQuery1});
-            this.sqlDataSource1.ResultSchemaSerializable = resources.GetString("sqlDataSource1.ResultSchemaSerializable");
             // 
             // ReportFooter
             // 
@@ -738,6 +713,29 @@
             this.P_Bodega.Name = "P_Bodega";
             this.P_Bodega.Visible = false;
             // 
+            // sqlDataSource1
+            // 
+            this.sqlDataSource1.ConnectionName = "CadenaCnxSqlServer";
+            this.sqlDataSource1.Name = "sqlDataSource1";
+            storedProcQuery1.Name = "CNT_SP_AuxiliarCuenta";
+            queryParameter1.Name = "@CUENTA";
+            queryParameter1.Type = typeof(string);
+            queryParameter2.Name = "@BODEGA";
+            queryParameter2.Type = typeof(string);
+            queryParameter3.Name = "@FECHA_1";
+            queryParameter3.Type = typeof(System.DateTime);
+            queryParameter4.Name = "@FECHA_2";
+            queryParameter4.Type = typeof(System.DateTime);
+            storedProcQuery1.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
+            queryParameter1,
+            queryParameter2,
+            queryParameter3,
+            queryParameter4});
+            storedProcQuery1.StoredProcName = "CNT.SP_AuxiliarCuenta";
+            this.sqlDataSource1.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
+            storedProcQuery1});
+            this.sqlDataSource1.ResultSchemaSerializable = resources.GetString("sqlDataSource1.ResultSchemaSerializable");
+            // 
             // xrpAuxiliarExcel
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -790,7 +788,6 @@
         internal DevExpress.XtraReports.UI.XRLabel xrLabel5;
         internal DevExpress.XtraReports.UI.XRLabel xrLabel1;
         private DevExpress.XtraReports.UI.XRPictureBox xrPictureBox1;
-        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
         private DevExpress.XtraReports.UI.XRTable xrTable1;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
@@ -825,5 +822,6 @@
         private DevExpress.XtraReports.Parameters.Parameter P_Fecha2;
         private DevExpress.XtraReports.Parameters.Parameter P_Cuenta;
         private DevExpress.XtraReports.Parameters.Parameter P_Bodega;
+        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
     }
 }
