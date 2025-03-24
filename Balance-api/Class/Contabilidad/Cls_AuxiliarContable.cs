@@ -22,9 +22,11 @@ namespace Balance_api.Class.Contabilidad
         public decimal? DEBE_MS { get; set; }
         public decimal? HABER_MS { get; set; }
         public decimal? Saldo_MS { get; set; }
+        public string? TipoDocumento { get; set; }
         public string? Cuenta_Padre { get; set; }
         public string? Bodega { get; set; }
         public int? Editar { get; set; }
+       
         public int? Linea { get; set; }
        
     }

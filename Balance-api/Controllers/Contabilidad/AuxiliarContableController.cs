@@ -99,6 +99,7 @@ namespace Balance_api.Controllers.Contabilidad
                                          DEBE_MS = Convert.ToDecimal(_q["DEBE_MS"]),
                                          HABER_MS = Convert.ToDecimal(_q["HABER_MS"]),
                                          Saldo_MS = Convert.ToDecimal(_q["Saldo_MS"]),
+                                         TipoDocumento = _q["TipoDocumento"].ToString(),
                                          Cuenta_Padre = _q["Cuenta_Padre"].ToString(),
                                          Bodega = _q["Bodega"].ToString(),
                                          Editar = Convert.ToInt32(_q["Editar"]),
