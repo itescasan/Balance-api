@@ -324,6 +324,47 @@ namespace Balance_api.Controllers.Sistema
 
 
 
+
+        [Route("api/Sistema/GetFechaServidor")]
+        [HttpGet]
+        public string GetFechaServidor(string user, string Modulo)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+
+                    List<Cls_Datos> lstDatos = new();
+                    Usuarios? u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.Equals(user));
+
+
+                    lstDatos.AddRange(V_DatosServidor(user, (u == null ? true : !u.AccesoWeb ? true : u.Desconectar), Modulo));
+                    lstDatos.Add(V_TC(DateTime.Now));
+
+
+
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+  
+
+
+
+
         [Route("api/Sistema/DatosServidor")]
         [HttpGet]
         public string DatosServidor(string user, string Modulo)
@@ -366,7 +407,7 @@ namespace Balance_api.Controllers.Sistema
 
             Cls_Datos datos2 = new();
             datos2.Nombre = "DESCONECCION";
-            datos2.d = Desconectar ? "-1" : "7200";
+            datos2.d = Desconectar ? "-1" : "14400";
 
 
             string IdMonedaLocal = Conexion.Database.SqlQueryRaw<string>($"SELECT TOP 1 MonedaLocal FROM SIS.Parametros").ToList().First();
