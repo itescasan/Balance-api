@@ -136,8 +136,8 @@ namespace Balance_api.Controllers.Sistema
 
                         Random ran = new Random();
 
-                        string b = "abcdefghijklmnopqrstuvwxyz0123456789";
-                        string sc = "!@#$%^&*~";
+                    string b = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    string sc = "!@#$%^&*~";
 
                         int length = 6;
 
