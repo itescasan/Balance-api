@@ -156,7 +156,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-                        _u.CON_Mail_Web = random.ToUpper();
+                        _u.CON_Mail_Web = random;
                         _u.CON_Mail_Web_Date = DateTime.Now;
                         _u.CON_CodMail = string.Empty;
 
