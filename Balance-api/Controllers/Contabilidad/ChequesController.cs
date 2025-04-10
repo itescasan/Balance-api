@@ -239,14 +239,16 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qOrdenComp = (from _q in Conexion.OrdenCompra.ToList()
-                                      join _d in qDocumentos on new { DOC = _q.NoOrdenCompra, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      join _x in Conexion.CuentaXPagar on _q.IdOrdenCompra equals _x.IdOrdenCompra
+                                      join _d in qDocumentos on new { DOC = _x.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      //join _d in qDocumentos on new { DOC = _x.NoOrdenCompra, TIPO = _x.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       join _i in Conexion.OrdenCompraCentrogasto.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra into _q_i
                                       from u in _q_i.DefaultIfEmpty()
                                       where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO" && (new string[] { "GASTO_ANT", "GASTO_REN", "GASTO_VIA" }).Contains(_q.TipoDocOrigen)
                                       select new
                                       {
-                                          NoDocOrigen = _q.NoOrdenCompra,
-                                          _q.TipoDocOrigen,
+                                          NoDocOrigen = _d.Documento,
+                                          TipoDocOrigen = _d.TipoDocumento,
                                           Participacion1 = u == null ? 0 : u.Participacion1,
                                           Participacion2 = u == null ? 0 : u.Participacion2,
                                           _q.CuentaContableSolicitante,
