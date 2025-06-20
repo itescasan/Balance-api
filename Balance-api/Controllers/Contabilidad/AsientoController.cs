@@ -523,12 +523,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AsientoContable/GetReporte")]
         [HttpGet]
-        public string DaGetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado)
+        public string DaGetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado, bool Modulo)
         {
-            return V_GetReporte(IdAsiento, IdMoneda, Exportar, Consolidado, Unificado);
+            return V_GetReporte(IdAsiento, IdMoneda, Exportar, Consolidado, Unificado, Modulo);
         }
 
-        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado)
+        private string V_GetReporte(int IdAsiento, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado, bool Modulo)
         {
             string json = string.Empty;
             if (IdMoneda == null) IdMoneda = string.Empty;
@@ -536,24 +536,40 @@ namespace Balance_api.Controllers.Contabilidad
             {
                 Cls_Datos Datos = new();
 
-                xrpAsientoContable rpt = new xrpAsientoContable();
-                
-                SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+              
 
-                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
-                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
-                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = Consolidado;
-                sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = Unificado;
-
-                
                 MemoryStream stream = new MemoryStream();
 
                 if(Exportar)
                 {
+                    xrpAsientoContableExcel rpt = new xrpAsientoContableExcel();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = Consolidado;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = Unificado;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = Modulo;
+
+
+
                     rpt.ExportToXlsx(stream, null);
                 }
                 else
                 {
+
+                    xrpAsientoContable rpt = new xrpAsientoContable();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = IdAsiento;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = IdMoneda;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = Consolidado;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = Unificado;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = Modulo;
+
+
                     rpt.ExportToPdf(stream, null);
                     
                 }
