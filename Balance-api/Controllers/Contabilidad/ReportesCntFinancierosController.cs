@@ -212,6 +212,94 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
+        [Route("api/Contabilidad/GruposCuentas/Get")]
+        [HttpGet]
+        public string GruposCuentas()
+        {
+            return V_GruposCuentas();
+        }
+
+        private string V_GruposCuentas()
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    List<Cls_Datos> lstDatos = new();
+
+                    var TGruposCuentas = (from _q in Conexion.GruposCuentas
+                                             select new
+                                             {
+                                                 _q.IdGrupo,
+                                                 _q.Nombre
+                                             }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "GRUPO CUENTAS";
+                    datos.d = TGruposCuentas;
+
+                    lstDatos.Add(datos);
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/Reporte/CatalogoCuentas")]
+        [HttpGet]
+        public string CatalogoCuentas(int IdGrupoCuentas, int Estado)
+        {
+            return V_CatalogoCuentas(IdGrupoCuentas, Estado);
+        }
+
+        private string V_CatalogoCuentas(int IdGrupoCuentas, int Estado)
+        {
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+                    Cls_Datos Datos = new();
+
+                    xrpCatalogoCuenta rpt = new xrpCatalogoCuenta();
+
+                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                    sqlDataSource.Queries["CNT_SP_ReporteCatalogoCuenta"].Parameters["@IDGRUPOCUENTAS"].Value = IdGrupoCuentas;
+                    sqlDataSource.Queries["CNT_SP_ReporteCatalogoCuenta"].Parameters["@ESTADO"].Value = Estado;           
+
+                    //rpt.xrlVariables.Text = NoAsiento;
+
+                    MemoryStream stream = new MemoryStream();
+                    rpt.ExportToPdf(stream, null);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    Datos.d = stream.ToArray();
+                    Datos.Nombre = "Catalogo Cuentas";
+
+                    json = Cls_Mensaje.Tojson(Datos, 1, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
 
         [Route("api/Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
