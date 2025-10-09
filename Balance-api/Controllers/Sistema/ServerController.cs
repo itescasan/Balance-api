@@ -832,7 +832,7 @@ namespace Balance_api.Controllers.Sistema
                 using (Conexion)
                 {
 
-                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.IdRol == 1 & f.AccesoWeb);
+                    Usuarios? Usuario = Conexion.Usuarios.FirstOrDefault(f => f.Usuario == user && f.IdRol == 1 & f.AccesoWeb && f.Activo);
 
                     if (Usuario == null)
                     {
@@ -846,7 +846,7 @@ namespace Balance_api.Controllers.Sistema
 
 
                     var qUsuario = (from _q in Conexion.Usuarios
-                                    where _q.AccesoWeb
+                                    where _q.AccesoWeb && _q.Activo
                                     select new
                                     {
                                         _q.Usuario,

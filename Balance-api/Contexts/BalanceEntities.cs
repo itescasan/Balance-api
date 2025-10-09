@@ -35,7 +35,13 @@ namespace Balance_api.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
-           
+
+            //CUENTAS CONTABLES
+            modelBuilder.Entity<CatalogoCuenta>();
+            modelBuilder.Entity<CatalogoCuenta>().ToTable(tb => tb.HasTrigger("CNT.TR_AUDITORIA_CNT_CatalogoCuenta"));
+
+
+
 
             //ASIENTO CONTABLE
 
@@ -54,7 +60,7 @@ namespace Balance_api.Contexts
                  .HasMany(e => e.CatalogoCuenta)
                  .WithOne(e => e.GruposCuentas)
                  .HasForeignKey(e => e.IdGrupo);
-
+           
 
 
             //SERIES
