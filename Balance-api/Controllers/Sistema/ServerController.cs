@@ -33,13 +33,13 @@ namespace Balance_api.Controllers.Sistema
 
         //[Authorize]
         [Route("api/Sistema/Login")]
-        [HttpGet]
-        public string Login(string user, string pass, string Modulo)
+        [HttpPost]
+        public IActionResult Login(Cls_Acceso ac)
         {
-            return V_Login(user, pass, Modulo);
+            return Ok(V_Login(ac));
         }
 
-        private string V_Login(string user, string pass, string Modulo)
+        private string V_Login(Cls_Acceso ac)
         {
             string json = string.Empty;
             try
@@ -47,11 +47,11 @@ namespace Balance_api.Controllers.Sistema
                 using (Conexion)
                 {
                     List<Cls_Datos> lstDatos = new();
-                    Usuarios? _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.TrimStart().TrimEnd() == user);
+                    Usuarios? _u = Conexion.Usuarios.FirstOrDefault(f => f.Usuario.TrimStart().TrimEnd() == ac.user);
 
 
                     List<Cls_Usuario> qUsuario = (from _q in Conexion.Usuarios
-                                    where _q.Activo == true && _q.AccesoWeb == true && _q.Usuario.Equals(user)
+                                    where _q.Activo == true && _q.AccesoWeb == true && _q.Usuario.Equals(ac.user)
                                     select new Cls_Usuario()
                                     {
                                         User = _q.Usuario,
@@ -60,7 +60,8 @@ namespace Balance_api.Controllers.Sistema
                                         Rol = string.Empty,
                                         FechaLogin = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now),
                                         Desconectar = !_q.AccesoWeb ? true : _q.Desconectar,
-                                        CON_CodMail = _q.CON_CodMail
+                                        CON_CodMail = _q.CON_CodMail,
+                                        UpdatePass = _q.UpdatePass
                                     }).ToList();
 
 
@@ -71,10 +72,18 @@ namespace Balance_api.Controllers.Sistema
                         return json;
                     }
 
+                    if (qUsuario.First().UpdatePass == true)
+                    {
+                        json = Cls_Mensaje.Tojson(null, 0, "1", "Se requiere cambio de contraseña.", 1);
+                        return json;
+                    }
+
+
+
                     string sQuery = $"SELECT [SIS].[Desencriptar](  {"0x"}{BitConverter.ToString(qUsuario[0].Pwd).Replace("-", "")}) AS Pass";
                     string Pwd = Conexion.Database.SqlQueryRaw<string>(sQuery).ToList().First();
 
-                    if (!Pwd.Equals(pass))
+                    if (!Pwd.Equals(ac.pass))
                     {
 
 
@@ -168,7 +177,7 @@ namespace Balance_api.Controllers.Sistema
                         
 
 
-                    switch(Modulo)
+                    switch(ac.Modulo)
                     {
                         case "CON":
                             mail.Subject = $"ESCASAN ACCESO CONTABILIDAD";
@@ -218,7 +227,7 @@ namespace Balance_api.Controllers.Sistema
                     datos.d = qUsuario;
                     lstDatos.Add(datos);
 
-                    lstDatos.AddRange(V_DatosServidor(user, qUsuario[0].Desconectar, Modulo));
+                    lstDatos.AddRange(V_DatosServidor(ac.user, qUsuario[0].Desconectar, ac.Modulo));
 
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
