@@ -4,12 +4,14 @@ using Balance_api.Class.Contabilidad;
 using Balance_api.Contexts;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
+using DevExpress.CodeParser;
 using DevExpress.PivotGrid.OLAP;
 using DevExpress.Xpo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System.Transactions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Balance_api.Controllers.Contabilidad
 {
@@ -834,9 +836,19 @@ namespace Balance_api.Controllers.Contabilidad
                         det.UsuarioModifica = user;
                         det.FechaModificacion = DateTime.Now;
                         Conexion.SaveChanges();
-                       
-                    }
+                        Conexion.Database.ExecuteSqlRaw(@"UPDATE C
+                                                        SET C.Consecutivo = C.Consecutivo + 1
+                                                        FROM CNT.ConfCajaChica C
+                                                        INNER JOIN CNT.IngresosCajaChica IC 
+                                                        ON C.CuentaContable = IC.Cuenta
+                                                        WHERE IC.Cuenta = {0}", IdIngresoCaja);
 
+                    }
+                    //UPDATE C
+                    //Set C.Consecutivo += 1
+                    //FROM CNT.ConfCajaChica C inner join
+                    //CNT.IngresosCajaChica IC ON C.CuentaContable = IC.Cuenta
+                    //WHERE IC.Cuenta = '6101-02-01'
 
                     List<Cls_Datos> lstDatos = new();
 

@@ -492,7 +492,7 @@ namespace Balance_api.Controllers.Contabilidad
                             det.FechaModificacion = DateTime.Now;
                             Conexion.SaveChanges();
                             Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.IngresosCajaChica SET Contabilizado = 1  WHERE  IdIngresoCajaChica = '{_Chequ.IdIngresoCaja}'");
-                            Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConfCajaChica SET Consecutivo += 1  WHERE  CuentaContable = '{_Chequ.CuentaIngCaja}'");
+                            //Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.ConfCajaChica SET Consecutivo += 1  WHERE  CuentaContable = '{_Chequ.CuentaIngCaja}'");
                         }
 
                     }
