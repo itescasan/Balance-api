@@ -25,5 +25,7 @@ namespace Balance_api.Models.Sistema
         public string? CON_Mail_Web { get; set; }
         public DateTime? CON_Mail_Web_Date { get; set; }
         public string? CON_CodMail { get; set; }
+        public bool? UpdatePass { get; set; }
     }
 }
+

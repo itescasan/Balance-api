@@ -9,5 +9,6 @@
         public string FechaLogin = string.Empty;
         public bool Desconectar = true;
         public string? CON_CodMail;
+        public bool? UpdatePass;
     }
 }
