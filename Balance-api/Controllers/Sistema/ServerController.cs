@@ -34,7 +34,7 @@ namespace Balance_api.Controllers.Sistema
         //[Authorize]
         [Route("api/Sistema/Login")]
         [HttpPost]
-        public IActionResult Login(Cls_Acceso ac)
+        public IActionResult Login([FromBody]  Cls_Acceso ac)
         {
             return Ok(V_Login(ac));
         }

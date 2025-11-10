@@ -2,8 +2,8 @@
 {
     public class Cls_Acceso
     {
-        public string user { get; set; }
-        public string pass { get; set; }
-        public string Modulo { get; set; }
+        public string user = string.Empty;
+        public string pass = string.Empty;
+        public string Modulo = string.Empty;
     }
 }
