@@ -44,6 +44,7 @@ namespace Balance_api.Controllers.Sistema
             string json = string.Empty;
             try
             {
+
                 using (Conexion)
                 {
                     List<Cls_Datos> lstDatos = new();
