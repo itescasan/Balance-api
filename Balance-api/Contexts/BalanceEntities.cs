@@ -10,6 +10,8 @@ using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Balance_api.Models.Custom;
+using static Balance_api.Models.Nomina.Empleado;
+
 namespace Balance_api.Contexts
 {
     public class BalanceEntities : DbContext
@@ -108,6 +110,13 @@ namespace Balance_api.Contexts
 
 
 
+            //NOMINA
+            modelBuilder.Entity<Empleados>();
+            modelBuilder.Entity<Empleados>().ToTable(tb => tb.HasTrigger("NOM.TR_AUDITORIA_NOM_Empleados"));
+            //FIM
+
+
+
 
 
             //MOVIMIENTO DOC
@@ -202,7 +211,13 @@ namespace Balance_api.Contexts
         public DbSet<CuentaXPagar> CuentaXPagar { get; set; }
         public DbSet<OrdenCompraCentrogasto> OrdenCompraCentrogasto { get; set; }
         public DbSet<Articulo> Articulos { get; set; }
-        
+
+
+        //██████████████████████████████████████████NOMINA███████████████████████████████████████████████████████████
+
+        public DbSet<Empleados> Empleados { get; set; }
+
+
         //██████████████████████████████████████████SISTEMA███████████████████████████████████████████████████████████
 
 
