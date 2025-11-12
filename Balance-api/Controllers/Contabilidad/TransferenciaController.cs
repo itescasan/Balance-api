@@ -376,6 +376,7 @@ namespace Balance_api.Controllers.Contabilidad
                             _r.Naturaleza = w.Naturaleza!;
                             if(_doc.Impuesto == 0) _r.AplicarAutomatico = false;
 
+
                             lstRetenciones.Add(_r );
 
                             index++;
