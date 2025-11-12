@@ -117,6 +117,15 @@ namespace Balance_api.Contexts
 
 
 
+
+
+            //QUERY
+            modelBuilder.Entity<Cls_AuxiliarContable>().HasNoKey(); ;
+            //FIN
+
+
+
+
         }
 
 
