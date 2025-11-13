@@ -60,17 +60,28 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qConfCajaChica;
                     lstDatos.Add(datos);
 
-                    var qCuentasC = (from _q in Conexion.CatalogoCuenta
-                                     where _q.Nivel == 5 && _q.IdGrupo == 5
-                                     select new
-                                     {
-                                         _q.CuentaContable,
-                                         _q.NombreCuenta,
-                                         Valor = 0.0,
-                                         Activo = "BLOQUEADO"
+                    var lista1 = (from cc in Conexion.CatalogoCuenta
+                                  where cc.Nivel == 5 && cc.IdGrupo == 5
+                                  select new
+                                  {
+                                      cc.CuentaContable,
+                                      cc.NombreCuenta,
+                                      Valor = 0.0,
+                                      Activo = "BLOQUEADO"
 
 
-                                     }).ToList();
+                                  }).ToList();
+
+                    var lista2 = (from ca in Conexion.CajasAsociadas
+                                  select new
+                                  {
+                                      ca.CuentaContable,
+                                      ca.NombreCuenta,
+                                      Valor = 0.0,
+                                      Activo = "BLOQUEADO"
+                                  }).ToList();
+                    var qCuentasC = lista2.Union(lista1).ToList();
+                    
 
                     datos = new Cls_Datos();
                     datos.Nombre = "CUENTAS CAJA";

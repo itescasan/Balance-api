@@ -188,13 +188,22 @@ namespace Balance_api.Controllers.Contabilidad
                 using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
                 using (Conexion)
                 {
+                    var cuentasAsociadas = Conexion.CuentasAsociadas
+                                           .Where(f => f.CuentaPadre == CuentaPadre)
+                                           .Select(f => f.CuentaAsociada)   // <-- aquí debe ser la propiedad correcta
+                                           .ToList();
 
                     List<Cls_Datos> lstDatos = new List<Cls_Datos>();
                     Cls_Datos datos = new Cls_Datos();
-                    
+
+                    if (!cuentasAsociadas.Any())
+                    {
+                        cuentasAsociadas.Add(CuentaPadre);
+                    }
+
 
                     var qRubros = (from _q in Conexion.CatalogoCuenta
-                                   where _q.Nivel == 6 && _q.IdGrupo == 5 && _q.CuentaPadre == CuentaPadre 
+                                   where _q.Nivel == 6   && (_q.IdGrupo == 5 || _q.IdGrupo == 0 )&& cuentasAsociadas.Contains(_q.CuentaPadre!)
                                    select new
                                    {
                                        _q.CuentaContable,
@@ -841,7 +850,7 @@ namespace Balance_api.Controllers.Contabilidad
                                                         FROM CNT.ConfCajaChica C
                                                         INNER JOIN CNT.IngresosCajaChica IC 
                                                         ON C.CuentaContable = IC.Cuenta
-                                                        WHERE IC.Cuenta = {0}", IdIngresoCaja);
+                                                        WHERE IC.Cuenta = {0}", det.Cuenta);
 
                     }
                     //UPDATE C

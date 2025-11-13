@@ -72,13 +72,34 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qAccesoCajaChica;
                     lstDatos.Add(datos);
 
-                    var qCuentasC = (from _q in Conexion.CatalogoCuenta
-                                     where _q.Nivel == 5 && _q.IdGrupo == 5
-                                     select new
-                                     {
-                                         IdAcceso = 0,_q.CuentaContable,
-                                         Usuario = "",Activo = false, Clase = "fa-solid fa-house",_q.NombreCuenta
-                                     }).ToList();
+                    var lista1 = (
+                         from cc in Conexion.CatalogoCuenta
+                         where cc.Nivel == 5 && cc.IdGrupo == 5
+                         select new
+                         {
+                             IdAcceso = 0,
+                             CuentaContable = cc.CuentaContable,
+                             Usuario = "",
+                             Activo = false,
+                             Clase = "fa-solid fa-house",
+                             NombreCuenta = cc.NombreCuenta
+                         }
+                     ).ToList();
+
+                    var lista2 = (
+                        from ca in Conexion.CajasAsociadas
+                        select new
+                        {
+                            IdAcceso = ca.IdAcceso,
+                            CuentaContable = ca.CuentaContable,
+                            Usuario = ca.Usuario,
+                            Activo = false,
+                            Clase = "fa-solid fa-house",
+                            NombreCuenta = ca.NombreCuenta
+                        }
+                    ).ToList();
+
+                    var qCuentasC = lista2.Union(lista1).ToList();
 
                     datos = new Cls_Datos();
                     datos.Nombre = "CUENTAS CAJA CHICA";
@@ -102,78 +123,71 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/GuardarAccesoCajaChica")]
         [HttpPost]
-
         public IActionResult GuardarAccesoCajaChica([FromBody] AccesoCajaC[] d)
         {
-            if (ModelState.IsValid)
-            {
-
-                return Ok(V_GuardarAccesoCajaChica(d));
-
-            }
-            else
-            {
+            if (!ModelState.IsValid)
                 return BadRequest();
-            }
+
+            return Ok(V_GuardarAccesoCajaChica(d));
         }
 
         private string V_GuardarAccesoCajaChica(AccesoCajaC[] d)
         {
             string json = string.Empty;
             string msg = string.Empty;
+
             try
             {
+                using TransactionScope scope = new(TransactionScopeOption.Required,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
 
-
-                using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
                 using (Conexion)
                 {
-                    foreach (AccesoCajaC f in d)
+                    // 🔹 Obtenemos todas las cuentas existentes una sola vez
+                    var existentes = Conexion.AccesoCajaChica.ToList();
+
+                    foreach (var f in d)
                     {
-                        bool esNuevo = false;
-                        AccesoCajaC? a = Conexion.AccesoCajaChica.Find(f.IdAcceso);
+                        // Buscar coincidencia insensible a mayúsculas/minúsculas y espacios
+                        var a = existentes.FirstOrDefault(x =>
+                            x.CuentaContable.Trim().ToUpper() == f.CuentaContable.Trim().ToUpper() &&
+                            x.NombreCuenta.Trim().ToUpper() == f.NombreCuenta.Trim().ToUpper() && x.Usuario.Trim().ToUpper() == f.Usuario.Trim().ToUpper());
 
                         if (a == null)
                         {
-                            a = new AccesoCajaC();
-                            esNuevo = true;
-                            msg = "Registro Guardado";
+                            // 🔸 Nuevo registro
+                            a = new AccesoCajaC
+                            {
+                                CuentaContable = f.CuentaContable.Trim(),
+                                NombreCuenta = f.NombreCuenta.Trim(),
+                                Usuario = f.Usuario,
+                                Activo = f.Activo
+                            };
+
+                            Conexion.AccesoCajaChica.Add(a);
                         }
                         else
                         {
-                            msg = "Registro Aptualizado";
+                            // 🔹 Ya existe, actualizar solo lo necesario
+                            a.Usuario = f.Usuario;
+                            a.Activo = f.Activo;
                         }
-
-                        a.CuentaContable = f.CuentaContable;
-                        a.NombreCuenta = f.NombreCuenta;
-                        a.Usuario = f.Usuario;                        
-                        a.Activo = f.Activo;
-
-                        if (esNuevo) Conexion.AccesoCajaChica.Add(a);
-                        Conexion.SaveChanges();
                     }
 
-
-
-
-                    Cls_Datos datos = new Cls_Datos();
-                    datos.Nombre = "ACCESO CAJA CHICA";
-                    datos.d = msg;
-
-
-
-
-
+                    // ✅ Guardamos una sola vez
+                    Conexion.SaveChanges();
                     scope.Complete();
 
+                    msg = (d.Length > 1 ? "Registros procesados correctamente" : "Registro actualizado");
+
+                    var datos = new Cls_Datos
+                    {
+                        Nombre = "ACCESO CAJA CHICA",
+                        d = msg
+                    };
+
                     json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
-
-
-
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -181,7 +195,98 @@ namespace Balance_api.Controllers.Contabilidad
             }
 
             return json;
-
         }
+
+
+
+        //    [Route("api/Contabilidad/GuardarAccesoCajaChica")]
+        //    [HttpPost]
+
+        //    public IActionResult GuardarAccesoCajaChica([FromBody] AccesoCajaC[] d)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+
+        //            return Ok(V_GuardarAccesoCajaChica(d));
+
+        //        }
+        //        else
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+
+        //    private string V_GuardarAccesoCajaChica(AccesoCajaC[] d)
+        //    {
+        //        string json = string.Empty;
+        //        string msg = string.Empty;
+        //        try
+        //        {
+
+
+        //            using TransactionScope scope = new(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable });
+        //            using (Conexion)
+
+        //            {
+        //                foreach (AccesoCajaC f in d)
+        //                {
+        //                    bool esNuevo = false;
+        //                    AccesoCajaC? a = Conexion.AccesoCajaChica.Find(f.IdAcceso);
+
+        //                    if (a == null)
+        //                    {
+        //                        a = new AccesoCajaC();
+        //                        esNuevo = true;
+        //                        msg = "Registro Guardado";
+        //                        a.CuentaContable = f.CuentaContable;
+        //                        a.NombreCuenta = f.NombreCuenta;
+        //                        a.Usuario = f.Usuario;
+        //                        a.Activo = f.Activo;
+        //                    }
+        //                    else
+        //                    {
+        //                        msg = "Registro Aptualizado";
+        //                        a.CuentaContable = f.CuentaContable;
+        //                        a.NombreCuenta = f.NombreCuenta;
+        //                        a.Usuario = f.Usuario;
+        //                        a.Activo = f.Activo;
+
+        //                        if (esNuevo) Conexion.AccesoCajaChica.Add(a);
+        //                    }
+
+
+        //                    Conexion.SaveChanges();
+        //                }
+
+
+
+
+        //                Cls_Datos datos = new Cls_Datos();
+        //                datos.Nombre = "ACCESO CAJA CHICA";
+        //                datos.d = msg;
+
+
+
+
+
+        //                scope.Complete();
+
+        //                json = Cls_Mensaje.Tojson(datos, 1, string.Empty, string.Empty, 0);
+
+
+
+        //            }
+
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+        //        }
+
+        //        return json;
+
+        //    }
     }
 }

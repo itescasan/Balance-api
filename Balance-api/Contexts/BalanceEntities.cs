@@ -170,6 +170,11 @@ namespace Balance_api.Contexts
         public DbSet<TipoComprobanteRpt> TipoComprobanteRep { get; set; }
 
         public DbSet<CuentasComparativoGastos> CuentasComparativoGastos { get; set; }
+        public DbSet<CuentasAsociadas> CuentasAsociadas { get; set; }
+        public DbSet<CajasAsociadas> CajasAsociadas { get; set; }
+
+
+
 
 
         //██████████████████████████████████████████INVENTARIO████████████████████████████████████████████████████████
