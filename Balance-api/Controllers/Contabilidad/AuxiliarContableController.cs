@@ -48,14 +48,79 @@ namespace Balance_api.Controllers.Contabilidad
                     var bo = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == CodBodega);
                     CatalogoCuenta? ct = Conexion.CatalogoCuenta.FirstOrDefault(f => f.CuentaContable == Cuenta);
 
-                   
+
+
+                  var qAuxiliar =  Conexion.Set<Cls_AuxiliarContable>().FromSqlRaw($"EXEC [CNT].[SP_AuxiliarCuenta] '{Cuenta}', '{CodBodega}', '{string.Format("{0:yyyy-MM-dd}", Fecha1)}','{string.Format("{0:yyyy-MM-dd}", Fecha2)}'").ToList();
+
+
+
+                    //var qAuxiliar = (from _q in Conexion.Database.SqlQueryRaw<>("CNT_SP_AuxiliarCuenta")
+                    //
+
+
+                    List<Cls_Datos> lstDatos = new();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "AUXILIAR";
+                    datos.d = qAuxiliar;
+                    lstDatos.Add(datos);
+
+
+                    datos = new();
+                    datos.d = Cuenta;
+                    datos.Nombre = "CUENTA";
+                    lstDatos.Add(datos);
+
+
+                    datos = new();
+                    datos.d = ct == null ? string.Empty : ct.ClaseCuenta;
+                    datos.Nombre = "CLASE";
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
+
+        [Route("api/Contabilidad/AuxiliarContable/GetReporte")]
+        [HttpGet]
+        public string GetReporte(DateTime Fecha1, DateTime Fecha2, string CodBodega, string Cuenta, string Tipo)
+        {
+            return V_GetReporte(Fecha1, Fecha2, CodBodega, Cuenta, Tipo);
+        }
+
+        private string V_GetReporte(DateTime Fecha1, DateTime Fecha2, string CodBodega, string Cuenta, string Tipo)
+        {
+            if (CodBodega == null) CodBodega = string.Empty;
+            if (Cuenta == null) Cuenta = string.Empty;
+
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+
+                    var bo = Conexion.Bodegas.FirstOrDefault(f => f.Codigo == CodBodega);
+                    CatalogoCuenta? ct = Conexion.CatalogoCuenta.FirstOrDefault(f => f.CuentaContable == Cuenta);
+
+
                     xrpAuxiliar rpt = new xrpAuxiliar();
-                   
+
 
                     rpt.Parameters["P_Fecha1"].Value = Fecha1;
                     rpt.Parameters["P_Fecha2"].Value = Fecha2;
                     rpt.Parameters["P_Cuenta"].Value = Cuenta;
-                    rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty: string.Concat(bo.Codigo, " - ", bo.Bodega));
+                    rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
 
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
@@ -70,15 +135,30 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+
+
+
+
+                    List<Cls_Datos> lstDatos = new();
+
                     MemoryStream stream = new MemoryStream();
+                    Cls_Datos datos = new();
 
-                    rpt.ExportToPdf(stream, null);
-                    stream.Seek(0, SeekOrigin.Begin);
+                    if (Tipo == "PDF")
+                    {
+                        rpt.ExportToPdf(stream, null);
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        datos = new();
+                        datos.d = Tipo == "PDF" ? stream.ToArray() : null;
+                        datos.Nombre = "xrpAuxiliar";
+                        lstDatos.Add(datos);
+                    }
 
 
 
-                    //DevExpress.DataAccess.Sql.DataApi.ITable table = sqlDataSource.Result["CNT_SP_AuxiliarCuenta"];
- 
+
+
 
                     var qAuxiliar = (from _q in sqlDataSource.Result["CNT_SP_AuxiliarCuenta"]
                                      orderby _q["Linea"]
@@ -108,74 +188,64 @@ namespace Balance_api.Controllers.Contabilidad
                                      }).ToList();
 
 
-                    List<Cls_Datos> lstDatos = new();
 
-                    Cls_Datos datos = new();
-                    datos.Nombre = "AUXILIAR";
-                    datos.d = qAuxiliar;
-                    lstDatos.Add(datos);
-
-
-                    datos = new();
-                    datos.d = stream.ToArray();
-                    datos.Nombre = "xrpAuxiliar";
-                    lstDatos.Add(datos);
-
-                    datos = new();
-                    datos.d = Cuenta;
-                    datos.Nombre = "CUENTA";
-                    lstDatos.Add(datos);
-
-
-                    datos = new();
-                    datos.d = ct == null ? string.Empty : ct.ClaseCuenta;
-                    datos.Nombre = "CUENTA";
-                    lstDatos.Add(datos);
 
 
                     if (ct != null)
                     {
-                        if(ct.ClaseCuenta == "D")
+                        if (ct.ClaseCuenta == "D")
                         {
 
 
                             var qConsolidado = (from _q in qAuxiliar
-                                               group _q by new { _q.Modulo, _q.Fecha } into grupo select grupo).Select((x, i) => new Cls_AuxiliarContable()
-                                               {
-                                                   IdAsiento = 0,
-                                                   Modulo = x.Key.Modulo,
-                                                   Fecha = x.Key.Fecha,
-                                                   Serie = string.Empty,
-                                                   NoDoc = string.Empty,
-                                                   Cuenta = x.First().Serie == "INI" ?  "SALDO" : ct.CuentaContable,
-                                                   NombreCuenta = x.First().Serie == "INI" ? "" : ct.NombreCuenta,
-                                                   Concepto = x.First().Serie == "INI" ? "INICIAL" : ct.NombreCuenta,
-                                                   Referencia = string.Empty,
-                                                   DEBE_ML = x.Sum(s => s.DEBE_ML),
-                                                   HABER_ML = x.Sum(s => s.HABER_ML),
-                                                   Saldo_ML = x.Sum(s => s.Saldo_ML),
-                                                   DEBE_MS = x.Sum(s => s.DEBE_MS),
-                                                   HABER_MS = x.Sum(s => s.HABER_MS),
-                                                   Saldo_MS = x.Sum(s => s.Saldo_MS),
-                                                   Cuenta_Padre = ct.CuentaPadre,
-                                                   Bodega = string.Empty,
-                                                   Editar = 0,
-                                                   Linea = i
-                                               }).ToList();
+                                                group _q by new { _q.Modulo, _q.Fecha } into grupo
+                                                select grupo).Select((x, i) => new Cls_AuxiliarContable()
+                                                {
+                                                    IdAsiento = 0,
+                                                    Modulo = x.Key.Modulo,
+                                                    Fecha = x.Key.Fecha,
+                                                    Serie = string.Empty,
+                                                    NoDoc = string.Empty,
+                                                    Cuenta = x.First().Serie == "INI" ? "SALDO" : ct.CuentaContable,
+                                                    NombreCuenta = x.First().Serie == "INI" ? "" : ct.NombreCuenta,
+                                                    Concepto = x.First().Serie == "INI" ? "INICIAL" : ct.NombreCuenta,
+                                                    Referencia = string.Empty,
+                                                    DEBE_ML = x.Sum(s => s.DEBE_ML),
+                                                    HABER_ML = x.Sum(s => s.HABER_ML),
+                                                    Saldo_ML = x.Sum(s => s.Saldo_ML),
+                                                    DEBE_MS = x.Sum(s => s.DEBE_MS),
+                                                    HABER_MS = x.Sum(s => s.HABER_MS),
+                                                    Saldo_MS = x.Sum(s => s.Saldo_MS),
+                                                    Cuenta_Padre = ct.CuentaPadre,
+                                                    Bodega = string.Empty,
+                                                    Editar = 0,
+                                                    Linea = i
+                                                }).ToList();
+
 
 
 
                             xrpAuxiliarConsolidado rpt2 = new xrpAuxiliarConsolidado();
-                            rpt.Parameters["P_Fecha1"].Value = Fecha1;
-                            rpt.Parameters["P_Fecha2"].Value = Fecha2;
-                            rpt.Parameters["P_Cuenta"].Value = Cuenta;
-                            rpt.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
+                            rpt2.Parameters["P_Fecha1"].Value = Fecha1;
+                            rpt2.Parameters["P_Fecha2"].Value = Fecha2;
+                            rpt2.Parameters["P_Cuenta"].Value = Cuenta;
+                            rpt2.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
                             rpt2.DataSource = qConsolidado;
 
 
                             stream = new MemoryStream();
-                            rpt2.ExportToPdf(stream, null);
-                            stream.Seek(0, SeekOrigin.Begin);
+
+                            if (Tipo == "PDF")
+                            {
+                                rpt2.ExportToPdf(stream, null);
+                                stream.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                rpt2.ExportToXlsx(stream, null);
+                                stream.Seek(0, SeekOrigin.Begin);
+                            }
+
 
                             datos = new();
                             datos.d = stream.ToArray();
@@ -185,56 +255,45 @@ namespace Balance_api.Controllers.Contabilidad
                         }
                     }
 
-                    /*
-                    foreach (DevExpress.DataAccess.Sql.DataApi.IRow row in table)
+       
+
+                    if(Tipo == "EXCEL")
                     {
-                        object value = row["Fecha"];
-                    }*/
+                        xrpAuxiliarExcel rptExcel = new xrpAuxiliarExcel();
+                        rptExcel.Parameters["P_Fecha1"].Value = Fecha1;
+                        rptExcel.Parameters["P_Fecha2"].Value = Fecha2;
+                        rptExcel.Parameters["P_Cuenta"].Value = Cuenta;
+                        rptExcel.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
+
+                        rptExcel.DataSource = sqlDataSource;
+
+
+                        stream = new MemoryStream();
+
+                        rptExcel.ExportToXlsx(stream, null);
+                        stream.Seek(0, SeekOrigin.Begin);
 
 
 
 
-                    /*
+                        datos = new();
+                        datos.d = stream.ToArray();
+                        datos.Nombre = "xrpAuxiliarExcel";
+                        lstDatos.Add(datos);
 
-                               string sQuery = $"DECLARE @Fecha1  DATE = CAST('{string.Format("{0:yyyy-MM-dd}", Fecha1.Date)}' AS DATE)," +
-                                  $"@Fecha2 DATE =  CAST('{string.Format("{0:yyyy-MM-dd}", Fecha2.Date)}' AS DATE)" +
-                                  $"EXEC [CNT].[SP_AuxiliarCuenta] '{Cuenta}', '{CodBodega}', @Fecha1, @Fecha2";
-
-
-
-
-                               var qAuxiliar = Conexion.AuxiliarContable.FromSqlRaw<Cls_AuxiliarContable>(sQuery).ToList();
-
-                               */
-
-
-
-
-
-
-                    xrpAuxiliarExcel rptExcel = new xrpAuxiliarExcel();
-                    rptExcel.Parameters["P_Fecha1"].Value = Fecha1;
-                    rptExcel.Parameters["P_Fecha2"].Value = Fecha2;
-                    rptExcel.Parameters["P_Cuenta"].Value = Cuenta;
-                    rptExcel.Parameters["P_Bodega"].Value = (bo == null ? string.Empty : string.Concat(bo.Codigo, " - ", bo.Bodega));
-
-                    rptExcel.DataSource = sqlDataSource;
-
-
-                     stream = new MemoryStream();
-
-                    rptExcel.ExportToXlsx(stream, null);
-                    stream.Seek(0, SeekOrigin.Begin);
+                    }
 
 
 
 
                     datos = new();
-                    datos.d = stream.ToArray();
-                    datos.Nombre = "xrpAuxiliarExcel";
+                    datos.d = Tipo;
+                    datos.Nombre = "TIPO";
                     lstDatos.Add(datos);
 
 
+
+                    
 
 
 

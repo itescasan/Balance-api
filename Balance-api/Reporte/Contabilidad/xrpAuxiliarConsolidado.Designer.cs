@@ -518,7 +518,6 @@
             this.PageFooter});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.sqlDataSource1});
-            this.DataMember = "CNT_SP_AuxiliarCuenta";
             this.DataSource = this.sqlDataSource1;
             this.Margins = new System.Drawing.Printing.Margins(15, 14, 41, 15);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
