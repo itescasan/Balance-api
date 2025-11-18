@@ -149,12 +149,21 @@ namespace Balance_api.Controllers.Contabilidad
                         rpt.ExportToPdf(stream, null);
                         stream.Seek(0, SeekOrigin.Begin);
 
-                        datos = new();
-                        datos.d = Tipo == "PDF" ? stream.ToArray() : null;
-                        datos.Nombre = "xrpAuxiliar";
-                        lstDatos.Add(datos);
+                       
+                    }
+                    else
+                    {
+                        rpt.ExportToXlsx(stream, null);
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                   
                     }
 
+
+                    datos = new();
+                    datos.d =  stream.ToArray();
+                    datos.Nombre = "xrpAuxiliar";
+                    lstDatos.Add(datos);
 
 
 
