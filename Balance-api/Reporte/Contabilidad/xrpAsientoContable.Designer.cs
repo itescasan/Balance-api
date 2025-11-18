@@ -38,6 +38,7 @@
             DevExpress.DataAccess.Sql.QueryParameter queryParameter3 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter4 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter5 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter6 = new DevExpress.DataAccess.Sql.QueryParameter();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -122,8 +123,8 @@
             this.Detail.Name = "Detail";
             this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
             this.Detail.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("debito", DevExpress.XtraReports.UI.XRColumnSortOrder.Descending),
-            new DevExpress.XtraReports.UI.GroupField("Credito", DevExpress.XtraReports.UI.XRColumnSortOrder.Descending)});
+            new DevExpress.XtraReports.UI.GroupField("NoAsiento", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending),
+            new DevExpress.XtraReports.UI.GroupField("NoLinea", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
             // 
             // xrTable2
@@ -557,8 +558,7 @@
             this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrTable3});
             this.GroupHeader1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("debito", DevExpress.XtraReports.UI.XRColumnSortOrder.Descending),
-            new DevExpress.XtraReports.UI.GroupField("CuentaPadre", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+            new DevExpress.XtraReports.UI.GroupField("CuentaPadre", DevExpress.XtraReports.UI.XRColumnSortOrder.None)});
             this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WholePage;
             this.GroupHeader1.HeightF = 25F;
             this.GroupHeader1.KeepTogether = true;
@@ -908,12 +908,15 @@
             queryParameter5.Name = "@P_Modulo";
             queryParameter5.Type = typeof(bool);
             queryParameter5.ValueInfo = "False";
+            queryParameter6.Name = "@P_NoDocumento";
+            queryParameter6.Type = typeof(string);
             storedProcQuery1.Parameters.AddRange(new DevExpress.DataAccess.Sql.QueryParameter[] {
             queryParameter1,
             queryParameter2,
             queryParameter3,
             queryParameter4,
-            queryParameter5});
+            queryParameter5,
+            queryParameter6});
             storedProcQuery1.StoredProcName = "CNT.RPT_AsientoContable";
             this.sqlDataSource1.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1});
