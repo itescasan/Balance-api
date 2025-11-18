@@ -81,7 +81,7 @@ namespace Balance_api.Controllers.Contabilidad
                                     _d.Concepto,
                                     _d.Referencia,
                                     _d.Proveedor,
-                                    Cuenta = _e.NombreCuenta,
+                                    Cuenta = string.Concat(_e.CuentaContable, " ", _e.NombreCuenta),
                                     _c.CentroCosto,
                                     _d.SubTotal,
                                     _d.Iva,
@@ -203,11 +203,13 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qRubros = (from _q in Conexion.CatalogoCuenta
-                                   where _q.Nivel == 6   && (_q.IdGrupo == 5 || _q.IdGrupo == 0 )&& cuentasAsociadas.Contains(_q.CuentaPadre!)
+                                   join _c in Conexion.CatalogoCuenta 
+                                   on _q.CuentaPadre equals _c.CuentaContable
+                                   where _q.Nivel == 6   && (_q.IdGrupo == 5 || _q.IdGrupo == 0 ) && cuentasAsociadas.Contains(_q.CuentaPadre!)
                                    select new
                                    {
                                        _q.CuentaContable,
-                                       NombreCuenta = string.Concat(_q.CuentaContable, "->", _q.NombreCuenta),
+                                       NombreCuenta = string.Concat(_q.CuentaContable, "->", _q.NombreCuenta, "->", _c.NombreCuenta),
                                    }).ToList();
 
                     datos = new Cls_Datos();
