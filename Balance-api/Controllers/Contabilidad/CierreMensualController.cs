@@ -88,7 +88,10 @@ namespace Balance_api.Controllers.Contabilidad
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveLIQ] {Fecha.Year}, {Fecha.Month}, 'LIQ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'LIQ', {Fecha.Year}, {Fecha.Month}";
                             break;
-                        case "06"://Costos
+                        case "06"://Costos de Venta
+                            Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCOGS] {Fecha.Year}, {Fecha.Month}, 'COGS', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
+                            Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCOGS] {Fecha.Year}, {Fecha.Month}, 'COGS', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
+                            Sql3 = $"EXEC CNT.CierreMes_Merge 'COGS', {Fecha.Year}, {Fecha.Month}";
                             break;
                     }
 
