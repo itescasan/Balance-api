@@ -845,7 +845,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     string mnd = (Moneda == 1) ? "CORDOBAS" : "DOLARES";
                     rpt.xrlVariables.Text = "ESTADO DE CAMBIOS EN EL PATRIMONIO EN " + mnd;
-                    rpt.xrlFecha.Text = "DEL " + FechaInicial.ToShortDateString() + " AL " + FechaFinal.ToShortDateString();
+                    rpt.xrlFecha.Text = "DEL AÑO " + FechaInicial.Year.ToString();
 
                     MemoryStream stream = new MemoryStream();
                     rpt.ExportToPdf(stream, null);
