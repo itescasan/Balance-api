@@ -366,6 +366,8 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.TotalMS,
                                         _q.FechaReg,
                                         _q.UsuarioReg,
+                                        _q.Automatico,
+                                        _q.Revisado,
                                         AsientosContablesDetalle = _q.AsientosContablesDetalle.Where(w => w.DebitoML + w.CreditoML != 0 && w.NoDocumento == (NoDoc == string.Empty ? w.NoDocumento : NoDoc)).OrderBy( o => o.NoLinea).ToList(),
 
                                     }).Take(1);
