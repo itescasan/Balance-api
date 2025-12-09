@@ -63,86 +63,86 @@ namespace Balance_api.Controllers.Contabilidad
 
         private Cls_Datos V_Obterner_IngresoCaja(int Consecutivo, string Usuario, string CuentaBodega)
         {
-            //var qIngresoCaja =
-            //                    (from q in Conexion.IngresoC
-            //                     join d in Conexion.DetIngCaja
-            //                         on q.IdIngresoCajaChica equals d.IdIngresoCajaC
+            var qIngresoCaja =
+                                (from q in Conexion.IngresoC
+                                 join d in Conexion.DetIngCaja
+                                     on q.IdIngresoCajaChica equals d.IdIngresoCajaC
 
-            //                     // LEFT JOIN a CentroCosto
-            //                     join cc in Conexion.CatalogoCentroCostos
-            //                         on d.CentroCosto equals cc.Codigo into ccJoin
-            //                     from ccj in ccJoin.DefaultIfEmpty()
+                                 // LEFT JOIN a CentroCosto
+                                 join cc in Conexion.CatalogoCentroCostos
+                                     on d.CentroCosto equals cc.Codigo into ccJoin
+                                 from ccj in ccJoin.DefaultIfEmpty()
 
-            //                         // LEFT JOIN a CuentaContable
-            //                     join cuenta in Conexion.CatalogoCuenta
-            //                         on d.Cuenta equals cuenta.CuentaContable into cuentaJoin
-            //                     from cu in cuentaJoin.DefaultIfEmpty()
+                                     // LEFT JOIN a CuentaContable
+                                 join cuenta in Conexion.CatalogoCuenta
+                                     on d.Cuenta equals cuenta.CuentaContable into cuentaJoin
+                                 from cu in cuentaJoin.DefaultIfEmpty()
 
-            //                         // LEFT JOIN a CuentaEmpleado
-            //                     join cuentaEmp in Conexion.CatalogoCuenta
-            //                         on d.CuentaEmpleado equals cuentaEmp.CuentaContable into cuentaEmpJoin
-            //                     from ce in cuentaEmpJoin.DefaultIfEmpty()
+                                     // LEFT JOIN a CuentaEmpleado
+                                 join cuentaEmp in Conexion.CatalogoCuenta
+                                     on d.CuentaEmpleado equals cuentaEmp.CuentaContable into cuentaEmpJoin
+                                 from ce in cuentaEmpJoin.DefaultIfEmpty()
 
-            //                     where q.Usuario == Usuario
-            //                           && !q.Aplicado
-            //                           && !q.Contabilizado
-            //                           && q.Cuenta == CuentaBodega
-            //                           && q.Consecutivo == Consecutivo
+                                 where q.Usuario == Usuario
+                                       && !q.Aplicado
+                                       && !q.Contabilizado
+                                       && q.Cuenta == CuentaBodega
+                                       && q.Consecutivo == Consecutivo
 
-            //                     orderby d.IdDetalleIngresoCajaChica descending
+                                 orderby d.IdDetalleIngresoCajaChica descending
 
-            //                     select new
-            //                     {
-            //                         d.IdDetalleIngresoCajaChica,
-            //                         d.IdIngresoCajaC,
-            //                         d.FechaRegistro,
-            //                         d.FechaFactura,
-            //                         d.Concepto,
-            //                         d.Referencia,
-            //                         d.Proveedor,
+                                 select new
+                                 {
+                                     d.IdDetalleIngresoCajaChica,
+                                     d.IdIngresoCajaC,
+                                     d.FechaRegistro,
+                                     d.FechaFactura,
+                                     d.Concepto,
+                                     d.Referencia,
+                                     d.Proveedor,
 
-            //                         // Puede venir nulo si no existe en catálogo
-            //                         Cuenta = cu != null
-            //                             ? cu.CuentaContable + " " + cu.NombreCuenta
-            //                             : null,
+                                     // Puede venir nulo si no existe en catálogo
+                                     Cuenta = cu != null
+                                         ? cu.CuentaContable + " " + cu.NombreCuenta
+                                         : null,
 
-            //                         // Puede venir nulo si no tiene Centro de Costo
-            //                         CentroCosto = ccj != null ? ccj.CentroCosto : null,
+                                     // Puede venir nulo si no tiene Centro de Costo
+                                     CentroCosto = ccj != null ? ccj.CentroCosto : null,
 
-            //                         d.SubTotal,
-            //                         d.Iva,
-            //                         d.Total,
+                                     d.SubTotal,
+                                     d.Iva,
+                                     d.Total,
 
-            //                         CuentaEmpleado = ce == null ? "" : ce.NombreCuenta,
+                                     CuentaEmpleado = ce == null ? "" : ce.NombreCuenta,
 
-            //                         d.FechaModificacion
-            //                     }).ToList();
+                                     d.FechaModificacion
+                                 }).ToList();
 
-            var qIngresoCaja = (from _q in Conexion.IngresoC
-                                join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
-                                join _c in Conexion.CatalogoCentroCostos on _d.CentroCosto equals _c.Codigo
-                                join _e in Conexion.CatalogoCuenta on _d.Cuenta equals _e.CuentaContable
-                                join _ca in Conexion.CatalogoCuenta on _d.CuentaEmpleado equals _ca.CuentaContable into union_ca_d
-                                from _ca_d in union_ca_d.DefaultIfEmpty()
-                                where _q.Usuario == Usuario && _q.Aplicado == false && _q.Contabilizado == false && _q.Cuenta == CuentaBodega && _q.Consecutivo == Consecutivo
-                                orderby _d.IdDetalleIngresoCajaChica descending
-                                select new
-                                {
-                                    _d.IdDetalleIngresoCajaChica,
-                                    _d.IdIngresoCajaC,
-                                    _d.FechaRegistro,
-                                    _d.FechaFactura,
-                                    _d.Concepto,
-                                    _d.Referencia,
-                                    _d.Proveedor,
-                                    Cuenta = string.Concat(_e.CuentaContable, " ", _e.NombreCuenta),
-                                    _c.CentroCosto,
-                                    _d.SubTotal,
-                                    _d.Iva,
-                                    _d.Total,
-                                    CuentaEmpleado = _ca_d.NombreCuenta,
-                                    _d.FechaModificacion
-                                }).ToList();
+            //var qIngresoCaja = (from _q in Conexion.IngresoC
+            //                    join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
+            //                    join _c in Conexion.CatalogoCentroCostos on _d.CentroCosto equals _c.Codigo
+            //                    join _e in Conexion.CatalogoCuenta on _d.Cuenta equals _e.CuentaContable
+            //                    join _ca in Conexion.CatalogoCuenta on _d.CuentaEmpleado equals _ca.CuentaContable into union_ca_d
+            //                    from _ca_d in union_ca_d.DefaultIfEmpty()
+            //                    where _q.Usuario == Usuario && _q.Aplicado == false && _q.Contabilizado == false && _q.Cuenta == CuentaBodega && _q.Consecutivo == Consecutivo
+            //                    orderby _d.IdDetalleIngresoCajaChica descending
+            //                    select new
+            //                    {
+            //                        _d.IdDetalleIngresoCajaChica,
+            //                        _d.IdIngresoCajaC,
+            //                        _d.FechaRegistro,
+            //                        _d.FechaFactura,
+            //                        _d.Concepto,
+            //                        _d.Referencia,
+            //                        _d.Proveedor,
+            //                        Cuenta = string.Concat(_e.CuentaContable, " ", _e.NombreCuenta),
+            //                        _c.CentroCosto,
+            //                        _d.SubTotal,
+            //                        _d.Iva,
+            //                        _d.Total,
+            //                         CuentaEmpleado = _ca_d.NombreCuenta,
+            //                        _d.FechaModificacion
+            //                    }).ToList();
 
 
 
