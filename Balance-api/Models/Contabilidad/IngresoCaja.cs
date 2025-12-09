@@ -18,6 +18,7 @@ namespace Balance_api.Models.Contabilidad
         public Boolean Aplicado { get; set; }
         public Boolean Contabilizado { get; set; }
         public string Corregir { get; set; }
+        public string Serie { get; set; }
 
         [ForeignKey("IdIngresoCajaC")]
         public ICollection<DetalleIngresoCaja> DetalleCaja { get; set; } 

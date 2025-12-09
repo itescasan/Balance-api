@@ -63,6 +63,60 @@ namespace Balance_api.Controllers.Contabilidad
 
         private Cls_Datos V_Obterner_IngresoCaja(int Consecutivo, string Usuario, string CuentaBodega)
         {
+            //var qIngresoCaja =
+            //                    (from q in Conexion.IngresoC
+            //                     join d in Conexion.DetIngCaja
+            //                         on q.IdIngresoCajaChica equals d.IdIngresoCajaC
+
+            //                     // LEFT JOIN a CentroCosto
+            //                     join cc in Conexion.CatalogoCentroCostos
+            //                         on d.CentroCosto equals cc.Codigo into ccJoin
+            //                     from ccj in ccJoin.DefaultIfEmpty()
+
+            //                         // LEFT JOIN a CuentaContable
+            //                     join cuenta in Conexion.CatalogoCuenta
+            //                         on d.Cuenta equals cuenta.CuentaContable into cuentaJoin
+            //                     from cu in cuentaJoin.DefaultIfEmpty()
+
+            //                         // LEFT JOIN a CuentaEmpleado
+            //                     join cuentaEmp in Conexion.CatalogoCuenta
+            //                         on d.CuentaEmpleado equals cuentaEmp.CuentaContable into cuentaEmpJoin
+            //                     from ce in cuentaEmpJoin.DefaultIfEmpty()
+
+            //                     where q.Usuario == Usuario
+            //                           && !q.Aplicado
+            //                           && !q.Contabilizado
+            //                           && q.Cuenta == CuentaBodega
+            //                           && q.Consecutivo == Consecutivo
+
+            //                     orderby d.IdDetalleIngresoCajaChica descending
+
+            //                     select new
+            //                     {
+            //                         d.IdDetalleIngresoCajaChica,
+            //                         d.IdIngresoCajaC,
+            //                         d.FechaRegistro,
+            //                         d.FechaFactura,
+            //                         d.Concepto,
+            //                         d.Referencia,
+            //                         d.Proveedor,
+
+            //                         // Puede venir nulo si no existe en catálogo
+            //                         Cuenta = cu != null
+            //                             ? cu.CuentaContable + " " + cu.NombreCuenta
+            //                             : null,
+
+            //                         // Puede venir nulo si no tiene Centro de Costo
+            //                         CentroCosto = ccj != null ? ccj.CentroCosto : null,
+
+            //                         d.SubTotal,
+            //                         d.Iva,
+            //                         d.Total,
+
+            //                         CuentaEmpleado = ce == null ? "" : ce.NombreCuenta,
+
+            //                         d.FechaModificacion
+            //                     }).ToList();
 
             var qIngresoCaja = (from _q in Conexion.IngresoC
                                 join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
@@ -86,12 +140,12 @@ namespace Balance_api.Controllers.Contabilidad
                                     _d.SubTotal,
                                     _d.Iva,
                                     _d.Total,
-                                     CuentaEmpleado = _ca_d.NombreCuenta,
+                                    CuentaEmpleado = _ca_d.NombreCuenta,
                                     _d.FechaModificacion
                                 }).ToList();
 
 
-           
+
             Cls_Datos datos = new Cls_Datos();
             datos.Nombre = "INGRESOCAJA";
             datos.d = qIngresoCaja;
@@ -175,12 +229,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/IngresoCajaChica/Rubro")]
         [HttpGet]
-        public string IngresoCaja_Rubro(string CuentaPadre)
+        public string IngresoCaja_Rubro(string CuentaPadre, string Usuario)
         {
-            return V_IngresoCajaChicaRubro(CuentaPadre);
+            return V_IngresoCajaChicaRubro(CuentaPadre, Usuario);
         }
 
-        private string V_IngresoCajaChicaRubro(string CuentaPadre)
+        private string V_IngresoCajaChicaRubro(string CuentaPadre, string Usuario)
         {
             string json = string.Empty;
             try
@@ -218,8 +272,12 @@ namespace Balance_api.Controllers.Contabilidad
                     lstDatos.Add(datos);
 
                     var qConsecutivo = (from _q in Conexion.ConfCaja
-                                        where _q.CuentaContable == CuentaPadre
-                                   select new
+                                        join _cc in Conexion.AccesoCajaChica
+                                        on _q.CuentaContable equals _cc.CuentaContable
+                                        where _q.CuentaContable == CuentaPadre 
+                                            && _cc.Activo == true
+                                            && _cc.Usuario == Usuario
+                                        select new
                                    {
                                        _q.CuentaContable,_q.Consecutivo,_q.Serie,_q.Valor
                                    }).ToList();
@@ -229,17 +287,30 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qConsecutivo;
                     lstDatos.Add(datos);
 
-                    var qCuentaEmpleado = (from _q in Conexion.CatalogoCuenta
-                                           where _q.Nivel == 6 && _q.IdGrupo == 0 && _q.CuentaPadre == "1103-03-01" && _q.Naturaleza == "D"
+                    //var qCuentaEmpleado = (from _q in Conexion.CatalogoCuenta
+                    //                       where _q.Nivel == 6 && _q.IdGrupo == 0 && _q.CuentaPadre == "1103-03-01" && _q.Naturaleza == "D"
+                    //                       select new
+                    //                       {
+                    //                           _q.CuentaContable,
+                    //                           NombreCuenta = string.Concat(_q.CuentaContable, " ", _q.NombreCuenta),
+                    //                       }).ToList();
+
+                    //datos = new Cls_Datos();
+                    //datos.Nombre = "CUENTAEMPLEADO";
+                    //datos.d = qCuentaEmpleado;
+                    //lstDatos.Add(datos);
+
+                    var qEmpleado = (from _e in Conexion.Empleados
+                                           where _e.Activo == true
                                            select new
                                            {
-                                               _q.CuentaContable,
-                                               NombreCuenta = string.Concat(_q.CuentaContable, " ", _q.NombreCuenta),
+                                               Numero = _e.NEmpleado,
+                                               NombreEmpleado = _e.NombreCompleto,
                                            }).ToList();
 
                     datos = new Cls_Datos();
-                    datos.Nombre = "CUENTAEMPLEADO";
-                    datos.d = qCuentaEmpleado;
+                    datos.Nombre = "Empleados";
+                    datos.d = qEmpleado;
                     lstDatos.Add(datos);
 
                     //var qEnviadoCorregido = (from _q in Conexion.IngresoC
@@ -383,6 +454,7 @@ namespace Balance_api.Controllers.Contabilidad
                         _Maestro = new IngresoCaja();
                         _Maestro.FechaRegistro = DateTime.Now;
                         _Maestro.Usuario = d.I.Usuario;
+                        _Maestro.Corregir = d.I.Corregir;
                         esNuevo = true;                        
                     }
 
@@ -390,11 +462,12 @@ namespace Balance_api.Controllers.Contabilidad
 
                     //_Maestro.IdIngresoCajaChica = d.I.IdIngresoCajaChica;
                     _Maestro.Cuenta = d.I.Cuenta;
-                    _Maestro.Consecutivo = d.I.Consecutivo;                   
-                    _Maestro.UsuarioModifica = d.I.UsuarioModifica;
-                    _Maestro.Aplicado = d.I.Aplicado;
+                    _Maestro.Consecutivo = d.I.Consecutivo;
+                    _Maestro.UsuarioModifica = esNuevo ? string.Empty : d?.I?.UsuarioModifica ?? string.Empty;
+                    _Maestro.Aplicado = d!.I.Aplicado;
                     _Maestro.Contabilizado = d.I.Contabilizado;
-                    _Maestro.Corregir = d.I.Corregir;
+                    
+                    _Maestro.Serie = d.I.Serie;
                     
 
                     _Maestro.FechaModificacion = DateTime.Now;
@@ -424,8 +497,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Detalle.Cuenta = d.D.Cuenta;
                     _Detalle.CentroCosto = d.D.CentroCosto;
                     _Detalle.SubTotal = d.D.SubTotal;
-                    _Detalle.Iva = d.D.Iva;
-                    _Detalle.Total = d.D.Total;
+                    _Detalle.Iva = d.D.Iva;                    
                     _Detalle.CuentaEmpleado = d.D.CuentaEmpleado;                        
                     _Detalle.Total = d.D.Total;
                     _Detalle.FechaModificacion = d.D.FechaModificacion;
@@ -454,9 +526,6 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                 }
-
-
-
             }
             catch (Exception ex)
             {
