@@ -64,65 +64,134 @@ namespace Balance_api.Controllers.Contabilidad
         private Cls_Datos V_Obterner_IngresoCaja(int Consecutivo, string Usuario, string CuentaBodega)
         {
             var qIngresoCaja =
-                                (from q in Conexion.IngresoC
-                                 join d in Conexion.DetIngCaja
-                                     on q.IdIngresoCajaChica equals d.IdIngresoCajaC
+                                (
+                                    from q in Conexion.IngresoC
+                                    join d in Conexion.DetIngCaja
+                                        on q.IdIngresoCajaChica equals d.IdIngresoCajaC
 
-                                 // LEFT JOIN a CentroCosto
-                                 join cc in Conexion.CatalogoCentroCostos
-                                     on d.CentroCosto equals cc.Codigo into ccJoin
-                                 from ccj in ccJoin.DefaultIfEmpty()
+                                    // LEFT JOIN Centro de Costos
+                                    join c in Conexion.CatalogoCentroCostos
+                                        on d.CentroCosto equals c.Codigo into ccJoin
+                                    from c_j in ccJoin.DefaultIfEmpty()
 
-                                     // LEFT JOIN a CuentaContable
-                                 join cuenta in Conexion.CatalogoCuenta
-                                     on d.Cuenta equals cuenta.CuentaContable into cuentaJoin
-                                 from cu in cuentaJoin.DefaultIfEmpty()
+                                        // LEFT JOIN Cuenta Contable
+                                    join e in Conexion.CatalogoCuenta
+                                        on d.Cuenta equals e.CuentaContable into cuJoin
+                                    from e_j in cuJoin.DefaultIfEmpty()
 
-                                     // LEFT JOIN a CuentaEmpleado
-                                 join cuentaEmp in Conexion.CatalogoCuenta
-                                     on d.CuentaEmpleado equals cuentaEmp.CuentaContable into cuentaEmpJoin
-                                 from ce in cuentaEmpJoin.DefaultIfEmpty()
+                                        // LEFT JOIN Empleados
+                                    join ca in Conexion.Empleados
+                                        on d.NEmpleado equals ca.NEmpleado into caJoin
+                                    from ca_j in caJoin.DefaultIfEmpty()
 
-                                 where q.Usuario == Usuario
-                                       && !q.Aplicado
-                                       && !q.Contabilizado
-                                       && q.Cuenta == CuentaBodega
-                                       && q.Consecutivo == Consecutivo
+                                    where
+                                        q.Usuario == "rolando.arguello" &&
+                                        q.Aplicado == false &&
+                                        q.Contabilizado == false &&
+                                        q.Cuenta == "6101-02-18" &&
+                                        q.Consecutivo == 1
 
-                                 orderby d.IdDetalleIngresoCajaChica descending
+                                    orderby d.IdDetalleIngresoCajaChica descending
 
-                                 select new
-                                 {
-                                     d.IdDetalleIngresoCajaChica,
-                                     d.IdIngresoCajaC,
-                                     d.FechaRegistro,
-                                     d.FechaFactura,
-                                     d.Concepto,
-                                     d.Referencia,
-                                     d.Proveedor,
+                                    select new
+                                    {
+                                        d.IdDetalleIngresoCajaChica,
+                                        d.IdIngresoCajaC,
+                                        d.FechaRegistro,
+                                        d.FechaFactura,
+                                        d.Concepto,
+                                        d.Referencia,
+                                        d.Proveedor,
 
-                                     // Puede venir nulo si no existe en catálogo
-                                     Cuenta = cu != null
-                                         ? cu.CuentaContable + " " + cu.NombreCuenta
-                                         : null,
+                                        // Cuenta contable
+                                        Cuenta = e_j == null
+                                            ? ""
+                                            : (e_j.CuentaContable + " " + e_j.NombreCuenta),
 
-                                     // Puede venir nulo si no tiene Centro de Costo
-                                     CentroCosto = ccj != null ? ccj.CentroCosto : null,
+                                        // Centro de costo
+                                        CentroCosto = c_j == null
+                                            ? ""
+                                            : c_j.CentroCosto,
 
-                                     d.SubTotal,
-                                     d.Iva,
-                                     d.Total,
+                                        d.SubTotal,
+                                        d.Iva,
+                                        d.Total,
 
-                                     CuentaEmpleado = ce == null ? "" : ce.NombreCuenta,
+                                        // Empleado
+                                        Empleado = ca_j == null
+                                            ? ""
+                                            : ca_j.NombreCompleto,
 
-                                     d.FechaModificacion
-                                 }).ToList();
+                                        d.FechaModificacion
+                                    }
+                                )
+                                .ToList();
+
+            //var qIngresoCaja =
+            //                    (
+            //                    from _q in Conexion.IngresoC
+            //                    join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
+
+            //                    // LEFT JOIN CentroCostos
+            //                    join _c in Conexion.CatalogoCentroCostos
+            //                    on _d.CentroCosto equals _c.Codigo into cc_join
+            //                    from _c_j in cc_join.DefaultIfEmpty()
+
+            //                        // LEFT JOIN Cuenta Contable
+            //                    join _e in Conexion.CatalogoCuenta
+            //                    on _d.Cuenta equals _e.CuentaContable into cu_join
+            //                    from _e_j in cu_join.DefaultIfEmpty()
+
+            //                        // LEFT JOIN Empleados
+            //                    join _ca in Conexion.Empleados
+            //                    on _d.NEmpleado! equals _ca.NEmpleado into ca_join
+            //                    from _ca_d in ca_join.DefaultIfEmpty()
+
+            //                    where _q.Usuario == Usuario
+            //                    && !_q.Aplicado
+            //                    && !_q.Contabilizado
+            //                    && _q.Cuenta == CuentaBodega
+            //                    && _q.Consecutivo == Consecutivo
+
+            //                    orderby _d.IdDetalleIngresoCajaChica descending
+
+            //                    select new
+            //                    {
+            //                    _d.IdDetalleIngresoCajaChica,
+            //                    _d.IdIngresoCajaC,
+            //                    _d.FechaRegistro,
+            //                    _d.FechaFactura,
+            //                    _d.Concepto,
+            //                    _d.Referencia,
+            //                    _d.Proveedor,
+
+            //                        // Cuenta contable (puede ser null)
+            //                    Cuenta = _e_j == null
+            //                                ? ""
+            //                                : $"{_e_j.CuentaContable} {_e_j.NombreCuenta}",
+
+            //                        // Centro costo (puede ser null)
+            //                    CentroCosto = _c_j == null
+            //                                    ? ""
+            //                                    : _c_j.CentroCosto,
+
+            //                    _d.SubTotal,
+            //                    _d.Iva,
+            //                    _d.Total,
+
+            //                        // Empleado (puede ser null)
+            //                    Empleado = _ca_d == null ? "" : _ca_d.NombreCompleto,
+
+            //                    _d.FechaModificacion
+            //                    }
+            //                    )
+            //                    .ToList();
 
             //var qIngresoCaja = (from _q in Conexion.IngresoC
             //                    join _d in Conexion.DetIngCaja on _q.IdIngresoCajaChica equals _d.IdIngresoCajaC
             //                    join _c in Conexion.CatalogoCentroCostos on _d.CentroCosto equals _c.Codigo
             //                    join _e in Conexion.CatalogoCuenta on _d.Cuenta equals _e.CuentaContable
-            //                    join _ca in Conexion.CatalogoCuenta on _d.CuentaEmpleado equals _ca.CuentaContable into union_ca_d
+            //                    join _ca in Conexion.Empleados on _d.NEmpleado equals _ca.NEmpleado into union_ca_d
             //                    from _ca_d in union_ca_d.DefaultIfEmpty()
             //                    where _q.Usuario == Usuario && _q.Aplicado == false && _q.Contabilizado == false && _q.Cuenta == CuentaBodega && _q.Consecutivo == Consecutivo
             //                    orderby _d.IdDetalleIngresoCajaChica descending
@@ -140,7 +209,7 @@ namespace Balance_api.Controllers.Contabilidad
             //                        _d.SubTotal,
             //                        _d.Iva,
             //                        _d.Total,
-            //                         CuentaEmpleado = _ca_d.NombreCuenta,
+            //                        Empleado = _ca_d.NombreCompleto,
             //                        _d.FechaModificacion
             //                    }).ToList();
 
@@ -402,7 +471,7 @@ namespace Balance_api.Controllers.Contabilidad
                                  _q.SubTotal,
                                  _q.Iva,
                                  _q.Total,
-                                 _q.CuentaEmpleado,                                
+                                 _q.NEmpleado,                                
                                  _q.FechaModificacion
                              }).ToList();
 
@@ -498,7 +567,7 @@ namespace Balance_api.Controllers.Contabilidad
                     _Detalle.CentroCosto = d.D.CentroCosto;
                     _Detalle.SubTotal = d.D.SubTotal;
                     _Detalle.Iva = d.D.Iva;                    
-                    _Detalle.CuentaEmpleado = d.D.CuentaEmpleado;                        
+                    _Detalle.NEmpleado = d.D.NEmpleado;                        
                     _Detalle.Total = d.D.Total;
                     _Detalle.FechaModificacion = d.D.FechaModificacion;
 

@@ -20,7 +20,7 @@ namespace Balance_api.Models.Contabilidad
         public decimal SubTotal { get; set; }
         public decimal Iva { get; set; }
         public decimal Total { get; set; }
-        public string CuentaEmpleado { get; set; }       
+        public string? NEmpleado { get; set; }       
         public DateTime FechaModificacion { get; set; }
     }
 }
