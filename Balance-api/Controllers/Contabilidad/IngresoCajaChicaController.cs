@@ -85,11 +85,11 @@ namespace Balance_api.Controllers.Contabilidad
                                     from ca_j in caJoin.DefaultIfEmpty()
 
                                     where
-                                        q.Usuario == "rolando.arguello" &&
+                                        q.Usuario == Usuario &&
                                         q.Aplicado == false &&
                                         q.Contabilizado == false &&
-                                        q.Cuenta == "6101-02-18" &&
-                                        q.Consecutivo == 1
+                                        q.Cuenta == CuentaBodega &&
+                                        q.Consecutivo == Consecutivo
 
                                     orderby d.IdDetalleIngresoCajaChica descending
 
