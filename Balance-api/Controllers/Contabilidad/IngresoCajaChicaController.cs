@@ -328,7 +328,7 @@ namespace Balance_api.Controllers.Contabilidad
                     var qRubros = (from _q in Conexion.CatalogoCuenta
                                    join _c in Conexion.CatalogoCuenta 
                                    on _q.CuentaPadre equals _c.CuentaContable
-                                   where _q.Nivel == 6   && (_q.IdGrupo == 5 || _q.IdGrupo == 0 ) && cuentasAsociadas.Contains(_q.CuentaPadre!)
+                                   where _q.Nivel == 6   && (_q.IdGrupo == 5 || _q.IdGrupo == 0 || _q.IdGrupo == 7) && cuentasAsociadas.Contains(_q.CuentaPadre!)
                                    select new
                                    {
                                        _q.CuentaContable,
