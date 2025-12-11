@@ -102,3 +102,9 @@
 *.db-wal
 *.db-shm
 *.db
+*.txt
+/Balance-api/obj/Release/net7.0/rjsmcshtml.dswa.cache.json
+/Balance-api/obj/Release/net7.0/rjsmrazor.dswa.cache.json
+/Balance-api/obj/Release/net7.0/rpswa.dswa.cache.json
+/Balance-api/obj/Release/net7.0/staticwebassets.build.json
+/Balance-api/obj/Release/net7.0/staticwebassets.publish.json
