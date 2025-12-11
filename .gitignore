@@ -93,3 +93,12 @@
 /.gitignore
 /.vs/Balance-api/v17/DocumentLayout.backup.json
 /.vs/Balance-api/v17/.wsuo
+/Balance-api/obj/Release/net7.0/rjsmcshtml.dswa.cache.json
+/Balance-api/obj/Release/net7.0/rjsmrazor.dswa.cache.json
+/Balance-api/obj/Release/net7.0/rpswa.dswa.cache.json
+/Balance-api/obj/Release/net7.0/staticwebassets.build.json
+/Balance-api/Properties/PublishProfiles/FolderProfile.pubxml.user
+*.json
+*.db-wal
+*.db-shm
+*.db
