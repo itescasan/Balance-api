@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"ezXXis58T8uuSiZcdxbcS8EPl0fj23C4g7MuH4BJgXI=","Source":"Balance-api","BasePath":"_content/Balance-api","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "OfXpKvca7pzjkhH3i5zduaa0aBLk7SlaSoT8oE/TE48=",
+  "Source": "Balance-api",
+  "BasePath": "_content/Balance-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

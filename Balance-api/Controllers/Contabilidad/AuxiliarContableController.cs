@@ -396,5 +396,77 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+
+        [Route("api/Contabilidad/AuxiliarContable/GetOtrosDatos")]
+        [HttpGet]
+        public string GetOtrosDatos()
+        {
+            return V_GetOtrosDatos();
+        }
+
+        private string V_GetOtrosDatos()
+        {
+       
+            string json = string.Empty;
+            try
+            {
+                using (Conexion)
+                {
+
+
+                    List<Cls_Datos> lstDatos = new();
+
+
+                    var qBogas = (from _q in Conexion.Bodegas
+                                  select new
+                                  {
+                                      _q.IdBodega,
+                                      _q.Codigo,
+                                      _q.Bodega
+                                  }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "BODEGAS";
+                    datos.d = qBogas;
+
+                    lstDatos.Add(datos);
+
+
+
+                    var qCuentas = (from _q in Conexion.CatalogoCuenta
+                                    select new
+                                    {
+                                        _q.CuentaContable,
+                                        _q.NombreCuenta,
+                                        _q.Nivel,
+                                        _q.IdGrupo,
+                                        Grupo = _q.GruposCuentas!.Nombre,
+                                        _q.ClaseCuenta,
+                                        _q.CuentaPadre,
+                                        _q.Naturaleza,
+                                        _q.Bloqueada,
+                                        Filtro = string.Concat(_q.CuentaContable, " ", _q.NombreCuenta)
+                                    }).ToList();
+
+                    
+                    datos = new();
+                    datos.Nombre = "CUENTAS";
+                    datos.d = qCuentas;
+                    lstDatos.Add(datos);
+
+
+                    json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                json = Cls_Mensaje.Tojson(null, 0, "1", ex.Message, 1);
+            }
+
+            return json;
+        }
+
+
     }
 }
