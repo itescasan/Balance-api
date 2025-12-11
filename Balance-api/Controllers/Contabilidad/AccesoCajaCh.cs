@@ -145,6 +145,7 @@ namespace Balance_api.Controllers.Contabilidad
                 {
                     // 🔹 Obtenemos todas las cuentas existentes una sola vez
                     var existentes = Conexion.AccesoCajaChica.ToList();
+                    var ConfCc = Conexion.ConfCaja.ToList();
 
                     foreach (var f in d)
                     {
@@ -152,6 +153,8 @@ namespace Balance_api.Controllers.Contabilidad
                         var a = existentes.FirstOrDefault(x =>
                             x.CuentaContable.Trim().ToUpper() == f.CuentaContable.Trim().ToUpper() &&
                             x.NombreCuenta.Trim().ToUpper() == f.NombreCuenta.Trim().ToUpper() && x.Usuario.Trim().ToUpper() == f.Usuario.Trim().ToUpper());
+
+                        var b = ConfCc.FirstOrDefault(x => x.Nombre.Trim().ToUpper() == f.NombreCuenta.Trim().ToUpper());
 
                         if (a == null)
                         {
@@ -161,7 +164,8 @@ namespace Balance_api.Controllers.Contabilidad
                                 CuentaContable = f.CuentaContable.Trim(),
                                 NombreCuenta = f.NombreCuenta.Trim(),
                                 Usuario = f.Usuario,
-                                Activo = f.Activo
+                                Activo = f.Activo,
+                                Serie = b!.Serie
                             };
 
                             Conexion.AccesoCajaChica.Add(a);
@@ -171,6 +175,7 @@ namespace Balance_api.Controllers.Contabilidad
                             // 🔹 Ya existe, actualizar solo lo necesario
                             a.Usuario = f.Usuario;
                             a.Activo = f.Activo;
+                            a.Serie = b!.Serie;
                         }
                     }
 

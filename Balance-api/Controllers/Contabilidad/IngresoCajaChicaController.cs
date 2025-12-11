@@ -346,6 +346,7 @@ namespace Balance_api.Controllers.Contabilidad
                                         where _q.CuentaContable == CuentaPadre 
                                             && _cc.Activo == true
                                             && _cc.Usuario == Usuario
+                                            && _cc.Serie == _q.Serie
                                         select new
                                    {
                                        _q.CuentaContable,_q.Consecutivo,_q.Serie,_q.Valor
