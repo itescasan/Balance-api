@@ -720,6 +720,7 @@ namespace Balance_api.Controllers.Contabilidad
                     if (esNuevo)
                     {
                         _Asiento = d.A;
+                        _Asiento.Revisado = true;
                     }
                     else
                     {
