@@ -47,6 +47,9 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpBalanzaComprobacion rpt = new xrpBalanzaComprobacion();
 
+                    rpt.Parameters["P_Titulo"].Value = $"{string.Format("{0:dd/MM/yyyy}", FechaInicio)} de {string.Format("{0:dd/MM/yyyy}", FechaFinal)}";
+
+
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
 
@@ -109,6 +112,9 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     xrpBalanceGeneral rpt = new xrpBalanceGeneral();
+                    rpt.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
+                    rpt.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
+
                     rpt.Parameters["P_Titulo"].Value = $"Correspondiente al mes de {string.Format("{0:MMMM}", Fecha)} de {Fecha.Year}";
                     rpt.Parameters["P_Moneda"].Value = M.Moneda;
 

@@ -416,12 +416,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/AsientoContable/Get")]
         [HttpGet]
-        public string Get(DateTime Fecha1, DateTime Fecha2)
+        public string Get(DateTime Fecha1, DateTime Fecha2, string Serie)
         {
-            return V_Get(Fecha1, Fecha2);
+            return V_Get(Fecha1, Fecha2, Serie);
         }
 
-        private string V_Get(DateTime Fecha1, DateTime Fecha2)
+        private string V_Get(DateTime Fecha1, DateTime Fecha2, string Serie)
         {
             string json = string.Empty;
             try
@@ -431,7 +431,7 @@ namespace Balance_api.Controllers.Contabilidad
                     List<Cls_Datos> lstDatos = new();
 
                     var qAsiento = (from _q in Conexion.AsientosContables
-                                    where _q.Fecha.Date >= Fecha1 && _q.Fecha.Date <= Fecha2
+                                    where _q.Fecha.Date >= Fecha1 && _q.Fecha.Date <= Fecha2 && _q.IdSerie == Serie
                                     orderby  _q.FechaReg descending
                                     select new
                                     {
@@ -459,6 +459,9 @@ namespace Balance_api.Controllers.Contabilidad
                                         _q.Revisado
 
                                     }).ToList();
+
+
+             
 
 
                     Cls_Datos datos = new();

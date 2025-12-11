@@ -65,15 +65,15 @@
             this.SubBand1 = new DevExpress.XtraReports.UI.SubBand();
             this.P_Titulo = new DevExpress.XtraReports.Parameters.Parameter();
             this.P_Moneda = new DevExpress.XtraReports.Parameters.Parameter();
-            this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
+            this.xrPictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 0F;
+            this.TopMargin.HeightF = 16.08332F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
@@ -174,6 +174,7 @@
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrPictureBox1,
             this.xrLabel8,
             this.xrLabel7,
             this.xrLabel6,
@@ -231,14 +232,12 @@
             this.xrSubreport2.LocationFloat = new DevExpress.Utils.PointFloat(467F, 199.3333F);
             this.xrSubreport2.Name = "xrSubreport2";
             this.xrSubreport2.SizeF = new System.Drawing.SizeF(320F, 72.95828F);
-            this.xrSubreport2.ReportSource = new xrpBalanceGeneralDet();
             // 
             // xrSubreport1
             // 
             this.xrSubreport1.LocationFloat = new DevExpress.Utils.PointFloat(20F, 199.3333F);
             this.xrSubreport1.Name = "xrSubreport1";
             this.xrSubreport1.SizeF = new System.Drawing.SizeF(320F, 72.95828F);
-            this.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
             // 
             // xrLabel5
             // 
@@ -340,11 +339,6 @@
             this.P_Moneda.Name = "P_Moneda";
             this.P_Moneda.Visible = false;
             // 
-            // ReportHeader
-            // 
-            this.ReportHeader.HeightF = 19.79167F;
-            this.ReportHeader.Name = "ReportHeader";
-            // 
             // sqlDataSource1
             // 
             this.sqlDataSource1.ConnectionName = "CadenaCnxSqlServer";
@@ -376,20 +370,26 @@
             storedProcQuery1});
             this.sqlDataSource1.ResultSchemaSerializable = resources.GetString("sqlDataSource1.ResultSchemaSerializable");
             // 
+            // xrPictureBox1
+            // 
+            this.xrPictureBox1.ImageSource = new DevExpress.XtraPrinting.Drawing.ImageSource("img", resources.GetString("xrPictureBox1.ImageSource"));
+            this.xrPictureBox1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+            this.xrPictureBox1.Name = "xrPictureBox1";
+            this.xrPictureBox1.SizeF = new System.Drawing.SizeF(140.8333F, 68.16666F);
+            this.xrPictureBox1.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
+            // 
             // xrpBalanceGeneral
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
             this.BottomMargin,
             this.Detail,
-            this.PageHeader,
-            this.ReportHeader});
+            this.PageHeader});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.sqlDataSource1});
-            this.DataMember = "CNT_SP_BalanceGeneral";
             this.DataSource = this.sqlDataSource1;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(17, 16, 0, 100);
+            this.Margins = new System.Drawing.Printing.Margins(17, 16, 16, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.P_Titulo,
             this.P_Moneda});
@@ -417,7 +417,6 @@
         private DevExpress.XtraReports.UI.XRPageInfo xrPageInfo2;
         public DevExpress.XtraReports.UI.XRSubreport xrSubreport1;
         public DevExpress.XtraReports.UI.XRSubreport xrSubreport2;
-        private DevExpress.XtraReports.UI.ReportHeaderBand ReportHeader;
         private DevExpress.XtraReports.UI.XRTable xrTable1;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
@@ -431,5 +430,6 @@
         private DevExpress.XtraReports.UI.XRLabel xrLabel7;
         private DevExpress.XtraReports.UI.XRLabel xrLabel6;
         private DevExpress.XtraReports.UI.XRLabel xrLabel8;
+        private DevExpress.XtraReports.UI.XRPictureBox xrPictureBox1;
     }
 }
