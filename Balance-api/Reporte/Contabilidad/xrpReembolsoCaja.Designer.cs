@@ -218,7 +218,7 @@
             // xrLabel5
             // 
             this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(IsNull([Empleado]),[Proveedor] , \'\')")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([Empleado] = \'\',[Proveedor] , \'\')")});
             this.xrLabel5.Font = new System.Drawing.Font("Times New Roman", 8F);
             this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(616.2629F, 0F);
             this.xrLabel5.Multiline = true;
