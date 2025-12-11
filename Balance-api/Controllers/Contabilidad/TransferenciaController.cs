@@ -773,6 +773,10 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = false;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = false;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_NoDocumento"].Value = _Asiento.NoAsiento;
+          
 
                     MemoryStream stream = new MemoryStream();
 

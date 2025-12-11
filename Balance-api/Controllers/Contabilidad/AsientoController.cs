@@ -278,6 +278,7 @@ namespace Balance_api.Controllers.Contabilidad
             _Maestro.TotalMS = d.TotalMS;
             _Maestro.UsuarioUpdate = d.UsuarioReg;
             _Maestro.FechaUpdate = DateTime.Now;
+            _Maestro.Revisado = d.Revisado;
             if (esNuevo) _Conexion.AsientosContables.Add(_Maestro);
 
             _Conexion.SaveChanges();
