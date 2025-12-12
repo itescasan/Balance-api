@@ -145,7 +145,7 @@ namespace Balance_api.Controllers.Contabilidad
                         }
                         else
                         {
-                             msg = "Registro Aptualizado"; 
+                             msg = "Registro Actualizado"; 
                         }                  
 
                         a.CuentaContable = f.CuentaContable;

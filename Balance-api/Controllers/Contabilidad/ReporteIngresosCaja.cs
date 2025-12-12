@@ -20,12 +20,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/IngresosCaja")]
         [HttpGet]
-        public string Reembolso(int Id)
+        public string Reembolso(int Id, string Usuario)
         {
-            return V_Reembolso(Id);
+            return V_Reembolso(Id,Usuario);
         }
 
-        private string V_Reembolso(int Id)
+        private string V_Reembolso(int Id, string Usuario)
         {
             string json = string.Empty;
             try
@@ -37,6 +37,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     xrpReembolsoCaja rpt = new xrpReembolsoCaja();
+                    rpt.Parameters["Usuario"].Value = Usuario;
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
