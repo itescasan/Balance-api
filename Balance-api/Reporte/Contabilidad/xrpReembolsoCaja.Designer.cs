@@ -91,6 +91,7 @@
             this.xrPageInfo3 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.sqlDataSource1 = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Usuario = new DevExpress.XtraReports.Parameters.Parameter();
+            this.xrLabel30 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -723,6 +724,7 @@
             // PageFooter
             // 
             this.PageFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel30,
             this.xrLabel29,
             this.xrLabel28,
             this.xrLabel27,
@@ -764,7 +766,7 @@
             // 
             this.xrLabel27.Borders = DevExpress.XtraPrinting.BorderSide.Top;
             this.xrLabel27.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Bold);
-            this.xrLabel27.LocationFloat = new DevExpress.Utils.PointFloat(775.0911F, 29.6249F);
+            this.xrLabel27.LocationFloat = new DevExpress.Utils.PointFloat(606.5532F, 29.70845F);
             this.xrLabel27.Multiline = true;
             this.xrLabel27.Name = "xrLabel27";
             this.xrLabel27.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -779,7 +781,7 @@
             // 
             this.xrLabel26.Borders = DevExpress.XtraPrinting.BorderSide.Top;
             this.xrLabel26.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Bold);
-            this.xrLabel26.LocationFloat = new DevExpress.Utils.PointFloat(271.3409F, 29.6249F);
+            this.xrLabel26.LocationFloat = new DevExpress.Utils.PointFloat(321.3781F, 29.6249F);
             this.xrLabel26.Multiline = true;
             this.xrLabel26.Name = "xrLabel26";
             this.xrLabel26.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -830,6 +832,21 @@
             this.Usuario.Name = "Usuario";
             this.Usuario.Type = typeof(int);
             this.Usuario.ValueInfo = "0";
+            // 
+            // xrLabel30
+            // 
+            this.xrLabel30.Borders = DevExpress.XtraPrinting.BorderSide.Top;
+            this.xrLabel30.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Bold);
+            this.xrLabel30.LocationFloat = new DevExpress.Utils.PointFloat(867.595F, 29.62491F);
+            this.xrLabel30.Multiline = true;
+            this.xrLabel30.Name = "xrLabel30";
+            this.xrLabel30.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel30.SizeF = new System.Drawing.SizeF(211.4583F, 23F);
+            this.xrLabel30.StylePriority.UseBorders = false;
+            this.xrLabel30.StylePriority.UseFont = false;
+            this.xrLabel30.StylePriority.UseTextAlignment = false;
+            this.xrLabel30.Text = "Autorizado.";
+            this.xrLabel30.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // xrpReembolsoCaja
             // 
@@ -917,5 +934,6 @@
         private DevExpress.XtraReports.UI.XRLabel xrLabel28;
         private DevExpress.XtraReports.Parameters.Parameter Usuario;
         private DevExpress.XtraReports.UI.XRLabel xrLabel29;
+        private DevExpress.XtraReports.UI.XRLabel xrLabel30;
     }
 }

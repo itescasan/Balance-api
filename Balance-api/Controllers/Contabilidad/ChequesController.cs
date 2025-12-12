@@ -115,6 +115,16 @@ namespace Balance_api.Controllers.Contabilidad
                     datos.d = qCentroCosto;
                     lstDatos.Add(datos);
 
+                    //var qProveedor = (from _q in Conexion.Proveedor
+                    //                  select new
+                    //                  {
+                    //                      _q.IdProveedor,
+                    //                      _q.Codigo,
+                    //                      Proveedor = _q.Proveedor1,
+                    //                      _q.NombreComercial,
+                    //                      _q.CUENTAXPAGAR,
+                    //                      DisplayKey = string.Concat(_q.Codigo, " ", _q.Proveedor1),
+                    //                  }).ToList();
                     var qProveedor = (from _q in Conexion.Proveedor
                                       select new
                                       {
@@ -124,7 +134,21 @@ namespace Balance_api.Controllers.Contabilidad
                                           _q.NombreComercial,
                                           _q.CUENTAXPAGAR,
                                           DisplayKey = string.Concat(_q.Codigo, " ", _q.Proveedor1),
-                                      }).ToList();
+                                      }).Union(
+
+                        from _q in Conexion.Empleados
+                        where _q.Activo! == true
+                        select new
+                        {
+                            IdProveedor = _q.IdEmpleado,
+                            Codigo = string.Concat("E", _q.NEmpleado),
+                            Proveedor = _q.NombreCompleto,
+                            NombreComercial = string.Empty,
+                            CUENTAXPAGAR = _q.CuentaEmpBa,
+                            DisplayKey = string.Concat("E", _q.NEmpleado, " ", _q.NombreCompleto),
+                        }
+
+                        ).ToList();
 
 
                     datos = new();
