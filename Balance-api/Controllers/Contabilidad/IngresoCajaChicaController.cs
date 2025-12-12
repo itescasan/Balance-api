@@ -978,6 +978,12 @@ namespace Balance_api.Controllers.Contabilidad
                 {
 
                     IngresoCaja? det = Conexion.IngresoC.FirstOrDefault(f => f.IdIngresoCajaChica == IdIngresoCaja);
+                    ConfCaja? detalle = Conexion.ConfCaja.FirstOrDefault(f => f.Serie == det!.Serie);
+
+                    if (detalle == null)
+                    {
+                        throw new Exception("No se encontró configuración para la serie indicada.");
+                    }
 
                     if (det != null)
                     {
@@ -991,7 +997,7 @@ namespace Balance_api.Controllers.Contabilidad
                                                         FROM CNT.ConfCajaChica C
                                                         INNER JOIN CNT.IngresosCajaChica IC 
                                                         ON C.CuentaContable = IC.Cuenta
-                                                        WHERE IC.Cuenta = {0}", det.Cuenta);
+                                                        WHERE IC.Cuenta = {0} AND C.Nombre = {1}" , det.Cuenta , detalle!.Nombre);
 
                     }
                     //UPDATE C
