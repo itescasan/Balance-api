@@ -127,6 +127,7 @@ namespace Balance_api.Controllers.Contabilidad
                                           Proveedor = _q.Proveedor1,
                                           _q.NombreComercial,
                                           _q.CUENTAXPAGAR,
+                                          _q.CUENTAANTICIPO,
                                           DisplayKey = string.Concat(_q.Codigo, " ", _q.Proveedor1),
                                       }).Union(
 
@@ -139,7 +140,7 @@ namespace Balance_api.Controllers.Contabilidad
                              Proveedor = _q.NombreCompleto,
                              NombreComercial = string.Empty,
                              CUENTAXPAGAR = _q.CuentaEmpBa,
-                             CUENTAANTICIPO = _q.CUENTAANTICIPO,
+                             _q.CUENTAANTICIPO,
                              DisplayKey = string.Concat("E", _q.NEmpleado, " ", _q.NombreCompleto),
                          }
 
