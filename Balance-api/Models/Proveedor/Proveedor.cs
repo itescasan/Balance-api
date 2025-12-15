@@ -12,5 +12,7 @@ namespace Balance_api.Models.Proveedor
         public string Proveedor1 { get; set; }
         public string? NombreComercial { get; set; }
         public string? CUENTAXPAGAR { get; set; }
+
+        public string? CUENTAANTICIPO { get; set; }
     }
 }

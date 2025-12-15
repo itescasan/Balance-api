@@ -139,6 +139,7 @@ namespace Balance_api.Controllers.Contabilidad
                              Proveedor = _q.NombreCompleto,
                              NombreComercial = string.Empty,
                              CUENTAXPAGAR = _q.CuentaEmpBa,
+                             CUENTAANTICIPO = _q.CUENTAANTICIPO,
                              DisplayKey = string.Concat("E", _q.NEmpleado, " ", _q.NombreCompleto),
                          }
 
