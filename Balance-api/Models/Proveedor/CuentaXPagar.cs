@@ -12,6 +12,9 @@ namespace Balance_api.Models.Proveedor
         public int IdOrdenCompra { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
+        public string NoOrdenCompra { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
         public string NoSolicitud { get; set; }
 
 

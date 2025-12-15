@@ -264,11 +264,11 @@ namespace Balance_api.Controllers.Contabilidad
 
                     var qOrdenComp = (from _q in Conexion.OrdenCompra.ToList()
                                       join _x in Conexion.CuentaXPagar on _q.IdOrdenCompra equals _x.IdOrdenCompra
-                                      join _d in qDocumentos on new { DOC = _x.NoSolicitud, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      join _d in qDocumentos on new { DOC = (_q.TipoDocOrigen == "GASTO_CRE" ? _x.NoOrdenCompra : _x.NoSolicitud), TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       //join _d in qDocumentos on new { DOC = _x.NoOrdenCompra, TIPO = _x.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       join _i in Conexion.OrdenCompraCentrogasto.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra into _q_i
                                       from u in _q_i.DefaultIfEmpty()
-                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO" && (new string[] { "GASTO_ANT", "GASTO_REN", "GASTO_VIA" }).Contains(_q.TipoDocOrigen)
+                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO" && (new string[] { "GASTO_ANT", "GASTO_REN", "GASTO_VIA", "GASTO_CRE" }).Contains(_q.TipoDocOrigen)
                                       select new
                                       {
                                           NoDocOrigen = _d.Documento,
@@ -317,7 +317,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                     var qAnticipos = (from _q in qDoc
-                                      where _q.Activo && _q.TipoDocumentoEnlace == "GASTO_ANT"
+                                      where _q.Activo && (_q.TipoDocumentoEnlace == "GASTO_ANT" || _q.TipoDocumentoEnlace ==  "GASTO_CRE")
                                       group _q by new
                                       {
                                           NoDococumento = _q.NoDocEnlace,
