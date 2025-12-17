@@ -268,7 +268,7 @@ namespace Balance_api.Controllers.Contabilidad
                                       //join _d in qDocumentos on new { DOC = _x.NoOrdenCompra, TIPO = _x.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       join _i in Conexion.OrdenCompraCentrogasto.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra into _q_i
                                       from u in _q_i.DefaultIfEmpty()
-                                      where _q.CodigoProveedor == CodProveedor && _q.Estado == "APROBADO" && (new string[] { "GASTO_ANT", "GASTO_REN", "GASTO_VIA", "GASTO_CRE" }).Contains(_q.TipoDocOrigen)
+                                      where _q.CodigoProveedor == CodProveedor && (_q.Estado == "APROBADO" && _x.AutorizadoCont == true && _x.NoDocumento == null) && (new string[] { "GASTO_ANT", "GASTO_REN", "GASTO_VIA", "GASTO_CRE" }).Contains(_q.TipoDocOrigen)
                                       select new
                                       {
                                           NoDocOrigen = _d.Documento,
@@ -639,6 +639,9 @@ namespace Balance_api.Controllers.Contabilidad
                             mdoc.NoMovimiento = num.ToString();
                             Conexion.SaveChanges();
 
+
+                            Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = '{mdoc.NoDocOrigen}', FechaServidorAplica = CAST('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", _Transf.FechaReg)}' AS DATETIME2) , TipoDocAplicado = '{mdoc.TipoDocumentoOrigen}' WHERE  {(mdoc.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{mdoc.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento IS NULL");
+                            Conexion.SaveChanges();
 
                         }
 

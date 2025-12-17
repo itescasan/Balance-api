@@ -83,6 +83,12 @@ namespace Balance_api.Controllers.Sistema
                             foreach(MovimientoDoc m in mod)
                             {
                                 m.Activo = false;
+
+
+                                Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = NULL, FechaServidorAplica = NULL , TipoDocAplicado = NULL WHERE  {(m.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{m.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento = '{m.NoDocOrigen}' AND TipoDocAplicado = '{m.TipoDocumentoOrigen}'");
+
+
+
                             }
 
 
@@ -107,6 +113,9 @@ namespace Balance_api.Controllers.Sistema
                             foreach (MovimientoDoc m in mod2)
                             {
                                 m.Activo = false;
+
+                                Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = NULL, FechaServidorAplica = NULL , TipoDocAplicado = NULL WHERE  {(m.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{m.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento = '{m.NoDocOrigen}' AND TipoDocAplicado = '{m.TipoDocumentoOrigen}'");
+
                             }
 
 

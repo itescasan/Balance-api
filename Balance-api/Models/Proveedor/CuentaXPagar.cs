@@ -17,6 +17,18 @@ namespace Balance_api.Models.Proveedor
         [Column(TypeName = "nvarchar(50)")]
         public string NoSolicitud { get; set; }
 
+        public bool? AutorizadoCont { get; set; }
+        
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string? NoDocumento { get; set; }
+
+
+        public DateTime? FechaServidorAplica { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string? TipoDocAplicado { get; set; }
+
 
 
     }
