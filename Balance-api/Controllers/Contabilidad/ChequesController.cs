@@ -677,7 +677,7 @@ namespace Balance_api.Controllers.Contabilidad
                             Conexion.SaveChanges();
 
 
-                            Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = '{mdoc.NoDocOrigen}', FechaServidorAplica = CAST('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", _Chequ.FechaReg)}' AS DATETIME2) , TipoDocAplicado = '{mdoc.TipoDocumentoOrigen}' WHERE  {(mdoc.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{mdoc.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento IS NULL");
+                            Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = '{mdoc.NoDocOrigen}', FechaServidorAplica = CAST('{string.Format("{0:yyyy-MM-dd HH:mm:ss.fffffff}", _Chequ.FechaReg)}' AS DATETIME2) , TipoDocAplicado = '{mdoc.TipoDocumentoOrigen}' WHERE  {(mdoc.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{mdoc.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento IS NULL");
                             Conexion.SaveChanges();
 
                         }
