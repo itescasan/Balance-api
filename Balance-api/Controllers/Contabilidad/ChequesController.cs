@@ -212,7 +212,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     List<Cls_Datos> lstDatos = new List<Cls_Datos>();
 
-                    List<TransferenciaDocumento> qDocumentos = (from _q in qDoc
+                    List<TransferenciaDocumento> qDocumentosTemp = (from _q in qDoc
                                                                 where _q.Activo
                                                                 group _q by new
                                                                 {
@@ -236,27 +236,10 @@ namespace Balance_api.Controllers.Contabilidad
                                                                 }).ToList();
 
 
-                    qDocumentos = qDocumentos.Where(w => w.SaldoCordoba > 0).ToList();
+                    qDocumentosTemp = qDocumentosTemp.Where(w => w.SaldoCordoba > 0).ToList();
 
 
 
-                    var Doc = qDocumentos.Select((file, index) => new {
-                        Index = index,
-                        file.Documento,
-                        file.Serie,
-                        file.TipoDocumento,
-                        file.Fecha,
-                        file.IdMoneda,
-                        file.TasaCambioDoc,
-                        file.SaldoDolar,
-                        file.SaldoCordoba,
-                        file.Seleccionar
-                    }).ToList();
-
-                    Cls_Datos datos = new();
-                    datos.Nombre = "DOC PROVEEDOR";
-                    datos.d = Doc;
-                    lstDatos.Add(datos);
 
                     //string[] TipoDoc = new string[] { "GASTO_REN", "GASTO_VIA" };
 
@@ -264,7 +247,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     var qOrdenComp = (from _q in Conexion.OrdenCompra.ToList()
                                       join _x in Conexion.CuentaXPagar on _q.IdOrdenCompra equals _x.IdOrdenCompra
-                                      join _d in qDocumentos on new { DOC = (_q.TipoDocOrigen == "GASTO_CRE" ? _x.NoOrdenCompra : _x.NoSolicitud), TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                                      join _d in qDocumentosTemp on new { DOC = (_q.TipoDocOrigen == "GASTO_CRE" ? _x.NoOrdenCompra : _x.NoSolicitud), TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       //join _d in qDocumentos on new { DOC = _x.NoOrdenCompra, TIPO = _x.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
                                       join _i in Conexion.OrdenCompraCentrogasto.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra into _q_i
                                       from u in _q_i.DefaultIfEmpty()
@@ -283,36 +266,32 @@ namespace Balance_api.Controllers.Contabilidad
                                           _q.SubTotalDolar,
                                           _q.SubTotalCordoba,
                                           PuedeCancelar = u == null ? false : true
-                                      }).Union(
+                                      }).ToList();
+                                      
+                        //              .Union(
 
-                        from _q in Conexion.OrdenCompraCentrogasto.ToList()
-                        join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
-                        join _d in qDocumentos on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
-                        where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO" && _q.TipoDocOrigen == ""
-                        select new
-                        {
-                            _q.NoDocOrigen,
-                            _q.TipoDocOrigen,
-                            _q.Participacion1,
-                            _q.Participacion2,
-                            _i.CuentaContableSolicitante,
-                            CuentaContable = string.Empty,
-                            _q.Bodega,
-                            _q.CentroCosto,
-                            _i.SubTotal,
-                            _i.SubTotalDolar,
-                            _i.SubTotalCordoba,
-                            PuedeCancelar = false
-                        }
+                        //from _q in Conexion.OrdenCompraCentrogasto.ToList()
+                        //join _i in Conexion.OrdenCompra.ToList() on _q.IdOrdenCompra equals _i.IdOrdenCompra
+                        //join _d in qDocumentosTemp on new { DOC = _q.NoDocOrigen, TIPO = _q.TipoDocOrigen } equals new { DOC = _d.Documento, TIPO = _d.TipoDocumento }
+                        //where _i.CodigoProveedor == CodProveedor && _i.Estado == "APROBADO" && _q.TipoDocOrigen == ""
+                        //select new
+                        //{
+                        //    _q.NoDocOrigen,
+                        //    _q.TipoDocOrigen,
+                        //    _q.Participacion1,
+                        //    _q.Participacion2,
+                        //    _i.CuentaContableSolicitante,
+                        //    CuentaContable = string.Empty,
+                        //    _q.Bodega,
+                        //    _q.CentroCosto,
+                        //    _i.SubTotal,
+                        //    _i.SubTotalDolar,
+                        //    _i.SubTotalCordoba,
+                        //    PuedeCancelar = false
+                        //}
 
 
-                        ).ToList();
-
-
-                    datos = new();
-                    datos.Nombre = "DOC ORDEN COMPRA";
-                    datos.d = qOrdenComp;
-                    lstDatos.Add(datos);
+                        //).ToList();
 
 
 
@@ -335,15 +314,29 @@ namespace Balance_api.Controllers.Contabilidad
                                       }).ToList();
 
 
-                    datos = new();
-                    datos.Nombre = "ANTICIPO";
-                    datos.d = qAnticipos;
-                    lstDatos.Add(datos);
-
                     List<Retenciones> R = Conexion.Retenciones.Where(w => w.AplicaEnCXP == true && w.AplicarAutomatico == true).ToList();
                     List<TranferenciaRetencion> lstRetenciones = new();
 
                     int index = 0;
+
+                    List<TransferenciaDocumento> qDocumentos = new();
+                    foreach (var item in qDocumentosTemp)
+                    {
+                        if (item.TipoDocumento.Contains("GASTO"))
+                        {
+                            var c = qOrdenComp.FirstOrDefault(w => w.TipoDocOrigen == item.TipoDocumento && w.NoDocOrigen == item.TipoDocumento);
+
+                            if (c != null) qDocumentos.Add(item);
+
+                        }
+                        else
+                        {
+                            qDocumentos.Add(item);
+                        }
+
+                    }
+
+
                     qDocumentos.ForEach(doc => {
 
 
@@ -388,11 +381,55 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
+                    
+
+
+
+
+                    var Doc = qDocumentosTemp.Select((file, index) => new {
+                        Index = index,
+                        file.Documento,
+                        file.Serie,
+                        file.TipoDocumento,
+                        file.Fecha,
+                        file.IdMoneda,
+                        file.TasaCambioDoc,
+                        file.SaldoDolar,
+                        file.SaldoCordoba,
+                        file.Seleccionar
+                    }).ToList();
+
+                    Cls_Datos datos = new();
+                    datos.Nombre = "DOC PROVEEDOR";
+                    datos.d = Doc;
+                    lstDatos.Add(datos);
+
+
+
+
+                    datos = new();
+                    datos.Nombre = "DOC ORDEN COMPRA";
+                    datos.d = qOrdenComp;
+                    lstDatos.Add(datos);
+
+
+
+                    datos = new();
+                    datos.Nombre = "ANTICIPO";
+                    datos.d = qAnticipos;
+                    lstDatos.Add(datos);
+
+
+
                     datos = new();
                     datos = new();
                     datos.Nombre = "RETENCIONES";
                     datos.d = lstRetenciones;
                     lstDatos.Add(datos);
+
+
+
+
 
 
                     json = Cls_Mensaje.Tojson(lstDatos, lstDatos.Count, string.Empty, string.Empty, 0);
@@ -640,7 +677,7 @@ namespace Balance_api.Controllers.Contabilidad
                             Conexion.SaveChanges();
 
 
-                            Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = '{mdoc.NoDocOrigen}', FechaServidorAplica = CAST('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", _Transf.FechaReg)}' AS DATETIME2) , TipoDocAplicado = '{mdoc.TipoDocumentoOrigen}' WHERE  {(mdoc.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{mdoc.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento IS NULL");
+                            Conexion.Database.ExecuteSqlRaw($"UPDATE CXP.CuentaXPagar SET NoDocumento = '{mdoc.NoDocOrigen}', FechaServidorAplica = CAST('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", _Chequ.FechaReg)}' AS DATETIME2) , TipoDocAplicado = '{mdoc.TipoDocumentoOrigen}' WHERE  {(mdoc.TipoDocumentoEnlace == "GASTO_CRE" ? "NoOrdenCompra" : "NoSolicitud")} = '{mdoc.NoDocEnlace}' AND AutorizadoCont = 1 AND NoDocumento IS NULL");
                             Conexion.SaveChanges();
 
                         }
