@@ -827,7 +827,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = false;
                     sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = false;
-                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_NoDocumento"].Value = false;
+                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_NoDocumento"].Value = _Transf.NoTransferencia;
           
 
                     MemoryStream stream = new MemoryStream();
