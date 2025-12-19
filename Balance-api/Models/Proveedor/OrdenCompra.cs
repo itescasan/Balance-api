@@ -35,6 +35,14 @@ namespace Balance_api.Models.Proveedor
         public decimal SubTotalCordoba { get; set; }
         public decimal SubTotalDolar { get; set; }
 
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal Impuesto { get; set; }
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal ImpuestoCordoba { get; set; }
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal ImpuestoDolar { get; set; }
+
+
 
 
 

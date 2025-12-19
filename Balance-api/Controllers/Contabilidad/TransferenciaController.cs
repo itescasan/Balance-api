@@ -289,6 +289,9 @@ namespace Balance_api.Controllers.Contabilidad
                                           _q.SubTotal,
                                           _q.SubTotalDolar,
                                           _q.SubTotalCordoba,
+                                          _q.Impuesto,
+                                          _q.ImpuestoDolar,
+                                          _q.ImpuestoCordoba,
                                           PuedeCancelar = u == null ? false : true,
                                       }).ToList();
                         //              .Union(
