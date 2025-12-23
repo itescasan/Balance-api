@@ -113,7 +113,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                     xrpBalanceGeneral rpt = new xrpBalanceGeneral();
                     rpt.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
-                    rpt.xrSubreport1.ReportSource = new xrpBalanceGeneralDet();
+                    rpt.xrSubreport2.ReportSource = new xrpBalanceGeneralDet();
 
                     rpt.Parameters["P_Titulo"].Value = $"Correspondiente al mes de {string.Format("{0:MMMM}", Fecha)} de {Fecha.Year}";
                     rpt.Parameters["P_Moneda"].Value = M.Moneda;

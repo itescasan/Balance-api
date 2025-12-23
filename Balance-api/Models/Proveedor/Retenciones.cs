@@ -19,3 +19,4 @@ namespace Balance_api.Models.Proveedor
         public bool? AplicarAutomatico { get; set; }
     }
 }
+ 

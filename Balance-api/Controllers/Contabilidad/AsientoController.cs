@@ -252,7 +252,7 @@ namespace Balance_api.Controllers.Contabilidad
                 _Maestro = new Asiento();
                 _Maestro.FechaReg = DateTime.Now;
                 _Maestro.UsuarioReg = d.UsuarioReg;
-                _Maestro.Revisado = false;
+                _Maestro.Revisado = d.Revisado;
                 _Maestro.Automatico = false;
                 esNuevo = true;
             }
