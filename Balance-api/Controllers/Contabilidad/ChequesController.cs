@@ -746,8 +746,45 @@ namespace Balance_api.Controllers.Contabilidad
                         //_Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Chequ.NoCheque && f.IdSerieDocOrigen == d.C.IdSerie && f.TipoDocOrigen == (d.C.TipoCheque));
                         _Asiento = Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Chequ.NoCheque && f.IdSerieDocOrigen == d.C.IdSerie && f.TipoDocOrigen == (d.C.TipoCheque == "C" ? "CHEQUE A CUENTA" : "CHEQUE A DOCUMENTO"));
 
+                        d.A.IdAsiento = _Asiento.IdAsiento;
+                        d.A.NoAsiento = _Asiento.NoAsiento;
+                        d.A.Revisado = true;
 
-                        _Asiento!.AsientosContablesDetalle = d.A.AsientosContablesDetalle;
+                        AsientoDetalle[] _el_det = Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToArray();
+
+                        Conexion.AsientosContablesDetalle.RemoveRange(_el_det);
+                        Conexion.SaveChanges();
+
+
+                        /* Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToList().ForEach(f =>
+                         {
+
+                             AsientoDetalle? de = d.A.AsientosContablesDetalle.FirstOrDefault(w => w.NoLinea == f.NoLinea);
+
+                             if (de != null)
+                             {
+                                 de.IdAsiento = _Asiento.IdAsiento;
+                                 de.IdDetalleAsiento = f.IdDetalleAsiento;
+                                 de.NoLinea = f.NoLinea;
+                                 de.Referencia = f.Referencia;
+                                 de.CuentaContable = f.CuentaContable;
+                                 de.Debito = f.Debito;
+                                 de.DebitoML = f.DebitoML;
+                                 de.DebitoMS = f.DebitoMS;
+                                 de.Credito = f.Credito;
+                                 de.CreditoML = f.CreditoML;
+                                 de.CreditoMS = f.CreditoMS;
+                                 de.Modulo = f.Modulo;
+                                 de.Descripcion = f.Descripcion;
+                                 de.Referencia = f.Referencia;
+                                 de.Naturaleza = f.Naturaleza;
+                                 de.CentroCosto = f.CentroCosto;
+                                 de.NoDocumento = f.NoDocumento;
+                                 de.TipoDocumento = f.TipoDocumento;
+                             }
+
+                         });*/
+
 
                     }
 

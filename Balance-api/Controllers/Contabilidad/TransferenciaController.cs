@@ -544,6 +544,8 @@ namespace Balance_api.Controllers.Contabilidad
                         esNuevo = true;
                     }
 
+
+                        
                     _Transf.IdCuentaBanco = d.T.IdCuentaBanco;
                     _Transf.IdMoneda = d.T.IdMoneda;
                     _Transf.CodBodega = d.T.CodBodega;
@@ -637,7 +639,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
                             if (esNuevoDet) Conexion.TransferenciaDocumento.Add(det);
-
+                            Conexion.SaveChanges();
 
                             i++;
 
@@ -783,8 +785,16 @@ namespace Balance_api.Controllers.Contabilidad
                         _Asiento  =  Conexion.AsientosContables.FirstOrDefault(f => f.NoDocOrigen == _Transf.NoTransferencia && f.IdSerieDocOrigen == d.T.IdSerie && f.TipoDocOrigen == (d.T.TipoTransferencia == "C" ? "TRANSFERENCIA A CUENTA" : "TRANSFERENCIA A DOCUMENTO"));
                         d.A.IdAsiento = _Asiento.IdAsiento;
                         d.A.NoAsiento = _Asiento.NoAsiento;
+                        d.A.Revisado = true;
 
-                        Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToList().ForEach(f =>
+                        AsientoDetalle[] _el_det = Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToArray();
+
+                        Conexion.AsientosContablesDetalle.RemoveRange(_el_det);
+                        Conexion.SaveChanges();
+
+
+
+                       /* Conexion.AsientosContablesDetalle.Where(w => w.IdAsiento == _Asiento.IdAsiento).ToList().ForEach(f =>
                         {
                            
                             AsientoDetalle? de = d.A.AsientosContablesDetalle.FirstOrDefault(w => w.NoLinea == f.NoLinea);
@@ -793,12 +803,25 @@ namespace Balance_api.Controllers.Contabilidad
                             {
                                 de.IdAsiento = _Asiento.IdAsiento;
                                 de.IdDetalleAsiento = f.IdDetalleAsiento;
+                                de.NoLinea = f.NoLinea;
+                                de.Referencia = f.Referencia;
+                                de.CuentaContable = f.CuentaContable;
+                                de.Debito = f.Debito;
+                                de.DebitoML = f.DebitoML;
+                                de.DebitoMS = f.DebitoMS;
+                                de.Credito = f.Credito;
+                                de.CreditoML = f.CreditoML;
+                                de.CreditoMS = f.CreditoMS;
+                                de.Modulo = f.Modulo;
+                                de.Descripcion = f.Descripcion;
+                                de.Referencia = f.Referencia;
+                                de.Naturaleza = f.Naturaleza;
+                                de.CentroCosto = f.CentroCosto;
+                                de.NoDocumento = f.NoDocumento;
+                                de.TipoDocumento = f.TipoDocumento;
                             }
 
-
-                        });
-
-                      
+                        });*/
 
 
 
