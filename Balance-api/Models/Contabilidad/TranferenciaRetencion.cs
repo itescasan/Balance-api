@@ -10,6 +10,7 @@ namespace Balance_api.Models.Contabilidad
         public Guid IdDetRetencion { get; set; }
         public Guid IdTransferencia { get; set; }
         public int Index { get; set; }
+        public int IdRetencion { get; set; }
         public string Retencion { get; set; }
         [Column(TypeName = "decimal(8, 4)")]
         public decimal Porcentaje { get; set; }

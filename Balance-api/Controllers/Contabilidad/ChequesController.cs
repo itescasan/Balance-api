@@ -353,6 +353,7 @@ namespace Balance_api.Controllers.Contabilidad
                             _r.IdDetRetencion = new Guid();
                             _r.IdTransferencia = new Guid();
                             _r.Index = index;
+                            _r.IdRetencion = w.IdRetencion;
                             _r.Retencion = w.Retencion;
                             _r.Porcentaje = Convert.ToDecimal(w.Porcentaje);
                             _r.Documento = doc.Documento;
@@ -703,6 +704,7 @@ namespace Balance_api.Controllers.Contabilidad
 
                             ret.IdCheque = _Chequ.IdCheque;
                             ret.Index = i;
+                            ret.IdRetencion = doc.IdRetencion;
                             ret.Retencion = doc.Retencion;
                             ret.Porcentaje = doc.Porcentaje;
                             ret.Documento = doc.Documento;
@@ -1010,6 +1012,7 @@ namespace Balance_api.Controllers.Contabilidad
                                             _q.IdDetRetencionCk,
                                             _q.IdCheque,
                                             _q.Index,
+                                            _q.IdRetencion,
                                             _q.Retencion,
                                             _q.Porcentaje,
                                             _q.Documento,
