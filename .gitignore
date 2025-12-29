@@ -108,3 +108,5 @@
 /Balance-api/obj/Release/net7.0/rpswa.dswa.cache.json
 /Balance-api/obj/Release/net7.0/staticwebassets.build.json
 /Balance-api/obj/Release/net7.0/staticwebassets.publish.json
+/.vs/Balance-api/CopilotIndices/17.14.1231.31060/CodeChunks.db-wal
+/.gitignore
