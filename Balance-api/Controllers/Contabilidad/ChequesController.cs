@@ -789,7 +789,7 @@ namespace Balance_api.Controllers.Contabilidad
                     }
 
                     AsientoController _Controller = new AsientoController(Conexion);
-                    json = _Controller.V_Guardar(_Asiento!, Conexion, false);
+                    json = _Controller.V_Guardar(d.A, Conexion, false);
 
                     Cls_JSON? reponse = JsonSerializer.Deserialize<Cls_JSON>(json);
 

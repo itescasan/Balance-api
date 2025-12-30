@@ -57,9 +57,9 @@ namespace Balance_api.Controllers.Contabilidad
                     string Sql1 = $"";
                     string Sql2 = $"";
                     string Sql3 = $"";
-                    int? cont = Conexion.Database.SqlQueryRaw<int?>($"SELECT Consecutivo FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
+                    int cont = Conexion.Database.SqlQueryRaw<int>($"SELECT COUNT(*) FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").ToList().First();
                     string col = string.Empty;
-                    bool Completado = false;
+                    int Completado = 1;
                     DateTime f1 = new DateTime(Fecha.Year, Fecha.Month, 1);
                     DateTime f2 = f1.AddMonths(1).AddDays(-1);
 
@@ -77,6 +77,7 @@ namespace Balance_api.Controllers.Contabilidad
                     switch (Codigo)
                     {
                         case "01"://Inventario
+                            col = "Inventario";
                             break;
                         case "02"://Facturacion
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterFAC] {Fecha.Year}, {Fecha.Month}, 'FAC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
@@ -131,7 +132,7 @@ namespace Balance_api.Controllers.Contabilidad
                     //Conexion.SaveChanges();
 
 
-                    if (cont == null)
+                    if (cont == 0)
                     {
                         Conexion.Database.ExecuteSqlRaw($"INSERT INTO CNT.CierreProcesado\r\nVALUES(0,0,0,0,0,0,{Fecha.Month},{Fecha.Year}, NULL, GETDATE())");
                         Conexion.SaveChanges();
@@ -142,9 +143,10 @@ namespace Balance_api.Controllers.Contabilidad
                         Conexion.SaveChanges();
                     }
 
-                        Completado = Conexion.Database.SqlQueryRaw<bool>($"SELECT Completado FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
+                        
+                    Completado = Conexion.Database.SqlQueryRaw<int>($"SELECT Completado FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").ToList().First();
 
-                    if(Completado)
+                    if(Completado == 1)
                     {
                         Conexion.Database.ExecuteSqlRaw($"CNT.SP_MovimientoPeriodo '{string.Format("{0:yyyy-MM-dd}", f1)}', '{string.Format("{0:yyyy-MM-dd}", f2)}', 1");
                         Conexion.SaveChanges();
