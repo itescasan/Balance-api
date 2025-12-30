@@ -133,11 +133,16 @@ namespace Balance_api.Controllers.Contabilidad
 
                     if (cont == null)
                     {
-                        Conexion.Database.ExecuteSqlRaw($"INSERT INTO CNT.CierreProcesado\r\nVALUES(0,0,0,0,0,0,{Fecha.Month},{Fecha.Year}, '{Usuario}', GETDATE())");
+                        Conexion.Database.ExecuteSqlRaw($"INSERT INTO CNT.CierreProcesado\r\nVALUES(0,0,0,0,0,0,{Fecha.Month},{Fecha.Year}, NULL, GETDATE())");
+                        Conexion.SaveChanges();
+                    }
+                    else
+                    {
+                        Conexion.Database.ExecuteSqlRaw($"UPDATE CNT.CierreProcesado SET {col} = 1, Fecha = GETDATE(), Usuario = '{Usuario}' WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}");
                         Conexion.SaveChanges();
                     }
 
-                   Completado =  Conexion.Database.SqlQueryRaw<bool>($"SELECT Completado FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
+                        Completado = Conexion.Database.SqlQueryRaw<bool>($"SELECT Completado FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
 
                     if(Completado)
                     {
