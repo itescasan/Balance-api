@@ -4,6 +4,7 @@ using Balance_api.Controllers.Sistema;
 using Balance_api.Models.Contabilidad;
 using Balance_api.Models.Sistema;
 using DevExpress.Data.ODataLinq.Helpers;
+using DevExpress.Utils.Filtering.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -24,12 +25,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/CierreMensual")]
         [HttpPost]
-        public IActionResult CierreMensual(string Codigo, DateTime Fecha)
+        public IActionResult CierreMensual(string Codigo, DateTime Fecha,string Usuario)
         {
             if (ModelState.IsValid)
             {
 
-                return Ok(V_CierreMensual(Codigo, Fecha));
+                return Ok(V_CierreMensual(Codigo, Fecha, Usuario));
 
             }
             else
@@ -39,7 +40,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        public string V_CierreMensual(string Codigo, DateTime Fecha)
+        public string V_CierreMensual(string Codigo, DateTime Fecha, string Usuario)
         {
 
 
@@ -56,10 +57,19 @@ namespace Balance_api.Controllers.Contabilidad
                     string Sql1 = $"";
                     string Sql2 = $"";
                     string Sql3 = $"";
+                    int? cont = Conexion.Database.SqlQueryRaw<int?>($"SELECT Consecutivo FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
+                    string col = string.Empty;
+                    bool Completado = false;
+                    DateTime f1 = new DateTime(Fecha.Year, Fecha.Month, 1);
+                    DateTime f2 = f1.AddMonths(1).AddDays(-1);
+
+
 
                     //Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
                     //Conexion.Database.ExecuteSqlRaw("DISABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
                     //Conexion.SaveChanges();
+
+
 
 
 
@@ -72,26 +82,31 @@ namespace Balance_api.Controllers.Contabilidad
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterFAC] {Fecha.Year}, {Fecha.Month}, 'FAC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveFAC] {Fecha.Year}, {Fecha.Month}, 'FAC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'FAC', {Fecha.Year}, {Fecha.Month}";
+                            col = "Facturacion";
                             break;
                         case "03"://Cuentas por Cobrar
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCXC] {Fecha.Year}, {Fecha.Month}, 'CXC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCXC] {Fecha.Year}, {Fecha.Month}, 'CXC', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'CXC', {Fecha.Year}, {Fecha.Month}";
+                            col = "Cuenta_Por_Cobrar";
                             break;
                         case "04"://Caja
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCAJ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCAJ] {Fecha.Year}, {Fecha.Month}, 'CAJ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'CAJ', {Fecha.Year}, {Fecha.Month}";
+                            col = "Caja";
                             break;
                         case "05"://Importaciones
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterLIQ] {Fecha.Year}, {Fecha.Month}, 'LIQ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveLIQ] {Fecha.Year}, {Fecha.Month}, 'LIQ', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'LIQ', {Fecha.Year}, {Fecha.Month}";
+                            col = "Importaciones";
                             break;
                         case "06"://Costos de Venta
                             Sql1 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableMasterCOGS] {Fecha.Year}, {Fecha.Month}, 'COGS', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql2 = $" DECLARE @p_Retorno INT = 0,\r\n  \t@p_Mensaje NVARCHAR(500)= ''\r\n\r\nEXEC [CNT].[Sp_AsientoContableSlaveCOGS] {Fecha.Year}, {Fecha.Month}, 'COGS', @p_Retorno OUT, @p_Mensaje OUT\r\n\r\nSELECT @p_Retorno AS p_Retorno, @p_Mensaje AS p_Mensaje";
                             Sql3 = $"EXEC CNT.CierreMes_Merge 'COGS', {Fecha.Year}, {Fecha.Month}";
+                            col = "Costos_De_Venta";
                             break;
                     }
 
@@ -106,15 +121,29 @@ namespace Balance_api.Controllers.Contabilidad
                     Conexion.Database.ExecuteSqlRaw(Sql3);
 
 
-            
+
 
                     //Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContablesDetalle ON  CNT.AsientosContablesDetalle;");
                     //Conexion.Database.ExecuteSqlRaw("ENABLE TRIGGER TR_AUDITORIA_CNT_AsientosContables ON  CNT.AsientosContables;");
-                  
-                    
-                    
+
+
+
                     //Conexion.SaveChanges();
 
+
+                    if (cont == null)
+                    {
+                        Conexion.Database.ExecuteSqlRaw($"INSERT INTO CNT.CierreProcesado\r\nVALUES(0,0,0,0,0,0,{Fecha.Month},{Fecha.Year}, '{Usuario}', GETDATE())");
+                        Conexion.SaveChanges();
+                    }
+
+                   Completado =  Conexion.Database.SqlQueryRaw<bool>($"SELECT Completado FROM CNT.CierreProcesado WHERE Mes = {Fecha.Month} AND Anio = {Fecha.Year}").FirstOrDefault();
+
+                    if(Completado)
+                    {
+                        Conexion.Database.ExecuteSqlRaw($"CNT.SP_MovimientoPeriodo '{string.Format("{0:yyyy-MM-dd}", f1)}', '{string.Format("{0:yyyy-MM-dd}", f2)}', 1");
+                        Conexion.SaveChanges();
+                    }
 
 
                     if (Cierre.p_Retorno == 0 && Cierre2.p_Retorno == 0)
