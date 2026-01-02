@@ -18,12 +18,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/BalanceSituacionFinanciera")]
         [HttpGet]
-        public string BalanceSituacionFinanciera(int Moneda, DateTime FechaInicial, DateTime FechaFinal)
+        public string BalanceSituacionFinanciera(int Moneda, DateTime FechaInicial, DateTime FechaFinal, int Nivel, bool Nivel_Ant)
         {
-            return V_BalanceSituacionFinanciera(Moneda, FechaInicial, FechaFinal);
+            return V_BalanceSituacionFinanciera(Moneda, FechaInicial, FechaFinal, Nivel, Nivel_Ant);
         }
 
-        private string V_BalanceSituacionFinanciera(int Moneda, DateTime FechaInicial, DateTime FechaFinal)
+        private string V_BalanceSituacionFinanciera(int Moneda, DateTime FechaInicial, DateTime FechaFinal, int Nivel, bool Nivel_Ant)
         {
             string json = string.Empty;
             try
@@ -38,7 +38,8 @@ namespace Balance_api.Controllers.Contabilidad
 
                     sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@MONEDA"].Value = Moneda;
                     sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@FECHAINICIAL"].Value = FechaInicial;
-                    sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@FECHAFINAL"].Value = FechaFinal;
+                    sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@NIVEL"].Value = Nivel;
+                    sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@NIVEL_ANT"].Value = Nivel_Ant;
 
                     rpt.xrlFecha.Text = "Al " + FechaFinal.ToShortDateString();
                      

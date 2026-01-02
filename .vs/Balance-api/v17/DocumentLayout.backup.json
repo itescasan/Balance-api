@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\martinezd\\source\\repos\\balance-api\\balance-api\\reporte\\contabilidad\\xrpbalancesituacionfinanciera.cs||{95027D70-C6B4-4736-8A48-AD3582187321}|Form",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\reporte\\contabilidad\\xrpbalancesituacionfinanciera.cs||{95027D70-C6B4-4736-8A48-AD3582187321}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\martinezd\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\rptbalancesituacionfinancieracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\rptbalancesituacionfinancieracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|c:\\users\\martinezd\\source\\repos\\balance-api\\balance-api\\controllers\\contabilidad\\reportescntfinancieroscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\reportescntfinancieroscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 303,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "xrpBalanceSituacionFinanciera.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Reporte\\Contabilidad\\xrpBalanceSituacionFinanciera.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Reporte\\Contabilidad\\xrpBalanceSituacionFinanciera.cs",
+              "ToolTip": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Reporte\\Contabilidad\\xrpBalanceSituacionFinanciera.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Balance-api\\Reporte\\Contabilidad\\xrpBalanceSituacionFinanciera.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T17:42:47.787Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RptBalanceSituacionFinancieraController.cs",
+              "DocumentMoniker": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\RptBalanceSituacionFinancieraController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\RptBalanceSituacionFinancieraController.cs",
+              "ToolTip": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\RptBalanceSituacionFinancieraController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\RptBalanceSituacionFinancieraController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T17:42:11.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReportesCntFinancierosController.cs",
+              "DocumentMoniker": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "ToolTip": "C:\\Users\\MARTINEZD\\source\\repos\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ReportesCntFinancierosController.cs",
+              "ViewState": "AgIAAEkDAAAAAAAAAAAQwEsDAAB3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T22:22:53.487Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 53,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
