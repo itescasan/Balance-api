@@ -177,12 +177,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Reporte/EstadoResultado")]
         [HttpGet]
-        public string EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal,string Sucursal,string CCosto)
+        public string EstadoResultado(DateTime Fecha, bool EsMonedaLocal,string Nivel)
         {
-            return V_EstadoResultado(Fecha, Estado, EsMonedaLocal, Sucursal, CCosto);
+            return V_EstadoResultado(Fecha, EsMonedaLocal, Nivel);
         }
 
-        private string V_EstadoResultado(DateTime Fecha, bool Estado, bool EsMonedaLocal, string Sucursal, string CCosto)
+        private string V_EstadoResultado(DateTime Fecha, bool EsMonedaLocal, string Nivel)
         {
             string json = string.Empty;
             try
@@ -195,23 +195,25 @@ namespace Balance_api.Controllers.Contabilidad
                     DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
                     //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
 
-                    xrpEstadoResultado rpt = new xrpEstadoResultado();
-
-                  
-
+                    //xrpEstadoResultado rpt = new xrpEstadoResultado();
+                    xrpEstadoResultadoNew rpt = new xrpEstadoResultadoNew();
 
 
-                    rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+
+
+
+                    //rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
 
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_Fecha_Inicial"].Value = Fecha;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@P_ESTADO"].Value = Estado;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_SUCURSAL"].Value = Sucursal == null ? "" : Sucursal;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@_CCosto"].Value = CCosto == null ? "" : CCosto;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultado"].Parameters["@P_CUENTA"].Value = "";
+                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_Fecha_Inicial"].Value = Fecha;
+                    //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@P_ESTADO"].Value = Estado;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_Nivel"].Value = Nivel;
+                    //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_SUCURSAL"].Value = Sucursal == null ? "" : Sucursal;
+                    //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_CCosto"].Value = CCosto == null ? "" : CCosto;
+                    //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@P_CUENTA"].Value = "";
 
 
                     MemoryStream stream = new MemoryStream();
