@@ -41,7 +41,7 @@ namespace Balance_api.Controllers.Contabilidad
                     sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@NIVEL"].Value = Nivel;
                     sqlDataSource.Queries["CNT_SP_BalanceSituacionFinanciera"].Parameters["@NIVEL_ANT"].Value = Nivel_Ant;
 
-                    rpt.xrlFecha.Text = "Al " + FechaFinal.ToShortDateString();
+                    rpt.xrlFecha.Text = "Al " + FechaInicial.ToShortDateString();
                      
                     string mnd = (Moneda == 1) ? "Córdobas" : "Dólares";
 
