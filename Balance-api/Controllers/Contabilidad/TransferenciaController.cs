@@ -1400,12 +1400,12 @@ namespace Balance_api.Controllers.Contabilidad
 
         [Route("api/Contabilidad/Transferencia/GetReporteAsiento")]
         [HttpGet]
-        public string GetReporteAsiento(Guid IdTransferencia)
+        public string GetReporteAsiento(Guid IdTransferencia, string Moneda, bool Exportar)
         {
-            return V_GetReporteAsiento(IdTransferencia);
+            return V_GetReporteAsiento(IdTransferencia, Moneda, Exportar);
         }
 
-        private string V_GetReporteAsiento(Guid IdTransferencia)
+        private string V_GetReporteAsiento(Guid IdTransferencia, string Moneda, bool Exportar)
         {
 
             string json = string.Empty;
@@ -1420,19 +1420,46 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    xrpAsientoContable rpt = new xrpAsientoContable();
-
-                    SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
-                    sqlDataSource.Connection.ConnectionString = Conexion.Database.GetConnectionString();
-
-
-                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
-                    sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = _Asiento.IdMoneda;
-
                     MemoryStream stream = new MemoryStream();
 
-                    rpt.ExportToPdf(stream, null);
+                    if (Exportar)
+                    {
+                        xrpAsientoContableExcel rpt = new xrpAsientoContableExcel();
+
+                        SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_NoDocumento"].Value = _Asiento.NoDocOrigen;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = Moneda;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = false;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = false;
+
+
+
+                        rpt.ExportToXlsx(stream, null);
+                    }
+                    else
+                    {
+
+                        xrpAsientoContable rpt = new xrpAsientoContable();
+
+                        SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
+
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdAsiento"].Value = _Asiento.IdAsiento;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_NoDocumento"].Value = _Asiento.NoDocOrigen;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_IdMoneda"].Value = Moneda;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Consolidado"].Value = false;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Unificado"].Value = false;
+                        sqlDataSource.Queries["CNT_RPT_AsientoContable"].Parameters["@P_Modulo"].Value = false;
+
+
+                        rpt.ExportToPdf(stream, null);
+
+                    }
+
                     stream.Seek(0, SeekOrigin.Begin);
+
 
                     Cls_Datos datos = new();
                     datos.d = stream.ToArray();
