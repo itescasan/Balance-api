@@ -23,8 +23,11 @@ namespace Balance_api.Models.Contabilidad
         public decimal SubTotal { get; set; }
         public decimal SubTotalMS { get; set; }
         public decimal SubTotalML { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal Monto { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal MontoMS { get; set; }
+        [Column(TypeName = "decimal(8, 4)")]
         public decimal MontoML { get; set; }
         [Column(TypeName = "decimal(8, 4)")]
         public decimal PorcImpuesto { get; set; }
