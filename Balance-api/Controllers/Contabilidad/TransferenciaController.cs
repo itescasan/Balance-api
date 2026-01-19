@@ -785,7 +785,7 @@ namespace Balance_api.Controllers.Contabilidad
                         {
                             bool esNuevoDet = false;
 
-                            TranferenciaRetencion? ret = Conexion.TranferenciaRetencion.Find(doc.IdDetRetencion);
+                            TranferenciaRetencion? ret = Conexion.TranferenciaRetencion.FirstOrDefault( f => f.IdTransferencia == _Transf.IdTransferencia && f.IdRetencion == doc.IdRetencion);
 
                             if (ret == null)
                             {

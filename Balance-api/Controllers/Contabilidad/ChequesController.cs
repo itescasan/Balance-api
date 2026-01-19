@@ -1032,7 +1032,7 @@ namespace Balance_api.Controllers.Contabilidad
                         {
                             bool esNuevoDet = false;
 
-                            ChequeRetencion? ret = Conexion.ChequeRetencion.Find(doc.IdDetRetencionCk);
+                            ChequeRetencion? ret = Conexion.ChequeRetencion.FirstOrDefault(f => f.IdCheque == _Chequ.IdCheque && f.IdRetencion == doc.IdRetencion);
 
                             if (ret == null)
                             {
