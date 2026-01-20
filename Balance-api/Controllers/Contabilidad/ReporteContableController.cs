@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace Balance_api.Controllers.Contabilidad
 {
@@ -190,7 +191,7 @@ namespace Balance_api.Controllers.Contabilidad
                 using (Conexion)
                 {
                     Cls_Datos Datos = new();
-
+                    String Moneda = EsMonedaLocal == false ? "Cordobas" : "Dolares";
                     Fecha = new DateTime(Fecha.Year, Fecha.Month, 1);
                     DateTime Fecha2 = Fecha.AddMonths(1).AddDays(-Fecha.Day);
                     //DateTime Fecha2 = new DateTime(Fecha.Year, Fecha.Month + 1, 1).AddDays(-1);
@@ -202,15 +203,21 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-                    //rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+                    rpt.Parameters["parameter1"].Value = $"Al {Fecha2.Day} de {string.Format("{0:MMMM}", Fecha)} {Fecha.Year}";
+                    rpt.Parameters["parameter2"].Value = Nivel + "                         Expresado en " + Moneda;
+                    string Level = Nivel;
 
+                    if (Nivel == "NIVEL6") 
+                    {
+                        Nivel = "NIVEL5";
+                    }
 
                     SqlDataSource sqlDataSource = (SqlDataSource)rpt.DataSource;
 
                     sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_Fecha_Inicial"].Value = Fecha;
                     //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@P_ESTADO"].Value = Estado;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_MonedaLocal"].Value = EsMonedaLocal;
-                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_Nivel"].Value = Nivel;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_MonedaLocal"].Value = !EsMonedaLocal;
+                    sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_Nivel"].Value = Level == "NIVEL6" ? Nivel : Level ;
                     //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_SUCURSAL"].Value = Sucursal == null ? "" : Sucursal;
                     //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@_CCosto"].Value = CCosto == null ? "" : CCosto;
                     //sqlDataSource.Queries["CNT_SP_EstadoResultadoNEW"].Parameters["@P_CUENTA"].Value = "";
