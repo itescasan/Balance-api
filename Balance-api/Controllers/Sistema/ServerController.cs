@@ -174,7 +174,7 @@ namespace Balance_api.Controllers.Sistema
 
 
                         MailMessage mail = new MailMessage();
-                        mail.From = new MailAddress("info@escasan.com.ni");
+                        mail.From = new MailAddress("infoescasan@escasan.com.ni");
                         
 
 
@@ -199,7 +199,7 @@ namespace Balance_api.Controllers.Sistema
                         mail.To.Add(Correo);
 
                         SmtpClient smtpClient = new SmtpClient("smtp.office365.com");
-                        NetworkCredential nameAndPassword = new NetworkCredential("info@escasan.com.ni", "8hSTdrupcEsassfuPYuTS8x4X");
+                        NetworkCredential nameAndPassword = new NetworkCredential("infoescasan@escasan.com.ni", "8hSTdrupcEsassfuPYuTS8x4X");
 
                         System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                         smtpClient.Port = 587;
