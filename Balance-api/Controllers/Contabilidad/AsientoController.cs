@@ -331,7 +331,7 @@ namespace Balance_api.Controllers.Contabilidad
             }
             _Conexion.SaveChanges();
 
-            if (TotalDebito - TotalCredito != 0 || TotalDebito == 0 && TotalCredito == 0)
+            if ( Math.Round( TotalDebito, 2, MidpointRounding.ToEven) - Math.Round(TotalCredito, 2, MidpointRounding.ToEven) != 0 || Math.Round(TotalDebito, 2, MidpointRounding.ToEven) == 0 && Math.Round(TotalCredito, 2, MidpointRounding.ToEven) == 0)
             {
                 _Maestro.Estado = "DESCUADRADO";
                 _Conexion.SaveChanges();
