@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\chequescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\contabilidad\\reportechequecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\reportechequecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\models\\contabilidad\\chequeretencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\models\\contabilidad\\chequeretencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\contabilidad\\asientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\asientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,66 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ChequesController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ChequesController.cs",
-              "ViewState": "AgIAAO0DAAAAAAAAAAAuwBAEAABGAAAAAAAAAA==",
+              "Title": "ServerController.cs",
+              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ViewState": "AgIAAJIBAAAAAAAAAAAuwNIBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T23:09:49.26Z",
+              "WhenOpened": "2026-01-26T15:06:50.098Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ReporteChequeController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReporteChequeController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\ReporteChequeController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\ReporteChequeController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\ReporteChequeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T23:09:39.253Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ChequeRetencion.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Models\\Contabilidad\\ChequeRetencion.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Models\\Contabilidad\\ChequeRetencion.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Models\\Contabilidad\\ChequeRetencion.cs",
-              "RelativeToolTip": "Balance-api\\Models\\Contabilidad\\ChequeRetencion.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBkAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T22:20:24.424Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AsientoController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\AsientoController.cs",
-              "ViewState": "AgIAAC8BAAAAAAAAAAAswEUBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T20:59:40.279Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "TransferenciaController.cs",
               "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
               "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ViewState": "AgIAAPICAAAAAAAAAAAmwBMDAAC/AAAAAAAAAA==",
+              "ViewState": "AgIAAG0FAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T17:39:53.114Z",
+              "WhenOpened": "2026-01-20T19:25:26.104Z",
               "EditorCaption": ""
             }
           ]

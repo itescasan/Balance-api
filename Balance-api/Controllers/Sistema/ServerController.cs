@@ -451,12 +451,12 @@ namespace Balance_api.Controllers.Sistema
 
         [Route("api/Sistema/Serie")]
         [HttpGet]
-        public string GetSerie(string CodBodega, string Tipo)
+        public string GetSerie(string CodBodega, string Tipo, string Serie)
         {
-            return V_GetSerie(CodBodega, Tipo);
+            return V_GetSerie(CodBodega, Tipo, Serie);
         }
 
-        private string V_GetSerie(string CodBodega, string Tipo)
+        private string V_GetSerie(string CodBodega, string Tipo, string Serie)
         {
             string json = string.Empty;
 
@@ -464,7 +464,8 @@ namespace Balance_api.Controllers.Sistema
             Cls_Datos datos = new();
             datos.Nombre = "SERIE";
 
-
+            if (Serie == null) Serie = string.Empty;
+      
             try
             {
 
@@ -564,7 +565,7 @@ namespace Balance_api.Controllers.Sistema
 
                         case "Contabilidad":
                             var qCon = (from _q in Conexion.SerieDocumento
-                                        where !_q.TipoDocumento.Automatico && _q.Activo
+                                        where !_q.TipoDocumento.Automatico && _q.Activo && Serie ==  (Serie == string.Empty ? Serie : _q.IdSerie)
                                         select new { _q.IdSerie, _q.DescripcionSerie }
                                    ).ToList();
 
