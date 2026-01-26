@@ -564,8 +564,10 @@ namespace Balance_api.Controllers.Sistema
                             break;
 
                         case "Contabilidad":
+
+
                             var qCon = (from _q in Conexion.SerieDocumento
-                                        where !_q.TipoDocumento.Automatico && _q.Activo && Serie ==  (Serie == string.Empty ? Serie : _q.IdSerie)
+                                        where !_q.TipoDocumento.Automatico && _q.Activo || Serie ==  (Serie == string.Empty ? Serie : _q.IdSerie)
                                         select new { _q.IdSerie, _q.DescripcionSerie }
                                    ).ToList();
 
