@@ -15,6 +15,7 @@ using System.Net.Mail;
 using DevExpress.ClipboardSource.SpreadsheetML;
 using System.Net;
 using DevExpress.Pdf.Native.BouncyCastle.Utilities.Net;
+using Newtonsoft.Json;
 
 namespace Balance_api.Controllers.Sistema
 {
@@ -32,14 +33,27 @@ namespace Balance_api.Controllers.Sistema
         }
 
         //[Authorize]
-        [Route("api/Sistema/Login")]
+        [Route("Sistema/Login")]
         [HttpPost]
-        public IActionResult Login([FromBody]  Cls_Acceso ac)
+        public async Task<IActionResult> Login([FromBody]  Cls_Acceso ac)
         {
-            return Ok(V_Login(ac));
+
+
+            HttpClient client = new HttpClient();
+
+
+            HttpResponseMessage response = await client.GetAsync($"{Cls_ConexionAPI_BD.Url}Funciones/GetPm");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            Cls_E_Response resp = JsonConvert.DeserializeObject<Cls_E_Response>(responseBody)!;
+
+            string[] m = JsonConvert.DeserializeObject<string[]>(resp.d.ToString()!)!;
+
+            return Ok(V_Login(ac, m));
         }
 
-        private string V_Login(Cls_Acceso ac)
+        private string V_Login(Cls_Acceso ac, string[] m)
         {
             string json = string.Empty;
             try
@@ -174,7 +188,7 @@ namespace Balance_api.Controllers.Sistema
 
 
                         MailMessage mail = new MailMessage();
-                        mail.From = new MailAddress("infoescasan@escasan.com.ni");
+                        mail.From = new MailAddress(m[0]);
                         
 
 
@@ -199,7 +213,7 @@ namespace Balance_api.Controllers.Sistema
                         mail.To.Add(Correo);
 
                         SmtpClient smtpClient = new SmtpClient("smtp.office365.com");
-                        NetworkCredential nameAndPassword = new NetworkCredential("infoescasan@escasan.com.ni", "8hSTdrupcEsassfuPYuTS8x4X");
+                        NetworkCredential nameAndPassword = new NetworkCredential("infoescasan@escasan.com.ni", m[1]);
 
                         System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                         smtpClient.Port = 587;
@@ -247,7 +261,7 @@ namespace Balance_api.Controllers.Sistema
 
 
         //[Authorize]
-        [Route("api/Sistema/ValidarCodigo")]
+        [Route("Sistema/ValidarCodigo")]
         [HttpGet]
         public string ValidarCodigo(string user,  string cod, string Modulo)
         {
@@ -338,7 +352,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/Sistema/DatosServidor")]
+        [Route("Sistema/DatosServidor")]
         [HttpGet]
         public string DatosServidor(string user, string Modulo)
         {
@@ -403,7 +417,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/Sistema/TC")]
+        [Route("Sistema/TC")]
         [HttpGet]
         public string TC(DateTime f)
         {
@@ -449,7 +463,7 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/Sistema/Serie")]
+        [Route("Sistema/Serie")]
         [HttpGet]
         public string GetSerie(string CodBodega, string Tipo, string Serie)
         {
@@ -590,7 +604,7 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/Sistema/Consecutivo")]
+        [Route("Sistema/Consecutivo")]
         [HttpGet]
         public string GetConsecutivo(string Serie, string Tipo)
         {
@@ -708,7 +722,7 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/Sistema/ConsecutivoContabilidad")]
+        [Route("Sistema/ConsecutivoContabilidad")]
         [HttpGet]
         public string GetConsecutivoContabilidad(string Serie, DateTime Fecha)
         {
@@ -755,7 +769,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/Sistema/CerrarSession")]
+        [Route("Sistema/CerrarSession")]
         [HttpPost]
         public IActionResult CerrarSession(string user)
         {
@@ -829,7 +843,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/Sistema/AccesoWeb")]
+        [Route("Sistema/AccesoWeb")]
         [HttpGet]
         public string AccesoWeb(string user)
         {
@@ -904,7 +918,7 @@ namespace Balance_api.Controllers.Sistema
         }
 
 
-        [Route("api/Sistema/GuardarAcceso")]
+        [Route("Sistema/GuardarAcceso")]
         [HttpPost]
         public IActionResult GuardarAcceso([FromBody] AccesoWeb[] d)
         {
@@ -1002,7 +1016,7 @@ namespace Balance_api.Controllers.Sistema
 
         }
 
-        [Route("api/Sistema/Auntenticar")]
+        [Route("Sistema/Auntenticar")]
         [HttpPost]
         public async Task<IActionResult> Auntenticar([FromBody] AutorizacionRequest autorizacion)
         {
@@ -1013,7 +1027,7 @@ namespace Balance_api.Controllers.Sistema
 
         }
 
-        [Route("api/Sistema/ObtenerRefreshToken")]
+        [Route("Sistema/ObtenerRefreshToken")]
         [HttpPost]
         public async Task<IActionResult> ObtenerRefreshToken([FromBody] RefreshTokenRequest request)
         {

@@ -21,7 +21,7 @@ namespace Balance_api.Controllers.Proveedor
 
 
 
-        [Route("api/Proveedor/Articulo/Get")]
+        [Route("Proveedor/Articulo/Get")]
         [HttpGet]
         public string Get()
         {
@@ -64,7 +64,7 @@ namespace Balance_api.Controllers.Proveedor
 
 
 
-        [Route("api/Proveedor/Articulo/Guardar")]
+        [Route("Proveedor/Articulo/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Articulo d)
         {

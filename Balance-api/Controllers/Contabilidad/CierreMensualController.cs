@@ -23,7 +23,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/CierreMensual")]
+        [Route("Contabilidad/CierreMensual")]
         [HttpPost]
         public IActionResult CierreMensual(string Codigo, DateTime Fecha,string Usuario)
         {
@@ -188,7 +188,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/CierreMensual/ModuloVSContabilidad")]
+        [Route("Contabilidad/CierreMensual/ModuloVSContabilidad")]
         [HttpGet]
         public string ModuloVSContabilidad(int Nivel, string Tabla, string CodBodega, string TipoDoc, string CodConfig, string NoDocumento, DateTime Fecha,  bool esCordoba)
         {

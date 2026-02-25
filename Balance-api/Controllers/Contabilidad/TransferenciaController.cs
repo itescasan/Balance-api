@@ -31,7 +31,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Transferencia/Datos")]
+        [Route("Contabilidad/Transferencia/Datos")]
         [HttpGet]
         public string Datos()
         {
@@ -197,7 +197,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/GetDocumentos")]
+        [Route("Contabilidad/Transferencia/GetDocumentos")]
         [HttpGet]
         public string GetDocumentos(string CodProveedor)
         {
@@ -545,7 +545,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/Guardar")]
+        [Route("Contabilidad/Transferencia/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Cls_Datos_TransferenciaCuenta d)
         {
@@ -961,7 +961,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/Get")]
+        [Route("Contabilidad/Transferencia/Get")]
         [HttpGet]
         public string Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
         {
@@ -1039,7 +1039,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Transferencia/GetDetalleCuenta")]
+        [Route("Contabilidad/Transferencia/GetDetalleCuenta")]
         [HttpGet]
         public string GetDetalleCuenta(Guid IdTransferencia)
         {
@@ -1087,7 +1087,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Transferencia/GetDetalleDocumentos")]
+        [Route("Contabilidad/Transferencia/GetDetalleDocumentos")]
         [HttpGet]
         public string GetDetalleDocumentos(Guid IdTransferencia)
         {
@@ -1345,7 +1345,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/BuscarTiposRetenciones")]
+        [Route("Contabilidad/Transferencia/BuscarTiposRetenciones")]
         [HttpGet]
         public string BuscarTiposRetenciones(string NoDocumento)
         {
@@ -1398,7 +1398,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Transferencia/GetReporteAsiento")]
+        [Route("Contabilidad/Transferencia/GetReporteAsiento")]
         [HttpGet]
         public string GetReporteAsiento(Guid IdTransferencia, string Moneda, bool Exportar)
         {

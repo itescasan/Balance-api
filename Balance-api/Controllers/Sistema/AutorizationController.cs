@@ -22,7 +22,7 @@ namespace Balance_api.Services
         private readonly IAutorizacionService _autorizacionService;
         private readonly BalanceEntities Conexion;
         //[Authorize]
-        [Route("api/Sistema/Autorization")]
+        [Route("Sistema/Autorization")]
         [HttpGet]
         public IActionResult Autorize(string user, string pass,  string Modulo)
         {

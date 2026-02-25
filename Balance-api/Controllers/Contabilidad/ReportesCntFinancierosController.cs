@@ -21,7 +21,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/TipoComprobante/Get")]
+        [Route("Contabilidad/TipoComprobante/Get")]
         [HttpGet]
         public string Get()
         {
@@ -69,7 +69,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AsientosContables/Get")]
+        [Route("Contabilidad/AsientosContables/Get")]
         [HttpGet]
         public string AsientosContables(DateTime Fecha)
         {
@@ -122,7 +122,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/CuentasContables/Get")]
+        [Route("Contabilidad/CuentasContables/Get")]
         [HttpGet]
         public string CuentasContables()
         {
@@ -167,7 +167,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/CentroCosto/Get")]
+        [Route("Contabilidad/CentroCosto/Get")]
         [HttpGet]
         public string CentroCosto()
         {
@@ -212,7 +212,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/GruposCuentas/Get")]
+        [Route("Contabilidad/GruposCuentas/Get")]
         [HttpGet]
         public string GruposCuentas()
         {
@@ -255,7 +255,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/CatalogoCuentas")]
+        [Route("Contabilidad/Reporte/CatalogoCuentas")]
         [HttpGet]
         public string CatalogoCuentas(int IdGrupoCuentas, int Estado)
         {
@@ -301,7 +301,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/Comprobantes")]
+        [Route("Contabilidad/Reporte/Comprobantes")]
         [HttpGet]
         public string Comprobantes(DateTime FechaInicial, string CodBodega, string TipoDocumento, string NoAsiento, int Moneda)
         {
@@ -350,7 +350,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/Comprobantes2")]
+        [Route("Contabilidad/Reporte/Comprobantes2")]
         [HttpGet]
         public string Comprobantes2(string NoAsiento, DateTime FechaInicial, string Concepto, int Moneda)
         {
@@ -398,7 +398,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/DiferenciasCXCvsCONT")]
+        [Route("Contabilidad/Reporte/DiferenciasCXCvsCONT")]
         [HttpGet]
         public string DiferenciasCXCvsCONT(DateTime FechaInicial, int Moneda)
         {
@@ -446,7 +446,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/ReporteVentasBolsaAgropecuaria")]
+        [Route("Contabilidad/Reporte/ReporteVentasBolsaAgropecuaria")]
         [HttpGet]
         public string ReporteVentasBolsaAgropecuaria(DateTime FechaInicial, int Moneda)
         {
@@ -495,7 +495,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/AuxiliaresContables")]
+        [Route("Contabilidad/Reporte/AuxiliaresContables")]
         [HttpGet]
         public string AuxiliaresContables(DateTime FechaInicial, DateTime FechaFinal, string CCInicial, string CCFinal, string CentroCosto, int Moneda)
         {
@@ -554,7 +554,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/ReporteCreditoFiscalIva")]
+        [Route("Contabilidad/Reporte/ReporteCreditoFiscalIva")]
         [HttpGet]
         public string ReporteCreditoFiscalIva(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
         {
@@ -604,7 +604,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/ReporteRetencionesAlcaldiasForaneas")]
+        [Route("Contabilidad/Reporte/ReporteRetencionesAlcaldiasForaneas")]
         [HttpGet]
         public string ReporteRetencionesAlcaldiasForaneas(DateTime FechaInicial, int Moneda)
         {
@@ -653,7 +653,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/ReporteIntegracionGastosAcumulados")]
+        [Route("Contabilidad/Reporte/ReporteIntegracionGastosAcumulados")]
         [HttpGet]
         public string ReporteIntegracionGastosAcumulados(DateTime FechaInicial, string Rubro, string CuentaContable, string CentroCosto, int Moneda)
         {
@@ -720,7 +720,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Reporte/ReporteIntegracionGastosAcumuladosVentas")]
+        [Route("Contabilidad/Reporte/ReporteIntegracionGastosAcumuladosVentas")]
         [HttpGet]
         public string ReporteIntegracionGastosAcumuladosVentas(DateTime FechaInicial, string CentroCosto, int Moneda)
         {
@@ -771,7 +771,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Reporte/ReporteDiferenciasCXPvsContabilidad")]
+        [Route("Contabilidad/Reporte/ReporteDiferenciasCXPvsContabilidad")]
         [HttpGet]
         public string ReporteDiferenciasCXPvsContabilidad(DateTime FechaInicial, int Moneda)
         {
@@ -819,7 +819,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/EstadoCambioPatrimonio")]
+        [Route("Contabilidad/Reporte/EstadoCambioPatrimonio")]
         [HttpGet]
         public string EstadoCambioPatrimonio(DateTime FechaInicial, DateTime FechaFinal, int Moneda)
         {

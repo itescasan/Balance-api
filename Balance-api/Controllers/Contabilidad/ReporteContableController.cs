@@ -28,7 +28,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/BalanzaComprobacion")]
+        [Route("Contabilidad/Reporte/BalanzaComprobacion")]
         [HttpGet]
         public string BalanzaComprobacion(DateTime FechaInicio, DateTime FechaFinal, int Nivel, bool EsMonedaLocal)
         {
@@ -86,7 +86,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/BalanceGeneral")]
+        [Route("Contabilidad/Reporte/BalanceGeneral")]
         [HttpGet]
         public string BalanceGeneral(DateTime Fecha, bool EsMonedaLocal)
         {
@@ -176,7 +176,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Reporte/EstadoResultado")]
+        [Route("Contabilidad/Reporte/EstadoResultado")]
         [HttpGet]
         public string EstadoResultado(DateTime Fecha, bool EsMonedaLocal,string Nivel)
         {
@@ -249,7 +249,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/GastoCC")]
+        [Route("Contabilidad/Reporte/GastoCC")]
         [HttpGet]
         public string GastoCC(DateTime Fecha, bool EsMonedaLocal, string CCosto)
         {
@@ -306,7 +306,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/LibroDiario")]
+        [Route("Contabilidad/Reporte/LibroDiario")]
         [HttpGet]
         public string LibroDiario(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
@@ -362,7 +362,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/LibroMayor")]
+        [Route("Contabilidad/Reporte/LibroMayor")]
         [HttpGet]
         public string LibroMayor(DateTime Fecha, bool EsMonedaLocal, bool Estado)
         {
@@ -418,7 +418,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/VentasAlcaldia")]
+        [Route("Contabilidad/Reporte/VentasAlcaldia")]
         [HttpGet]
         public string VentasAlcaldia(DateTime Fecha, string Sucursal, string Municipio)
         {
@@ -484,7 +484,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/VentasConImpuestos")]
+        [Route("Contabilidad/Reporte/VentasConImpuestos")]
         [HttpGet]
         public string VentasConImpuestos(DateTime FechaI, DateTime FechaF)
         {
@@ -536,7 +536,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Reporte/FlujoEfectivo")]
+        [Route("Contabilidad/Reporte/FlujoEfectivo")]
         [HttpGet]
         public string FlujoEfectivo(DateTime Fecha, DateTime FechaF, bool EsMonedaLocal, bool Estado)
         {
@@ -612,7 +612,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/ComparativoGastosMensual")]
+        [Route("Contabilidad/Reporte/ComparativoGastosMensual")]
         [HttpGet]
         public string CompratativoGastosM(DateTime Fecha, bool Estado, bool EsMonedaLocal,string CuentaSucursalA, string CuentaSucursalG)
         {
@@ -677,7 +677,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Reporte/BalanceGeneralComparativo")]
+        [Route("Contabilidad/Reporte/BalanceGeneralComparativo")]
         [HttpGet]
         public string BalanceGeneralComparativo(DateTime Fecha, bool Estado, bool EsMonedaLocal)
         {
@@ -739,7 +739,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Reporte/Datos")]
+        [Route("Contabilidad/Reporte/Datos")]
         [HttpGet]
         public string Datos()
         {

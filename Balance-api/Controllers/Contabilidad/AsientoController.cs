@@ -24,7 +24,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/AsientoContable/Datos")]
+        [Route("Contabilidad/AsientoContable/Datos")]
         [HttpGet]
         public string Datos()
         {
@@ -96,7 +96,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/AsientoContable/Autorizar")]
+        [Route("Contabilidad/AsientoContable/Autorizar")]
         [HttpPost]
         public IActionResult Autorizar(int IdAsiento, string Usuario)
         {
@@ -163,7 +163,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AsientoContable/Guardar")]
+        [Route("Contabilidad/AsientoContable/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Asiento d)
         {
@@ -415,7 +415,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/AsientoContable/Get")]
+        [Route("Contabilidad/AsientoContable/Get")]
         [HttpGet]
         public string Get(DateTime Fecha1, DateTime Fecha2, string Serie)
         {
@@ -487,7 +487,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/AsientoContable/GetDetalle")]
+        [Route("Contabilidad/AsientoContable/GetDetalle")]
         [HttpGet]
         public string GetDetalle(int IdAsiento)
         {
@@ -525,7 +525,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AsientoContable/GetReporte")]
+        [Route("Contabilidad/AsientoContable/GetReporte")]
         [HttpGet]
         public string DaGetReporte(int IdAsiento, string NoDoc, string IdMoneda, bool Exportar, bool Consolidado, bool Unificado, bool Modulo)
         {
@@ -605,7 +605,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AsientoContable/RevisarAsiento")]
+        [Route("Contabilidad/AsientoContable/RevisarAsiento")]
         [HttpPost]
         public IActionResult RevisarAsiento([FromBody] Asiento d)
         {

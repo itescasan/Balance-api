@@ -18,7 +18,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
-        [Route("api/Contabilidad/Reporte/Cheque")]
+        [Route("Contabilidad/Reporte/Cheque")]
         [HttpGet]
         public string Cheque(string NoAsiento)
         {

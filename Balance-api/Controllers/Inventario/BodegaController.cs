@@ -18,7 +18,7 @@ namespace Balance_api.Controllers.Inventario
             Conexion = db;
         }
 
-        [Route("api/Inventario/Bodega/Get")]
+        [Route("Inventario/Bodega/Get")]
         [HttpGet]
         public string Get()
         {

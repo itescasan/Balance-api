@@ -27,7 +27,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/AuxiliarContable/Get")]
+        [Route("Contabilidad/AuxiliarContable/Get")]
         [HttpGet]
         public string Get(DateTime Fecha1, DateTime Fecha2, string CodBodega, string Cuenta)
         {
@@ -92,7 +92,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AuxiliarContable/GetReporte")]
+        [Route("Contabilidad/AuxiliarContable/GetReporte")]
         [HttpGet]
         public string GetReporte(DateTime Fecha1, DateTime Fecha2, string CodBodega, string Cuenta, string Tipo)
         {
@@ -323,7 +323,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AuxiliarContable/GetAsiento")]
+        [Route("Contabilidad/AuxiliarContable/GetAsiento")]
         [HttpGet]
         public string GetAsiento(int IdAsiento, string NoDoc)
         {
@@ -397,7 +397,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/AuxiliarContable/GetOtrosDatos")]
+        [Route("Contabilidad/AuxiliarContable/GetOtrosDatos")]
         [HttpGet]
         public string GetOtrosDatos()
         {

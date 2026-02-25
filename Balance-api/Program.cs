@@ -91,7 +91,8 @@ app.UseStaticFiles();
 app.UseSwagger();
 
 app.UseSwaggerUI( c => {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Balance API");
+    // c.SwaggerEndpoint("/swagger/v1/swagger.json", "Balance API");
+    c.SwaggerEndpoint("v1/swagger.json", "Balance API");
 });
 
 

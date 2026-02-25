@@ -18,7 +18,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
-        [Route("api/Contabilidad/Reporte/IngresosCaja")]
+        [Route("Contabilidad/Reporte/IngresosCaja")]
         [HttpGet]
         public string Reembolso(int Id, string Usuario)
         {

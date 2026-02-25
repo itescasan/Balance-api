@@ -9,7 +9,7 @@ using System.Transactions;
 
 namespace Balance_api.Controllers.Contabilidad
 {
-    // [Route("api/Contabilidad/[Controller]")]
+    // [Route("Contabilidad/[Controller]")]
     public class EjercicioFiscalController : Controller
     {
         private readonly BalanceEntities Conexion;
@@ -19,7 +19,7 @@ namespace Balance_api.Controllers.Contabilidad
         Conexion = db;
     }
 
-        [Route("api/Contabilidad/EjercicioFiscal/Get")]
+        [Route("Contabilidad/EjercicioFiscal/Get")]
         [HttpGet]
         public string Get()
         {
@@ -84,7 +84,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/EjercicioFiscal/Guardar")]
+        [Route("Contabilidad/EjercicioFiscal/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] EjercicioFiscal d)
         {
@@ -224,7 +224,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/EjercicioFiscal/Periodo")]
+        [Route("Contabilidad/EjercicioFiscal/Periodo")]
         [HttpGet]
         public string GetP(int IdEjercicio)
         {

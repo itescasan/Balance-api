@@ -16,7 +16,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
-        [Route("api/Contabilidad/Reporte/BalanceSituacionFinanciera")]
+        [Route("Contabilidad/Reporte/BalanceSituacionFinanciera")]
         [HttpGet]
         public string BalanceSituacionFinanciera(int Moneda, DateTime FechaInicial, DateTime FechaFinal, int Nivel, bool Nivel_Ant)
         {

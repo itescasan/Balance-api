@@ -21,7 +21,7 @@ namespace Balance_api.Controllers.Sistema
 
 
 
-        [Route("api/Documento/Anular")]
+        [Route("Documento/Anular")]
         [HttpPost]
         public IActionResult Anular(string IdDoc, string Motivo, string Tipo, string Usuario)
         {

@@ -20,7 +20,7 @@ namespace Balance_api.Controllers.Proveedor
         }
 
 
-        [Route("api/Proveedor/GastosInternos/Get")]
+        [Route("Proveedor/GastosInternos/Get")]
         [HttpGet]
         public string Get()
         {
@@ -72,7 +72,7 @@ namespace Balance_api.Controllers.Proveedor
 
 
 
-        [Route("api/Proveedor/GastosInternos/GetDatos")]
+        [Route("Proveedor/GastosInternos/GetDatos")]
         [HttpGet]
         public string GetDatos()
         {
@@ -142,7 +142,7 @@ namespace Balance_api.Controllers.Proveedor
 
 
 
-        [Route("api/Proveedor/GastosInternos/Guardar")]
+        [Route("Proveedor/GastosInternos/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] CatalogoGastosInternos d)
         {

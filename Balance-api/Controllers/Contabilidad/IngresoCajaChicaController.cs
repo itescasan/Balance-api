@@ -27,7 +27,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Get")]
+        [Route("Contabilidad/IngresoCajaChica/Get")]
         [HttpGet]
         public string Get(int Consecutivo, string Usuario, string CuentaBodega )
         {
@@ -224,7 +224,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Datos")]
+        [Route("Contabilidad/IngresoCajaChica/Datos")]
         [HttpGet]
         public string IngresoCaja_Chica(string user)
         {
@@ -296,7 +296,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/IngresoCajaChica/Rubro")]
+        [Route("Contabilidad/IngresoCajaChica/Rubro")]
         [HttpGet]
         public string IngresoCaja_Rubro(string CuentaPadre, string Usuario)
         {
@@ -418,7 +418,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Detalle")]
+        [Route("Contabilidad/IngresoCajaChica/Detalle")]
         [HttpGet]
         public string GetD(int IdDetalleIngresoCajaChica)
         {
@@ -483,7 +483,7 @@ namespace Balance_api.Controllers.Contabilidad
             return datos;
         }
 
-        [Route("api/Contabilidad/IngresoCajaChica/Guardar")]
+        [Route("Contabilidad/IngresoCajaChica/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Cls_Datos_IngresoCaja d)
         {
@@ -607,7 +607,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Eliminar")]
+        [Route("Contabilidad/IngresoCajaChica/Eliminar")]
         [HttpPost]
         public IActionResult Eliminar(int IdIngCajaDetalle)
         {
@@ -669,7 +669,7 @@ namespace Balance_api.Controllers.Contabilidad
 
         }
 
-        [Route("api/Contabilidad/IngresoCajaChica/Registro")]
+        [Route("Contabilidad/IngresoCajaChica/Registro")]
         [HttpGet]
 
         public IActionResult Registro(string User)
@@ -740,7 +740,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Registro2")]
+        [Route("Contabilidad/IngresoCajaChica/Registro2")]
         [HttpGet]
 
         public IActionResult Registro2()
@@ -811,7 +811,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Enviar")]
+        [Route("Contabilidad/IngresoCajaChica/Enviar")]
         [HttpPost]
         public IActionResult Enviar(int IdIngresoCaja, string user)
         {
@@ -882,7 +882,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Corregir")]
+        [Route("Contabilidad/IngresoCajaChica/Corregir")]
         [HttpPost]
         public IActionResult Corregir(int IdIngresoCaja, string user)
         {
@@ -949,7 +949,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/Aplicar")]
+        [Route("Contabilidad/IngresoCajaChica/Aplicar")]
         [HttpPost]
         public IActionResult Aplicar(int IdIngresoCaja, string user)
         {
@@ -1032,7 +1032,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/IngresoCajaChica/ValidarCaja")]
+        [Route("Contabilidad/IngresoCajaChica/ValidarCaja")]
         [HttpGet]
         public string GetDatosCaja(int Consecutivo, string CuentaPadre)
         {

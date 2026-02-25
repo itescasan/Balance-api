@@ -18,7 +18,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
-        [Route("api/Contabilidad/AccesoCajaChica")]
+        [Route("Contabilidad/AccesoCajaChica")]
         [HttpGet]
         public string AccesoCaja_Chica(string user)
         {
@@ -121,7 +121,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/GuardarAccesoCajaChica")]
+        [Route("Contabilidad/GuardarAccesoCajaChica")]
         [HttpPost]
         public IActionResult GuardarAccesoCajaChica([FromBody] AccesoCajaC[] d)
         {
@@ -204,7 +204,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        //    [Route("api/Contabilidad/GuardarAccesoCajaChica")]
+        //    [Route("Contabilidad/GuardarAccesoCajaChica")]
         //    [HttpPost]
 
         //    public IActionResult GuardarAccesoCajaChica([FromBody] AccesoCajaC[] d)

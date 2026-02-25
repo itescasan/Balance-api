@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\contabilidad\\transferenciacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\class\\cls_e_response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\class\\cls_e_response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\class\\cls_conexionapi_bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\class\\cls_conexionapi_bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,27 +35,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ServerController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ViewState": "AgIAABsCAAAAAAAAAAAswD0CAAArAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Program.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Program.cs",
+              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Program.cs",
+              "RelativeToolTip": "Balance-api\\Program.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAF4AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T15:06:50.098Z",
+              "WhenOpened": "2026-02-25T15:45:37.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Cls_E_Response.cs",
+              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_E_Response.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Class\\Cls_E_Response.cs",
+              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_E_Response.cs",
+              "RelativeToolTip": "Balance-api\\Class\\Cls_E_Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T15:43:41.088Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Cls_ConexionAPI_BD.cs",
+              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
+              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
+              "RelativeToolTip": "Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T15:42:08.952Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TransferenciaController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Contabilidad\\TransferenciaController.cs",
-              "ViewState": "AgIAAHsFAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Title": "ServerController.cs",
+              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
+              "ViewState": "AgIAANMBAAAAAAAAAAAYwOMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T19:25:26.104Z",
+              "WhenOpened": "2026-02-25T15:39:07.598Z",
               "EditorCaption": ""
             }
           ]

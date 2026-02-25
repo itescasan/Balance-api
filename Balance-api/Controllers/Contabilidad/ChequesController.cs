@@ -30,7 +30,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Cheques/Datos")]
+        [Route("Contabilidad/Cheques/Datos")]
         [HttpGet]
         public string Datos()
         {
@@ -195,7 +195,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/Cheques/GetDocumentos")]
+        [Route("Contabilidad/Cheques/GetDocumentos")]
         [HttpGet]
         public string GetDocumentos(string CodProveedor)
         {
@@ -792,7 +792,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Cheques/Guardar")]
+        [Route("Contabilidad/Cheques/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] Cls_Datos_Cheque d)
         {
@@ -1191,7 +1191,7 @@ namespace Balance_api.Controllers.Contabilidad
 
     
 
-        [Route("api/Contabilidad/Cheques/Get")]
+        [Route("Contabilidad/Cheques/Get")]
         [HttpGet]
         public string Get(DateTime Fecha1, DateTime Fecha2, string CodBodega)
         {
@@ -1271,7 +1271,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Cheques/GetDetalleCuenta")]
+        [Route("Contabilidad/Cheques/GetDetalleCuenta")]
         [HttpGet]
         public string GetDetalleCuenta(Guid Idcheque)
         {
@@ -1318,7 +1318,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Cheques/GetDetalleDocumentos")]
+        [Route("Contabilidad/Cheques/GetDetalleDocumentos")]
         [HttpGet]
         public string GetDetalleDocumentos(Guid Idcheque)
         {
@@ -1576,7 +1576,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/Cheques/BuscarTiposRetenciones")]
+        [Route("Contabilidad/Cheques/BuscarTiposRetenciones")]
         [HttpGet]
         public string BuscarTiposRetenciones(string NoDocumento)
         {
@@ -1626,7 +1626,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/Cheques/GetDetalleReembolso")]
+        [Route("Contabilidad/Cheques/GetDetalleReembolso")]
         [HttpGet]
         public string GetDetalleReembolso(int id)
         {

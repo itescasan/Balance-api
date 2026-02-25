@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace Balance_api.Controllers.Contabilidad
 {
-   // [Route("api/Contabilidad/[Controller]")]
+   // [Route("Contabilidad/[Controller]")]
     public class CatalogoCuentaController : Controller
     {
 
@@ -19,7 +19,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/Get")]
+        [Route("Contabilidad/CatalogoCuenta/Get")]
         [HttpGet]
         public  string Get()
         {
@@ -82,7 +82,7 @@ namespace Balance_api.Controllers.Contabilidad
    
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/Datos")]
+        [Route("Contabilidad/CatalogoCuenta/Datos")]
         [HttpGet]
         public string Datos()
         {
@@ -127,7 +127,7 @@ namespace Balance_api.Controllers.Contabilidad
         }
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/GetCuentaNueva")]
+        [Route("Contabilidad/CatalogoCuenta/GetCuentaNueva")]
         [HttpGet]
         public string GetCuentaNueva(int Nivel, int Grupo , string CuentaPadre)
         {
@@ -231,7 +231,7 @@ namespace Balance_api.Controllers.Contabilidad
 
 
 
-        [Route("api/Contabilidad/CatalogoCuenta/Guardar")]
+        [Route("Contabilidad/CatalogoCuenta/Guardar")]
         [HttpPost]
         public IActionResult Guardar([FromBody] CatalogoCuenta d)
         {

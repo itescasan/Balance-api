@@ -20,7 +20,7 @@ namespace Balance_api.Controllers.Contabilidad
             Conexion = db;
         }
 
-        [Route("api/Contabilidad/ConfCajaChica")]
+        [Route("Contabilidad/ConfCajaChica")]
         [HttpGet]
         public string ConfCaja_Chica(string user)
         {
@@ -105,7 +105,7 @@ namespace Balance_api.Controllers.Contabilidad
             return json;
         }
 
-        [Route("api/Contabilidad/GuardarConfCajaChica")]
+        [Route("Contabilidad/GuardarConfCajaChica")]
         [HttpPost]
 
         public IActionResult GuardarConfCajaChica([FromBody] ConfCaja[] d)
