@@ -72,7 +72,7 @@
             this.xrLabel3,
             this.xrLabel2,
             this.xrLabel1});
-            this.TopMargin.HeightF = 108.7083F;
+            this.TopMargin.HeightF = 107.9583F;
             this.TopMargin.Name = "TopMargin";
             // 
             // xrLabel13
@@ -266,7 +266,7 @@
             this.xrLabel6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Valor]")});
             this.xrLabel6.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(675.5833F, 0F);
+            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(675.5834F, 0.5833308F);
             this.xrLabel6.Multiline = true;
             this.xrLabel6.Name = "xrLabel6";
             this.xrLabel6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -422,8 +422,8 @@
             this.DataMember = "CNT_XRP_Cheques";
             this.DataSource = this.sqlDataSource1;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(2, 1, 109, 100);
-            this.PageWidth = 860;
+            this.Margins = new System.Drawing.Printing.Margins(11, 1, 108, 100);
+            this.PageWidth = 865;
             this.PaperKind = System.Drawing.Printing.PaperKind.Custom;
             this.Version = "21.2";
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
