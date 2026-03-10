@@ -1,24 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\controllers\\sistema\\servercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\class\\cls_e_response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\class\\cls_e_response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|d:\\visual studio proyecto\\balance-api\\balance-api\\class\\cls_conexionapi_bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A72374B3-9271-4CD3-BD92-ED80B37C9B26}|Balance-api\\Balance-api.csproj|solutionrelative:balance-api\\class\\cls_conexionapi_bd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\ARGUELLOR\\source\\repos\\Balance-api\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -26,63 +9,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Program.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Program.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Program.cs",
-              "RelativeToolTip": "Balance-api\\Program.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAF4AAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T15:45:37.007Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Cls_E_Response.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_E_Response.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Class\\Cls_E_Response.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_E_Response.cs",
-              "RelativeToolTip": "Balance-api\\Class\\Cls_E_Response.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T15:43:41.088Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Cls_ConexionAPI_BD.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
-              "RelativeToolTip": "Balance-api\\Class\\Cls_ConexionAPI_BD.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T15:42:08.952Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServerController.cs",
-              "DocumentMoniker": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeDocumentMoniker": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ToolTip": "D:\\VISUAL STUDIO PROYECTO\\Balance-api\\Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "RelativeToolTip": "Balance-api\\Controllers\\Sistema\\ServerController.cs",
-              "ViewState": "AgIAANMBAAAAAAAAAAAYwOMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T15:39:07.598Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             }
           ]
         }
